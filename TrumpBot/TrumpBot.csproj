@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CEDF6F3D-CF16-4712-933D-7714653F9AD1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TrumpBot</RootNamespace>
+    <AssemblyName>TrumpBot</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.6.8.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.8\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Meebey.SmartIrc4net, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\smartirc4net-2015.0.5.9\lib\net40\Meebey.SmartIrc4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Context, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nito.AsyncEx.Context.1.1.0\lib\net46\Nito.AsyncEx.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Tasks, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nito.AsyncEx.Tasks.1.1.0\lib\net46\Nito.AsyncEx.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Disposables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nito.Disposables.1.0.0\lib\portable45-net45+win8+wp8+wpa81\Nito.Disposables.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpRaven, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpRaven.2.2.0\lib\net45\SharpRaven.dll</HintPath>
+    </Reference>
+    <Reference Include="StarkSoftProxy, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\smartirc4net-2015.0.5.9\lib\net40\StarkSoftProxy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.TypeExtensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Reflection.TypeExtensions.4.3.0\lib\net46\System.Reflection.TypeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tweetinvi, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.Controllers, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Controllers.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.Credentials, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Credentials.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.Factories, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Factories.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.Logic, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Logic.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.Streams, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.WebLogic, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.WebLogic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configs\BaseConfig.cs" />
+    <Compile Include="Configs\CommandConfig.cs" />
+    <Compile Include="Configs\CuckHuntConfig.cs" />
+    <Compile Include="Configs\ElectionDateTimeConfig.cs" />
+    <Compile Include="Configs\RedditStickyConfig.cs" />
+    <Compile Include="Configs\TwitterStreamConfig.cs" />
+    <Compile Include="Configs\WeatherApiConfig.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\AdminModel.cs" />
+    <Compile Include="Models\AlabamaElectionConfigModel.cs" />
+    <Compile Include="Models\BanConfigModel.cs" />
+    <Compile Include="Models\CoinMarketSymbolCacheModel.cs" />
+    <Compile Include="Models\CommandConfigModel.cs" />
+    <Compile Include="Models\CuckHuntConfigModel.cs" />
+    <Compile Include="Models\ElectionDateTimeConfigModel.cs" />
+    <Compile Include="Models\FiveThirtyEightPolls.cs" />
+    <Compile Include="Models\FranceElectionApiModel.cs" />
+    <Compile Include="Models\GdaxTickerApiModel.cs" />
+    <Compile Include="Models\NickFloodControlConfigModel.cs" />
+    <Compile Include="Models\PoliticoResultsModel.cs" />
+    <Compile Include="Models\RandomKickConfigModel.cs" />
+    <Compile Include="Models\RedditStickyConfigModel.cs" />
+    <Compile Include="Models\TetherConfigModel.cs" />
+    <Compile Include="Models\TwitterStreamConfigModel.cs" />
+    <Compile Include="Models\WeatherApiConfigModel.cs" />
+    <Compile Include="Modules\AdminCommands\CommandAdmin.cs" />
+    <Compile Include="Modules\AdminCommands\ConfigAdmin.cs" />
+    <Compile Include="Modules\AdminCommands\CrashAdminCommand.cs" />
+    <Compile Include="Modules\AdminCommands\CuckHuntAdmin.cs" />
+    <Compile Include="Modules\AdminCommands\RandomKick.cs" />
+    <Compile Include="Modules\AdminCommands\RedditStickyAdmin.cs" />
+    <Compile Include="Modules\AdminCommands\ReeAdminCommand.cs" />
+    <Compile Include="Modules\AdminCommands\RoleUp.cs" />
+    <Compile Include="Modules\AdminCommands\TwitterStreamAdmin.cs" />
+    <Compile Include="Modules\AdminCommands\UserManagementAdminCommands.cs" />
+    <Compile Include="Modules\BanManagement.cs" />
+    <Compile Include="Modules\Command.cs" />
+    <Compile Include="Modules\Commands\AlabamaElectionCommand.cs" />
+    <Compile Include="Modules\Commands\BitcoinForkMonitorCommand.cs" />
+    <Compile Include="Modules\Commands\BlockCommand.cs" />
+    <Compile Include="Modules\Commands\CoinMarketCapCommands.cs" />
+    <Compile Include="Modules\Commands\CurrentYearCommands.cs" />
+    <Compile Include="Modules\Commands\DebateCommand.cs" />
+    <Compile Include="Modules\Commands\DelegateCommand.cs" />
+    <Compile Include="Modules\Commands\ElectionCommand.cs" />
+    <Compile Include="Modules\Commands\ElectionCountdownCommand.cs" />
+    <Compile Include="Modules\Commands\FiveThirtyEightCommands.cs" />
+    <Compile Include="Modules\Commands\FranceElectionCommand.cs" />
+    <Compile Include="Modules\Commands\GdaxTickerCommand.cs" />
+    <Compile Include="Modules\Commands\GetResults.cs" />
+    <Compile Include="Modules\Commands\GetUriTitle.cs" />
+    <Compile Include="Modules\Commands\ICommand.cs" />
+    <Compile Include="Modules\Commands\OkCommand.cs" />
+    <Compile Include="Modules\Commands\PresidentResult.cs" />
+    <Compile Include="Modules\Commands\ReeCommand.cs" />
+    <Compile Include="Modules\Commands\RæCommand.cs" />
+    <Compile Include="Modules\Commands\ScheduleCommand.cs" />
+    <Compile Include="Configs\AdminConfig.cs" />
+    <Compile Include="Configs\DebateConfig.cs" />
+    <Compile Include="Configs\IConfig.cs" />
+    <Compile Include="Configs\IrcConfig.cs" />
+    <Compile Include="IrcBot.cs" />
+    <Compile Include="MessageInterval.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\DebateModel.cs" />
+    <Compile Include="Models\DelegateModel.cs" />
+    <Compile Include="Models\ElectionModel.cs" />
+    <Compile Include="Models\IrcConfigModel.cs" />
+    <Compile Include="Models\OneVsOneModel.cs" />
+    <Compile Include="Models\PollChart.cs" />
+    <Compile Include="Models\PollModel.cs" />
+    <Compile Include="Models\RedditModel.cs" />
+    <Compile Include="Modules\Admin.cs" />
+    <Compile Include="Modules\AdminCommands\ChangeNick.cs" />
+    <Compile Include="Modules\AdminCommands\IAdminCommand.cs" />
+    <Compile Include="Modules\AdminCommands\JoinChannel.cs" />
+    <Compile Include="Modules\AdminCommands\NickServIdentify.cs" />
+    <Compile Include="Modules\AdminCommands\NickServLogout.cs" />
+    <Compile Include="Modules\AdminCommands\PartChannel.cs" />
+    <Compile Include="Modules\AdminCommands\ToggleCache.cs" />
+    <Compile Include="Modules\Commands\TwitterCommand.cs" />
+    <Compile Include="Modules\Commands\WeatherCommands.cs" />
+    <Compile Include="Modules\CuckHunt.cs" />
+    <Compile Include="Modules\TetherMonitor.cs" />
+    <Compile Include="Modules\TwitterStream.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\RedditSticky.cs" />
+    <Compile Include="Services\Cache.cs" />
+    <Compile Include="Services\Colours.cs" />
+    <Compile Include="Services\Http.cs" />
+    <Compile Include="Services\Log.cs" />
+    <Compile Include="Services\NickServ.cs" />
+    <Compile Include="Services\Raven.cs" />
+    <Compile Include="Services\Reddit.cs" />
+    <Compile Include="Services\Twitter.cs" />
+    <Compile Include="VoteKick.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Config\admin_config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\al_election.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\command_config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\cuckhunt.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\debates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\elections.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\election_date.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\messages.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\polls.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\presidents.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\random_kick.json" />
+    <Content Include="Config\reddit_sticky.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\ree.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\tether_config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\things.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\twitter_stream.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\uri.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\weather_api.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmartIrc4net_log.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\random_kick.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApixuWeatherApi\ApixuWeatherApi.csproj">
+      <Project>{16601073-be01-4336-9dc6-39c04fd47e94}</Project>
+      <Name>ApixuWeatherApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinMarketCapApi\CoinMarketCapApi.csproj">
+      <Project>{5d103223-1e9a-46d3-9501-6be880a08e67}</Project>
+      <Name>CoinMarketCapApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties config_1json__JSONSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

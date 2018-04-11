@@ -1,0 +1,107 @@
+﻿[
+  {
+    "State": "NH",
+    "Names": [ "new hampshire", "nh", "newhampshire" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/NH/races/NHR00.json",
+    "ShortUri": "http://cnn.it/1T9SPm2",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "SC",
+    "Names": [ "south carolina", "sc", "southcarolina" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/SC/races/SCR00.json",
+    "ShortUri": "http://cnn.it/1Ky0bgw",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "NV",
+    "Names": [ "nevada", "nv" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/NV/races/NVS00.json",
+    "ShortUri": "http://cnn.it/1L9oNfE",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "NV",
+    "Names": [ "nevada-dems", "nv-dems" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/SC/races/SCD00.json",
+    "ShortUri": "http://cnn.it/1Ln5iAn",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "AL",
+    "Names": [ "al", "alabama" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/AL/races/ALR00.json",
+    "ShortUri": "http://cnn.it/1ngnLDt",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "GA",
+    "Names": [ "georgia", "ga" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/GA/races/GAR00.json",
+    "ShortUri": "http://cnn.it/1TkMyoj",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "TN",
+    "Names": [ "tennessee", "tn" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/TN/races/TNR00.json",
+    "ShortUri": "http://cnn.it/1UwuFSn",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "TX",
+    "Names": [ "texas", "tx" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/TX/races/TXR00.json",
+    "ShortUri": "http://cnn.it/1QpjE00",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "VA",
+    "Names": [ "virginia", "va" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/VA/races/VAR00.json",
+    "ShortUri": "http://cnn.it/1RDAYB2",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "AK",
+    "Names": [ "alaska", "ak" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/AK/races/AKS00.json",
+    "ShortUri": "http://cnn.it/1SfjSLL",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "AR",
+    "Names": [ "arkansas", "ak" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/AR/races/ARR00.json",
+    "ShortUri": "http://cnn.it/1TOCzHk",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "MA",
+    "Names": [ "massachusetts", "ma" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/MA/races/MAR00.json",
+    "ShortUri": "http://cnn.it/1Qq3KG4",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "MN",
+    "Names": [ "minnesota", "mn" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/MN/races/MNS00.json",
+    "ShortUri": "http://cnn.it/1TOCJhS",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "OK",
+    "Names": [ "oklahoma", "ok" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/OK/races/OKR00.json",
+    "ShortUri": "http://cnn.it/24yWHRB",
+    "TimeZone": "Eastern Standard Time"
+  },
+  {
+    "State": "VT",
+    "Names": [ "vermont", "vt" ],
+    "CnnUri": "http://data.cnn.com/ELECTION/2016primary/VT/races/VTR00.json",
+    "ShortUri": "http://cnn.it/1pmGLBL",
+    "TimeZone": "Eastern Standard Time"
+  }
+]

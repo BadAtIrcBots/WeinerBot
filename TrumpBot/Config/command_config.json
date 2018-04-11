@@ -1,0 +1,4 @@
+﻿{
+  "Prefix": "!",
+  "IgnoreList": [ "MediocreBot", "TrumpenTweet", "gonzobot", "SubWatch" ]
+}

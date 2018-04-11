@@ -1,0 +1,13 @@
+﻿{
+  "ConsumerKey": "",
+  "ConsumerSecret": "",
+  "AccessToken": "",
+  "AccessTokenSecret": "",
+  "Enabled": true,
+  "Streams": [
+    {
+      "TwitterUserId": 25073877,
+      "Channels": [ "#trump-dev" ]
+    }
+  ]
+}

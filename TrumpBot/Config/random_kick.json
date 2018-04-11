@@ -1,0 +1,19 @@
+﻿{
+  "Targets": [
+    {
+      "Nick": "brayden",
+      "Chance": 500
+    }
+  ],
+  "MessageList": [
+    "oops, finger slipped",
+    "not sure what you said but it's probably stupid",
+    "this really is the worst IRC bot",
+    "everybody hates you",
+    "the bot knows best and knows you should not be here",
+    "how unfortunate",
+    "boring"
+  ],
+  "ChanceThreshold": 1000,
+  "Enabled": true
+}

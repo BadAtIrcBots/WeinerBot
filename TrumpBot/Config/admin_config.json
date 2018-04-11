@@ -1,0 +1,10 @@
+﻿{
+  "AdminChannels": [ "#trumpmoddev" ],
+  "CommandPrefix": "@",
+  "Users": [
+    {
+      "Nick": "brayden",
+      "Right": 1000
+    }
+  ]   
+}

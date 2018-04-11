@@ -1,0 +1,11 @@
+﻿[
+  {
+    "Channel": "#trump-dev",
+    "Messages": [
+      "Test",
+      "test"
+    ],
+    "SecondsInterval": 10,
+    "Active": false
+  }
+]
