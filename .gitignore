@@ -212,3 +212,6 @@ _Pvt_Extensions/
 ModelManifest.xml
 
 .idea/
+TrumpBot/Config/config.json
+TrumpBot/Config/twitter_stream.json
+TrumpBot/Config/weather_api.json
