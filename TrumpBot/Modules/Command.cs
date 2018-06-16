@@ -118,7 +118,7 @@ namespace TrumpBot.Modules
 
                 if (result == null)
                 {
-                    result = command.RunCommand(message, eventArgs.Data.Channel, nick, match.Groups,
+                    result = command.RunCommand(message, eventArgs.Data.Channel.ToLower(), nick, match.Groups,
                         _ircBot.UseCache);
                 }
 
