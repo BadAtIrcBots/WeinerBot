@@ -10,6 +10,7 @@ namespace TrumpBot.Modules.Commands
     public class DelegateCommand : ICommand
     {
         public string CommandName { get; } = "delegate";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("@^delegates$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

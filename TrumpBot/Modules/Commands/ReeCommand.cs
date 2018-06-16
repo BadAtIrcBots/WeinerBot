@@ -12,6 +12,7 @@ namespace TrumpBot.Modules.Commands
     public class ReeCommand : ICommand
     {
         public string CommandName { get; } = "Ree!";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex> {new Regex(@"^ree", RegexOptions.Compiled | RegexOptions.IgnoreCase)};
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {

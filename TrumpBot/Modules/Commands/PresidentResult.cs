@@ -11,6 +11,7 @@ namespace TrumpBot.Modules.Commands
     class PresidentResult : ICommand
     {
         public string CommandName { get; } = "Get head on head results";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^president (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

@@ -13,6 +13,7 @@ namespace TrumpBot.Modules.Commands
     internal class GdaxTickerCommand : ICommand
     {
         public string CommandName { get; } = "GdaxTickerCommand";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^gdax$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
@@ -31,6 +32,7 @@ namespace TrumpBot.Modules.Commands
     internal class GdaxBcashTickerCommand : ICommand
     {
         public string CommandName { get; } = "GdaxBcashTickerCommand";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^gdax bch$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

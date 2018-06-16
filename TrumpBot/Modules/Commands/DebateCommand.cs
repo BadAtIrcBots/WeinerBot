@@ -12,6 +12,7 @@ namespace TrumpBot.Modules.Commands
     internal class DebateCommand : ICommand
     {
         public string CommandName { get; } = "Get next debate";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^debate$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

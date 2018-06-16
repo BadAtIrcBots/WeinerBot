@@ -12,6 +12,7 @@ namespace TrumpBot.Modules.Commands
         internal class CurrentYear : ICommand
         {
             public string CommandName { get; } = "CurrentYear";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"current year", RegexOptions.Compiled | RegexOptions.IgnoreCase)
@@ -27,6 +28,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetCurrentYear : ICommand
         {
             public string CommandName { get; } = "GetCurrentYear";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^year$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
@@ -40,6 +42,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetCurrentDateTime : ICommand
         {
             public string CommandName { get; } = "GetCurrentDateTime";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^date$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

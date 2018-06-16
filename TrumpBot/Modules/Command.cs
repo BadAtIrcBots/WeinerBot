@@ -21,7 +21,7 @@ namespace TrumpBot.Modules
         private IrcClient _client;
         private ILog _log = LogManager.GetLogger(typeof(Command));
         private IrcBot _ircBot;
-        private IEnumerable<object> Commands;
+        private IEnumerable<ICommand> Commands;
         public char CommandPrefix = '!';
         private CommandConfigModel _config;
         private RavenClient _ravenClient = Services.Raven.GetRavenClient();
@@ -34,10 +34,10 @@ namespace TrumpBot.Modules
             _ircBot = bot;
             Type interfaceType = typeof(ICommand);
             Commands =
-                AppDomain.CurrentDomain.GetAssemblies()
+                (AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(x => x.GetTypes())
                     .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                    .Select(Activator.CreateInstance);
+                    .Select(Activator.CreateInstance) as IEnumerable<ICommand>).OrderByDescending(c => c.Priority);
 
             if (Commands == null) throw new Exception("null commands available");
             foreach (ICommand command in Commands)
@@ -224,6 +224,9 @@ namespace TrumpBot.Modules
 
                 bool runInMainThread = useMainThread != null;
                 bool prefixRequired = noPrefix == null;
+                bool breakAfterExecution =
+                    (BreakAfterExecution) Attribute.GetCustomAttribute(command.GetType(),
+                        typeof(BreakAfterExecution)) != null;
 
                 if (prefixRequired)
                 {
@@ -239,12 +242,14 @@ namespace TrumpBot.Modules
                     if (runInMainThread)
                     {
                         RunCommand(eventArgs, command, match);
-                        return;
+                        if (breakAfterExecution) break;
+                        continue;
                     }
 
                     Thread commandThread = new Thread(() => RunCommand(eventArgs, command, match));
                     Threads.Add(commandThread);
                     commandThread.Start();
+                    if (breakAfterExecution) break;
                 }
             }
         }
@@ -291,6 +296,25 @@ namespace TrumpBot.Modules
             {
                 UseCommandMainThread = true;
             }
+        }
+
+        [AttributeUsage(AttributeTargets.All)]
+        internal class BreakAfterExecution : Attribute
+        {
+            internal bool ShouldBreakAfterExecution;
+
+            internal BreakAfterExecution()
+            {
+                ShouldBreakAfterExecution = true;
+            }
+        }
+
+        public enum CommandPriority
+        {
+            Low = 1,
+            Normal = 100,
+            High = 500,
+            VeryHigh = 1000
         }
     }
 }

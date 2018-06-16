@@ -13,6 +13,7 @@ namespace TrumpBot.Modules.Commands
     public class FranceElectionCommand : ICommand
     {
         public string CommandName { get; } = "France election results";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^fr$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

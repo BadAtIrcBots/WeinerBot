@@ -15,7 +15,7 @@ namespace TrumpBot.Modules.Commands
     public class ScheduleCommand : ICommand
     {
         public string CommandName { get; } = "schedule";
-
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^schedule$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

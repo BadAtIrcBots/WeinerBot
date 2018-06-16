@@ -12,6 +12,7 @@ namespace TrumpBot.Modules.Commands
     public class OkCommand : ICommand
     {
         public string CommandName { get; } = "👌 Command";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("👌", RegexOptions.Compiled | RegexOptions.IgnoreCase)

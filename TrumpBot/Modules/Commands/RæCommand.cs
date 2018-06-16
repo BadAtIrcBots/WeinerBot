@@ -12,6 +12,7 @@ namespace TrumpBot.Modules.Commands
     public class RæCommand : ICommand
     {
         public string CommandName { get; } = "Ræ Command";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^ræ$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

@@ -13,6 +13,7 @@ namespace TrumpBot.Modules.Commands
     internal class ElectionCountdownCommand : ICommand // Wow this won't get dated at all! 9:00 PM 04/10/2016
     {
         public string CommandName { get; } = "ElectionCountdown";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^countdown$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

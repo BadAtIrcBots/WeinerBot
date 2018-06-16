@@ -14,6 +14,7 @@ namespace TrumpBot.Modules.Commands
         internal class Now : ICommand
         {
             public string CommandName { get; } = "FiveThirtyEight-Now";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^fivethirtyeight [n]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -35,6 +36,7 @@ namespace TrumpBot.Modules.Commands
         internal class Polls : ICommand
         {
             public string CommandName { get; } = "FiveThirtyEight-Polls";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^fivethirtyeight [p]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -54,6 +56,7 @@ namespace TrumpBot.Modules.Commands
         internal class Plus : ICommand
         {
             public string CommandName { get; } = "FiveThirtyEight-Plus";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^fivethirtyeight [+]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -73,6 +76,7 @@ namespace TrumpBot.Modules.Commands
         internal class WinProbPlus : ICommand
         {
             public string CommandName { get; } = "FiveThirtyEight-WinProbPlus";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^538 w [+]$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -92,6 +96,7 @@ namespace TrumpBot.Modules.Commands
         internal class WinProbNow : ICommand
         {
             public string CommandName { get; } = "FiveThirtyEight-WinProbNow";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^538 w$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -113,6 +118,7 @@ namespace TrumpBot.Modules.Commands
         internal class WinProbPolls : ICommand
         {
             public string CommandName { get; } = "FiveThirtyEight-WinProbPolls";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^538 w p$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

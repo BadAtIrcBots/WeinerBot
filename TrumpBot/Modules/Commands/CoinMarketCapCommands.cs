@@ -70,6 +70,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetBitcoinCashTicker : ICommand
         {
             public string CommandName { get; } = "GetBitcoinCashTicker";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex("^bcc$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -100,6 +101,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetBitcoinTicker : ICommand
         {
             public string CommandName { get; } = "GetBitcoinTicker";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex("^btc$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
@@ -128,6 +130,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetGenericTicker : ICommand
         {
             public string CommandName { get; } = "GetGenericTicker";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^coin (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
@@ -183,6 +186,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetRandomTicker : ICommand
         {
             public string CommandName { get; } = "GetRandomTicker";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex("^coin$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
@@ -225,6 +229,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetTetherTicker : ICommand
         {
             public string CommandName { get; } = "GetTetherTicker";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^usdt$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -242,6 +247,7 @@ namespace TrumpBot.Modules.Commands
         internal class SearchTickers : ICommand
         {
             public string CommandName { get; } = "SearchTicker";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^coinsearch (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

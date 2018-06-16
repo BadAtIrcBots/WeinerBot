@@ -9,6 +9,7 @@ namespace TrumpBot.Modules.Commands
     public class ElectionCommand : ICommand
     {
         public string CommandName { get; } = "Election";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^election (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

@@ -168,6 +168,7 @@ namespace TrumpBot.Modules.Commands
         internal class QueryWeather : ICommand
         {
             public string CommandName { get; } = "Weather-QueryWeather";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^w (?!set)(.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -226,6 +227,7 @@ namespace TrumpBot.Modules.Commands
         internal class SetDefaultUserQuery : ICommand
         {
             public string CommandName { get; } = "Weather-SetDefaultUserQuery";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^w set (.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -251,6 +253,7 @@ namespace TrumpBot.Modules.Commands
         internal class QueryDefaultWeather : ICommand
         {
             public string CommandName { get; } = "Weather-QueryDefaultWeather";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^w$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

@@ -22,9 +22,11 @@ namespace TrumpBot.Modules.Commands
     {
         [Command.NoPrefix]
         [Command.UseMainThread]
+        [Command.BreakAfterExecution]
         internal class GetTweetByUri : ICommand
         {
             public string CommandName { get; } = "GetTweetByUri";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/status\/(\d+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
@@ -47,9 +49,11 @@ namespace TrumpBot.Modules.Commands
 
         [Command.NoPrefix]
         [Command.UseMainThread]
+        [Command.BreakAfterExecution]
         internal class GetTweetByShortUri : ICommand
         {
             public string CommandName { get; } = "GetTweetByShortUri";
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"https?:\/\/t\.co\/(\w+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
@@ -90,7 +94,7 @@ namespace TrumpBot.Modules.Commands
         internal class GetTweetByScreenName : ICommand
         {
             public string CommandName { get; } = "GetTweetByScreenName";
-
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^tw (\S+)$"),

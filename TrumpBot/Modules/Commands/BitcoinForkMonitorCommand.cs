@@ -16,6 +16,7 @@ namespace TrumpBot.Modules.Commands
     internal class BitcoinForkMonitorCommand : ICommand
     {
         public string CommandName { get; } = "BitcoinForkMonitor";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^fork$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

@@ -9,6 +9,7 @@ namespace TrumpBot.Modules.Commands
     internal class BlockMainThreadCommand : ICommand
     {
         public string CommandName { get; } = "BlockMainThreadCommand";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^block main$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
@@ -23,6 +24,7 @@ namespace TrumpBot.Modules.Commands
     internal class BlockThreadCommand : ICommand
     {
         public string CommandName { get; } = "BlockThreadCommand";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^block thread$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

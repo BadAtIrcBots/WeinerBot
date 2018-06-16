@@ -16,6 +16,7 @@ namespace TrumpBot.Modules.Commands
     internal class AlabamaElectionCommand : ICommand
     {
         public string CommandName { get; } = "AlabamaElectionResults";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^al$", RegexOptions.Compiled | RegexOptions.IgnoreCase)

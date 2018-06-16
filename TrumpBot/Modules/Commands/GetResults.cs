@@ -11,6 +11,7 @@ namespace TrumpBot.Modules.Commands
     internal class GetResults : ICommand
     {
         public string CommandName { get; } = "Get Poll Results";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^polls (\w+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

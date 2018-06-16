@@ -18,6 +18,7 @@ namespace TrumpBot.Modules.Commands
     internal class GetUriTitle : ICommand
     {
         public string CommandName { get; } = "GetTitleForGivenUri";
+        public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Low;
 
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
@@ -33,8 +34,6 @@ namespace TrumpBot.Modules.Commands
             if (!enabledChannels.Contains(messageEvent.Channel)) return null;
 
             Uri matchedUri = new Uri(arguments[0].Value);
-
-            if (matchedUri.Host.Contains("twitter.com") || matchedUri.Host == "t.co") return null;
 
             string responseHtml;
 
