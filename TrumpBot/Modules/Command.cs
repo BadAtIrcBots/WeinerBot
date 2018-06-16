@@ -150,7 +150,7 @@ namespace TrumpBot.Modules
                 ) // Attribute [DoNotReportException] to suppress this
                 {
                     _client.SendMessage(SendType.Message, eventArgs.Data.Channel,
-                        $"Well this is embarassing: {e.Source}: {e.Message}");
+                        $"Well this is embarrassing: {e.Source}: {e.Message}");
                 }
                 if (e.InnerException != null)
                 {
