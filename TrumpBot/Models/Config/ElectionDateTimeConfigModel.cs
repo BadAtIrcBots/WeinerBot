@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrumpBot.Models
+namespace TrumpBot.Models.Config
 {
     public class ElectionDateTimeConfigModel
     {

@@ -10,6 +10,7 @@ using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Services;
 
 namespace TrumpBot.Modules
@@ -43,7 +44,7 @@ namespace TrumpBot.Modules
 
         internal void LoadConfig()
         {
-            _config = (RedditStickyConfigModel) new RedditStickyConfig().LoadConfig();
+            _config = ConfigHelpers.LoadConfig<RedditStickyConfigModel>(ConfigHelpers.ConfigPaths.RedditStickyConfig);
         }
 
         internal void Start()

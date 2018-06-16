@@ -1,4 +1,4 @@
-﻿namespace TrumpBot.Models
+﻿namespace TrumpBot.Models.Config
 {
     public class AlabamaElectionConfigModel
     {

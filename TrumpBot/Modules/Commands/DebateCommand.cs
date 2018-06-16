@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.Commands
 {

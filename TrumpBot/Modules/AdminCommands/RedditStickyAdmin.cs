@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using log4net;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands
 {
-    [Admin.RequiredRight(AdminModel.Right.Admin)]
+    [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
     internal class RedditStickyAdmin : IAdminCommand
     {
         private ILog _log = LogManager.GetLogger(typeof(RedditStickyAdmin));

@@ -1,5 +1,6 @@
 ﻿using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using Tweetinvi;
 using Tweetinvi.Models;
 
@@ -10,7 +11,8 @@ namespace TrumpBot.Services
         public static IAuthenticatedUser GetTwitterUser()
         {
             TwitterStreamConfigModel.StreamConfig config =
-                new BaseConfig().LoadConfig<TwitterStreamConfigModel.StreamConfig>("Config\\twitter_stream.json");
+                ConfigHelpers.LoadConfig<TwitterStreamConfigModel.StreamConfig>(ConfigHelpers.ConfigPaths
+                    .TwitterStreamConfig);
             Auth.SetUserCredentials(config.ConsumerKey, config.ConsumerSecret, config.AccessToken,
                 config.AccessTokenSecret);
             IAuthenticatedUser authenticatedUser = User.GetAuthenticatedUser();

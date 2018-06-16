@@ -6,7 +6,9 @@ using log4net;
 using Meebey.SmartIrc4net;
 using SharpRaven;
 using SharpRaven.Data;
+using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Modules.AdminCommands;
 
 namespace TrumpBot.Modules
@@ -17,7 +19,9 @@ namespace TrumpBot.Modules
         private ILog _log = LogManager.GetLogger(typeof(Admin));
         private IrcBot _ircBot;
         public IEnumerable<object> Commands;
-        internal AdminModel.Config Config = (AdminModel.Config) new Configs.AdminConfig().LoadConfig();
+
+        internal AdminConfigModel.Config Config =
+            ConfigHelpers.LoadConfig<AdminConfigModel.Config>(ConfigHelpers.ConfigPaths.AdminConfig);
         internal RavenClient _ravenClient = Services.Raven.GetRavenClient();
 
         public Admin(IrcClient client, IrcBot bot)
@@ -39,7 +43,7 @@ namespace TrumpBot.Modules
 
         public void ReloadAdminConfig(string location = null)
         {
-            Config = (AdminModel.Config) new Configs.AdminConfig().LoadConfig(location);
+            Config = ConfigHelpers.LoadConfig<AdminConfigModel.Config>(ConfigHelpers.ConfigPaths.AdminConfig);
         }
 
         public void ProcessMessage(object sender, IrcEventArgs eventArgs)
@@ -51,9 +55,9 @@ namespace TrumpBot.Modules
             _log.Debug($"Got message: {message}");
             string nick = eventArgs.Data.From.Split('!')[0];
             _log.Debug($"Got nick: {nick}");
-            AdminModel.Right inferredRight = Config.AdminChannels.Contains(eventArgs.Data.Channel) ? AdminModel.Right.Admin : AdminModel.Right.Guest;
+            AdminConfigModel.Right inferredRight = Config.AdminChannels.Contains(eventArgs.Data.Channel) ? AdminConfigModel.Right.Admin : AdminConfigModel.Right.Guest;
             _log.Debug($"Inferred right for {nick}: {inferredRight} (level {(int) inferredRight})");
-            AdminModel.User user = Config.Users.FirstOrDefault(configUser => configUser.Nick == nick) ?? new AdminModel.User
+            AdminConfigModel.User user = Config.Users.FirstOrDefault(configUser => configUser.Nick == nick) ?? new AdminConfigModel.User
             {
                 Nick = nick
             };
@@ -151,9 +155,9 @@ namespace TrumpBot.Modules
         [AttributeUsage(AttributeTargets.All)]
         public class RequiredRight : Attribute
         {
-            public AdminModel.Right Right;
+            public AdminConfigModel.Right Right;
 
-            public RequiredRight(AdminModel.Right right)
+            public RequiredRight(AdminConfigModel.Right right)
             {
                 Right = right;
             }

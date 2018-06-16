@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -19,7 +20,8 @@ namespace TrumpBot.Modules.Commands
         };
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
-            ElectionDateTimeConfigModel electionDateTime = new ElectionDateTimeConfig().LoadConfig() as ElectionDateTimeConfigModel;
+            ElectionDateTimeConfigModel electionDateTime =
+                ConfigHelpers.LoadConfig<ElectionDateTimeConfigModel>(ConfigHelpers.ConfigPaths.ElectionDateTimeConfig);
             if (electionDateTime == null)
             {
                 throw new Exception("electionDateTime was null");

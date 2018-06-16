@@ -1,6 +1,7 @@
 ﻿using SharpRaven;
 using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Services
 {
@@ -8,7 +9,8 @@ namespace TrumpBot.Services
     {
         internal static RavenClient GetRavenClient()
         {
-            IrcConfigModel.IrcSettings settings = (IrcConfigModel.IrcSettings)new IrcConfig().LoadConfig();
+            IrcConfigModel.IrcSettings settings =
+                ConfigHelpers.LoadConfig<IrcConfigModel.IrcSettings>(ConfigHelpers.ConfigPaths.IrcConfig);
             return settings.RavenDsn == null ? null : new RavenClient(settings.RavenDsn);
         }
     }

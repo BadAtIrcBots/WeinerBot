@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using Tweetinvi.Core.Events;
 
 namespace TrumpBot.Modules.AdminCommands
 {
-    [Admin.RequiredRight(AdminModel.Right.Admin)]
+    [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
     internal class ReeAdminCommand : IAdminCommand
     {
         public string Name { get; } = "ReeAdmin";

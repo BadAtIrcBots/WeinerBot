@@ -7,6 +7,7 @@ using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Services;
 
 namespace TrumpBot.Modules.Commands
@@ -233,7 +234,7 @@ namespace TrumpBot.Modules.Commands
             {
                 TickerModel ticker = CoinMarketCapApi.Api.TickerApi.GetTicker("tether").Result[0];
                 TetherConfigModel tetherConfigModel =
-                    new BaseConfig().LoadConfig<TetherConfigModel>("Config\\tether_config.json");
+                    ConfigHelpers.LoadConfig<TetherConfigModel>(ConfigHelpers.ConfigPaths.TetherConfig);
                 return $"{ticker.TickerName}: Total Supply: {Convert.ToDecimal(ticker.TotalSupply):n0} - Available Supply: {Convert.ToDecimal(ticker.AvailableSupply):n0} (-{(Convert.ToDecimal(ticker.TotalSupply) - Convert.ToDecimal(ticker.AvailableSupply)):n0}) - Last issued: ~{(DateTime.UtcNow - tetherConfigModel.LastChange).TotalHours:n2} hours ago".SplitInParts(430).ToList();
             }
         }

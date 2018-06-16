@@ -4,10 +4,11 @@ using log4net;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands
 {
-    [Admin.RequiredRight(AdminModel.Right.Admin)]
+    [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
     internal class CommandAdmin : IAdminCommand
     {
         private ILog _log = LogManager.GetLogger(typeof(CommandAdmin));
@@ -32,9 +33,15 @@ namespace TrumpBot.Modules.AdminCommands
             {
                 if (argument != null)
                 {
-                    CommandConfigModel config = (CommandConfigModel) new CommandConfig().LoadConfig();
+                    CommandConfigModel config =
+                        ConfigHelpers.LoadConfig<CommandConfigModel>(ConfigHelpers.ConfigPaths.CommandConfig);
+                    if (config.IgnoreList.Contains(argument))
+                    {
+                        client.SendMessage(SendType.Message, eventArgs.Data.Channel, "Nick already ignored");
+                        return;
+                    }
                     config.IgnoreList.Add(argument);
-                    new CommandConfig().SaveConfig(config);
+                    ConfigHelpers.SaveConfig(config, ConfigHelpers.ConfigPaths.CommandConfig);
                     ircBot.Command.LoadConfig();
                     client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Successfully ignored {argument}. Currently ignoring: {string.Join(", ", config.IgnoreList)}");
                     return;
@@ -45,11 +52,12 @@ namespace TrumpBot.Modules.AdminCommands
             {
                 if (argument != null)
                 {
-                    CommandConfigModel config = (CommandConfigModel) new CommandConfig().LoadConfig();
+                    CommandConfigModel config =
+                        ConfigHelpers.LoadConfig<CommandConfigModel>(ConfigHelpers.ConfigPaths.CommandConfig);
                     if (config.IgnoreList.Contains(argument))
                     {
                         config.IgnoreList.Remove(argument);
-                        new CommandConfig().SaveConfig(config);
+                        ConfigHelpers.SaveConfig(config, ConfigHelpers.ConfigPaths.CommandConfig);
                         ircBot.Command.LoadConfig();
                         client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Successfully unignored {argument}. Currently ignoring: {string.Join(", ", config.IgnoreList)}");
                         return;
@@ -61,7 +69,8 @@ namespace TrumpBot.Modules.AdminCommands
             }
             else if (operation == "ignore_list" || operation == "ignorelist")
             {
-                CommandConfigModel config = (CommandConfigModel) new CommandConfig().LoadConfig();
+                CommandConfigModel config =
+                    ConfigHelpers.LoadConfig<CommandConfigModel>(ConfigHelpers.ConfigPaths.CommandConfig);
                 client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Currently ignoring: {string.Join(", ", config.IgnoreList)}");
             }
             else if (operation == "rehash")
@@ -71,9 +80,10 @@ namespace TrumpBot.Modules.AdminCommands
             }
             else if (operation == "toggle_voice_only")
             {
-                CommandConfigModel config = (CommandConfigModel) new CommandConfig().LoadConfig();
+                CommandConfigModel config =
+                    ConfigHelpers.LoadConfig<CommandConfigModel>(ConfigHelpers.ConfigPaths.CommandConfig);
                 config.IgnoreNonVoicedUsers = !config.IgnoreNonVoicedUsers;
-                new CommandConfig().SaveConfig(config);
+                ConfigHelpers.SaveConfig(config, ConfigHelpers.ConfigPaths.CommandConfig);
                 ircBot.Command.LoadConfig();
                 client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Voice only is now: {config.IgnoreNonVoicedUsers}");
             }

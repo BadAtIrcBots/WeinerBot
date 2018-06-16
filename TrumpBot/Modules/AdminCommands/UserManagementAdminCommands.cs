@@ -3,12 +3,13 @@ using System.Text.RegularExpressions;
 using log4net;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands
 {
     internal class UserManagementAdminCommands
     {
-        [Admin.RequiredRight(AdminModel.Right.Moderator)]
+        [Admin.RequiredRight(AdminConfigModel.Right.Moderator)]
         internal class KickAdminCommand : IAdminCommand
         {
             private ILog _log = LogManager.GetLogger(typeof(KickAdminCommand));

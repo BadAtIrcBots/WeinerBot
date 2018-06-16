@@ -10,6 +10,7 @@ using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Services;
 
 namespace TrumpBot.Modules.Commands
@@ -190,7 +191,8 @@ namespace TrumpBot.Modules.Commands
                     query = "Goteborg, Sweden";
                 }
 
-                WeatherApiConfigModel weatherApiConfig = (WeatherApiConfigModel) new WeatherApiConfig().LoadConfig();
+                WeatherApiConfigModel weatherApiConfig =
+                    ConfigHelpers.LoadConfig<WeatherApiConfigModel>(ConfigHelpers.ConfigPaths.WeatherApiConfig);
 
                 ForecastWeatherModel.ForecastWeather forecastWeather;
 
@@ -237,9 +239,10 @@ namespace TrumpBot.Modules.Commands
                     throw new ArgumentException("Not enough arguments");
                 }
 
-                WeatherApiConfigModel weatherApiConfig = (WeatherApiConfigModel) new WeatherApiConfig().LoadConfig();
+                WeatherApiConfigModel weatherApiConfig =
+                    ConfigHelpers.LoadConfig<WeatherApiConfigModel>(ConfigHelpers.ConfigPaths.WeatherApiConfig);
                 weatherApiConfig.UserDefaultLocale[messageEvent.Nick] = arguments[1].Value;
-                new WeatherApiConfig().SaveConfig(weatherApiConfig);
+                ConfigHelpers.SaveConfig(weatherApiConfig, ConfigHelpers.ConfigPaths.WeatherApiConfig);
                 return $"Successfully updated default user locale for {messageEvent.Nick} to {arguments[1].Value}".SplitInParts(430)
                     .ToList();
             }
@@ -257,7 +260,8 @@ namespace TrumpBot.Modules.Commands
             };
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
-                WeatherApiConfigModel weatherApiConfig = (WeatherApiConfigModel) new WeatherApiConfig().LoadConfig();
+                WeatherApiConfigModel weatherApiConfig =
+                    ConfigHelpers.LoadConfig<WeatherApiConfigModel>(ConfigHelpers.ConfigPaths.WeatherApiConfig);
                 if (!weatherApiConfig.UserDefaultLocale.ContainsKey(messageEvent.Nick))
                 {
                     return "User has no default locale set, use 'set' command to set a locale.".SplitInParts(430).ToList();

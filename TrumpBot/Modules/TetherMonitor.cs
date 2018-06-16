@@ -7,6 +7,7 @@ using TrumpBot.Configs;
 using TrumpBot.Models;
 using CoinMarketCapApi.Models;
 using SharpRaven.Data;
+using TrumpBot.Models.Config;
 using TrumpBot.Services;
 
 namespace TrumpBot.Modules
@@ -37,13 +38,13 @@ namespace TrumpBot.Modules
 
         internal void LoadConfig()
         {
-            _config = new BaseConfig().LoadConfig<TetherConfigModel>("Config\\tether_config.json");
+            _config = ConfigHelpers.LoadConfig<TetherConfigModel>(ConfigHelpers.ConfigPaths.TetherConfig);
             _log.Debug("TetherMonitor has loaded its config");
         }
 
         internal void SaveConfig()
         {
-            new BaseConfig().SaveConfig(_config, "Config\\tether_config.json");
+            ConfigHelpers.SaveConfig(_config, ConfigHelpers.ConfigPaths.TetherConfig);
         }
         
         private void CheckTether()

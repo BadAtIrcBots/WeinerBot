@@ -1,6 +1,7 @@
 ﻿using System;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Services
 {

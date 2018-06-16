@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using TrumpBot.Configs;
 
-namespace TrumpBot.Models
+namespace TrumpBot.Models.Config
 {
     public class TetherConfigModel : BaseModel
     {

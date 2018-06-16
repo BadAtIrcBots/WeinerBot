@@ -5,6 +5,7 @@ using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot
 {
@@ -12,7 +13,8 @@ namespace TrumpBot
     {
         static void Main(string[] args)
         {
-            IrcConfigModel.IrcSettings settings = (IrcConfigModel.IrcSettings) new IrcConfig().LoadConfig();
+            IrcConfigModel.IrcSettings settings =
+                ConfigHelpers.LoadConfig<IrcConfigModel.IrcSettings>(ConfigHelpers.ConfigPaths.IrcConfig);
 
             if (settings.AutoRestart)
             {

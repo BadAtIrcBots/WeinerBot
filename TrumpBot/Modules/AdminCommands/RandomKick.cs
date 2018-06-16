@@ -7,11 +7,12 @@ using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands
 {
     [Admin.NoPrefix]
-    [Admin.RequiredRight(AdminModel.Right.Guest)]
+    [Admin.RequiredRight(AdminConfigModel.Right.Guest)]
     [Admin.DoNotBreakAfterExecution]
     internal class RandomKick : IAdminCommand
     {
@@ -27,7 +28,7 @@ namespace TrumpBot.Modules.AdminCommands
         public void RunCommand(IrcClient client, GroupCollection values, IrcEventArgs eventArgs, IrcBot ircBot)
         {
             RandomKickConfigModel config =
-                new BaseConfig().LoadConfig<RandomKickConfigModel>("Config\\random_kick.json");
+                ConfigHelpers.LoadConfig<RandomKickConfigModel>(ConfigHelpers.ConfigPaths.RandomKickConfig);
 
             if (!config.Enabled) return;
 

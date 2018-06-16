@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TrumpBot.Models
+namespace TrumpBot.Models.Config
 {
     public class RandomKickConfigModel : BaseModel
     {

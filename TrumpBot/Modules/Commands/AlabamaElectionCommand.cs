@@ -5,7 +5,9 @@ using System.Text.RegularExpressions;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Services;
 
 namespace TrumpBot.Modules.Commands
@@ -24,7 +26,9 @@ namespace TrumpBot.Modules.Commands
             {
                 return null;
             }
-            AlabamaElectionConfigModel config = new Configs.BaseConfig().LoadConfig<AlabamaElectionConfigModel>("Config\\al_election.json");
+
+            AlabamaElectionConfigModel config =
+                ConfigHelpers.LoadConfig<AlabamaElectionConfigModel>(ConfigHelpers.ConfigPaths.AlabamaElectionConfig);
 
             List<PoliticoResultsModel> results =
                 JsonConvert.DeserializeObject<List<PoliticoResultsModel>>(Http.GetJson(new Uri(config.PoliticoUri),

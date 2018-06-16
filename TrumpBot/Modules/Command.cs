@@ -10,6 +10,7 @@ using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Modules.Commands;
 using TrumpBot.Services;
 
@@ -47,7 +48,7 @@ namespace TrumpBot.Modules
 
         internal void LoadConfig()
         {
-            _config = (CommandConfigModel) new CommandConfig().LoadConfig();
+            _config = ConfigHelpers.LoadConfig<CommandConfigModel>(ConfigHelpers.ConfigPaths.CommandConfig);
             _log.Debug("Config loaded");
         }
 

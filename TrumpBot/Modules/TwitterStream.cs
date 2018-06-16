@@ -12,6 +12,7 @@ using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Logic;
@@ -61,7 +62,8 @@ namespace TrumpBot.Modules
 
         internal void LoadConfig()
         {
-            _config = (TwitterStreamConfigModel.StreamConfig) new TwitterStreamConfig().LoadConfig();
+            _config = ConfigHelpers.LoadConfig<TwitterStreamConfigModel.StreamConfig>(ConfigHelpers.ConfigPaths
+                .TwitterStreamConfig);
             _log.Debug("TwitterStream has loaded its config");
         }
 

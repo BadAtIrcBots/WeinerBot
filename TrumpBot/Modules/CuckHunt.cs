@@ -8,6 +8,7 @@ using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Services;
 
 namespace TrumpBot.Modules
@@ -50,7 +51,7 @@ namespace TrumpBot.Modules
 
         public void SaveConfig()
         {
-            new CuckHuntConfig().SaveConfig(_config);
+            ConfigHelpers.SaveConfig(_config, ConfigHelpers.ConfigPaths.CuckHuntConfig);
         }
 
         public void Ignore(string nick)
@@ -80,7 +81,8 @@ namespace TrumpBot.Modules
 
         public void ReloadConfig()
         {
-            _config = (CuckHuntConfigModel.CuckConfig)new CuckHuntConfig().LoadConfig();
+            _config = ConfigHelpers.LoadConfig<CuckHuntConfigModel.CuckConfig>(ConfigHelpers.ConfigPaths
+                .CuckHuntConfig);
         }
 
         public void CuckThreadCallback(string channel, int sleepTime)

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace TrumpBot.Models
+namespace TrumpBot.Models.Config
 {
-    public class AdminModel
+    public class AdminConfigModel
     {
         public enum Right
         {

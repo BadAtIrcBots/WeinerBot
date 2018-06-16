@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using log4net;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands
 {
@@ -20,7 +21,7 @@ namespace TrumpBot.Modules.AdminCommands
 
         private ILog _log = LogManager.GetLogger(typeof(ConfigAdmin));
 
-        [Admin.RequiredRight(AdminModel.Right.Admin)]
+        [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
         public void RunCommand(IrcClient client, GroupCollection values, IrcEventArgs eventArgs, IrcBot ircBot)
         {
             string operation = values[1].Value;
