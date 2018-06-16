@@ -16,7 +16,7 @@ namespace TrumpBot.Modules.AdminCommands
         public string Name { get; } = "ManageConfig";
         public List<Regex> Patterns { get; } = new List<Regex>
         {
-            new Regex(@"^config (\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+            new Regex(@"^config (\S+)", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
 
         private ILog _log = LogManager.GetLogger(typeof(ConfigAdmin));
