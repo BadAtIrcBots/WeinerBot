@@ -196,6 +196,7 @@
     <Compile Include="Modules\Commands\ICommand.cs" />
     <Compile Include="Modules\Commands\OkCommand.cs" />
     <Compile Include="Modules\Commands\PresidentResult.cs" />
+    <Compile Include="Modules\Commands\PriorityTestCommands.cs" />
     <Compile Include="Modules\Commands\ReeCommand.cs" />
     <Compile Include="Modules\Commands\RæCommand.cs" />
     <Compile Include="Modules\Commands\ScheduleCommand.cs" />
