@@ -34,12 +34,13 @@ namespace TrumpBot.Modules
             _ircBot = bot;
             Type interfaceType = typeof(ICommand);
             Commands =
-                (AppDomain.CurrentDomain.GetAssemblies()
+                AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(x => x.GetTypes())
                     .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                    .Select(Activator.CreateInstance) as IEnumerable<ICommand>).OrderByDescending(c => c.Priority);
+                    .Select(Activator.CreateInstance).Cast<ICommand>().OrderByDescending(c => c.Priority);
 
             if (Commands == null) throw new Exception("null commands available");
+            
             foreach (ICommand command in Commands)
             {
                 _log.Info($"Found command: {command.CommandName}");
@@ -227,6 +228,7 @@ namespace TrumpBot.Modules
                 bool breakAfterExecution =
                     (BreakAfterExecution) Attribute.GetCustomAttribute(command.GetType(),
                         typeof(BreakAfterExecution)) != null;
+                bool matched = false;
 
                 if (prefixRequired)
                 {
@@ -237,20 +239,21 @@ namespace TrumpBot.Modules
                 {
                     Match match = regex.Match(message);
                     if (!match.Success) continue;
+                    matched = true;
 
                     _log.Debug($"Successfully matched message to '{command.CommandName}' with regex '{regex}'");
                     if (runInMainThread)
                     {
                         RunCommand(eventArgs, command, match);
-                        if (breakAfterExecution) break;
                         continue;
                     }
 
                     Thread commandThread = new Thread(() => RunCommand(eventArgs, command, match));
                     Threads.Add(commandThread);
                     commandThread.Start();
-                    if (breakAfterExecution) break;
                 }
+
+                if (breakAfterExecution && matched) break;
             }
         }
 
