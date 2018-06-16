@@ -18,7 +18,7 @@ namespace TrumpBot.Modules.Commands
         {
             new Regex("^al$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             if (!File.Exists("Config\\al_election.json"))
             {

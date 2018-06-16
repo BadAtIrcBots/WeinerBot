@@ -74,7 +74,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex("^bcc$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex("^bch$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 const string tickerName = "bitcoin-cash";
                 TickerModel ticker;
@@ -103,7 +103,7 @@ namespace TrumpBot.Modules.Commands
             {
                 new Regex("^btc$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 const string tickerName = "bitcoin";
                 TickerModel ticker;
@@ -132,7 +132,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^coin (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
 
-            public List<string> RunCommand(string message, string channel, string nick,
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent,
                 GroupCollection arguments = null, bool useCache = true)
             {
                 if (arguments == null || arguments.Count == 1)
@@ -186,7 +186,7 @@ namespace TrumpBot.Modules.Commands
             {
                 new Regex("^coin$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 List<CoinMarketSymbolCacheModel> symbolCache = Cache.Get<List<CoinMarketSymbolCacheModel>>("CoinMarketSymbolCache");
 
@@ -229,7 +229,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^usdt$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^tether$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 TickerModel ticker = CoinMarketCapApi.Api.TickerApi.GetTicker("tether").Result[0];
                 TetherConfigModel tetherConfigModel =
@@ -245,7 +245,7 @@ namespace TrumpBot.Modules.Commands
             {
                 new Regex(@"^coinsearch (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 List<CoinMarketSymbolCacheModel> symbolCache = Cache.Get<List<CoinMarketSymbolCacheModel>>("CoinMarketSymbolCache");
 

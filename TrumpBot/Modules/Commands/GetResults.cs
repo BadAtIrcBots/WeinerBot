@@ -19,11 +19,11 @@ namespace TrumpBot.Modules.Commands
             new Regex(@"^dempolls (\w+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
 
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
-            bool democrat = message.StartsWith("dempolls");
+            bool democrat = messageEvent.Message.StartsWith("dempolls");
 
-            List<PollModel.Poll> polls = message.StartsWith("dempolls") ? new List<PollModel.Poll> { new PollModel.Poll { FriendlyNames = new List<string> { "national", "all" }, Slug = "2016-national-democratic-primary", Name = "National" } } : JsonConvert.DeserializeObject<List<PollModel.Poll>>(File.ReadAllText("Config\\polls.json"));
+            List<PollModel.Poll> polls = messageEvent.Message.StartsWith("dempolls") ? new List<PollModel.Poll> { new PollModel.Poll { FriendlyNames = new List<string> { "national", "all" }, Slug = "2016-national-democratic-primary", Name = "National" } } : JsonConvert.DeserializeObject<List<PollModel.Poll>>(File.ReadAllText("Config\\polls.json"));
 
 
             string state;

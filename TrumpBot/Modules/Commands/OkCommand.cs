@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -15,9 +16,9 @@ namespace TrumpBot.Modules.Commands
         {
             new Regex("👌", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
-            int count = new Regex(Regex.Escape("👌")).Matches(message).Count;
+            int count = new Regex(Regex.Escape("👌")).Matches(messageEvent.Message).Count;
             return new List<string>{ String.Concat(Enumerable.Repeat("👌", count))};
         }
     }

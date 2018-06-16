@@ -17,7 +17,7 @@ namespace TrumpBot.Modules.Commands
         {
             new Regex("^gdax$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             GdaxTickerApiModel ticker =
                 JsonConvert.DeserializeObject<GdaxTickerApiModel>(
@@ -36,7 +36,7 @@ namespace TrumpBot.Modules.Commands
             new Regex("^gdax bch$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex("^gdax bcash$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             GdaxTickerApiModel ticker =
                 JsonConvert.DeserializeObject<GdaxTickerApiModel>(

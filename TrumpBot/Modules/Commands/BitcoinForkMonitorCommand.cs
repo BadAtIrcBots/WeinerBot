@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using TrumpBot.Extensions;
+using TrumpBot.Models;
 using TrumpBot.Services;
 
 namespace TrumpBot.Modules.Commands
@@ -20,7 +21,7 @@ namespace TrumpBot.Modules.Commands
             new Regex(@"^fork$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex(@"^fork (\w+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             bool checkGenericChainSplit = arguments != null && arguments.Count == 1;
             Uri forkMonUri = new Uri("https://www.btcforkmonitor.info/");

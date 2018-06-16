@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
 using TrumpBot.Extensions;
+using TrumpBot.Models;
 using TrumpBot.Services;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
@@ -29,12 +30,12 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/status\/(\d+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
             };
             
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 List<string> enabledChannels = JsonConvert
                     .DeserializeObject<ChannelUriConfig>(File.ReadAllText("Config\\uri.json")).TwitterEnabledChannels;
 
-                if (!enabledChannels.Contains(channel)) return null;
+                if (!enabledChannels.Contains(messageEvent.Channel)) return null;
 
                 string twitterHandle = arguments[1].Value;
                 long tweetId = long.Parse(arguments[2].Value);
@@ -53,7 +54,7 @@ namespace TrumpBot.Modules.Commands
             {
                 new Regex(@"https?:\/\/t\.co\/(\w+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 Uri shortUri = new Uri(arguments[0].Value);
                 Uri fullUri;
@@ -95,7 +96,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^tw (\S+)$"),
                 new Regex(@"^tw (\S+) (\d+)$")
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 var screenName = arguments[1].Value;
                 int index = 1;

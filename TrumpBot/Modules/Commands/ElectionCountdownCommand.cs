@@ -17,7 +17,7 @@ namespace TrumpBot.Modules.Commands
             new Regex(@"^countdown$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex(@"^election$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             ElectionDateTimeConfigModel electionDateTime = new ElectionDateTimeConfig().LoadConfig() as ElectionDateTimeConfigModel;
             if (electionDateTime == null)

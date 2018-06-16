@@ -21,7 +21,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^538$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsPolls usPolls = FiveThirtyEightPolls.GetUsPolls(useCache);
                 return new List<string>
@@ -40,7 +40,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^fivethirtyeight [p]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^538 [p]", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsPolls usPolls = FiveThirtyEightPolls.GetUsPolls(useCache);
                 return new List<string>
@@ -59,7 +59,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^fivethirtyeight [+]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^538 [+]", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsPolls usPolls = FiveThirtyEightPolls.GetUsPolls(useCache);
                 return new List<string>
@@ -78,7 +78,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^538 w [+]$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight w [+]$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsMap usMap = FiveThirtyEightPolls.GetUsMap(useCache);
                 return new List<string>
@@ -99,7 +99,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^fivethirtyeight w$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight w n$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsMap usMap = FiveThirtyEightPolls.GetUsMap(useCache);
                 return new List<string>
@@ -118,7 +118,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^538 w p$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight w p$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsMap usMap = FiveThirtyEightPolls.GetUsMap(useCache);
                 return new List<string>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TrumpBot.Extensions;
+using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -16,7 +17,7 @@ namespace TrumpBot.Modules.Commands
             new Regex("^ræ$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex("^rae$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             return ("R" + String.Concat(Enumerable.Repeat("Æ", new Random().Next(50, 450)))).SplitInParts(430).ToList();
         }

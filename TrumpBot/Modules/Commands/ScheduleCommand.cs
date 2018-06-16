@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -21,7 +22,7 @@ namespace TrumpBot.Modules.Commands
         };
 
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null,
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null,
             bool useCache = true)
         {
             Uri scheduleUri = new Uri("http://www.donaldjtrump.com/schedule/");

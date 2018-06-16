@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -8,6 +9,6 @@ namespace TrumpBot.Modules.Commands
         string CommandName { get; }
         List<Regex> Patterns { get; set; }
         
-        List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true);
+        List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true);
     }
 }

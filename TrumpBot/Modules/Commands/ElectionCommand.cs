@@ -17,7 +17,7 @@ namespace TrumpBot.Modules.Commands
             new Regex(@"^demresults (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
 
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             string result = "";
 
@@ -31,7 +31,7 @@ namespace TrumpBot.Modules.Commands
                 return new List<string>{result};
             }
 
-            bool isDemocrat = message.StartsWith("demelection") || message.StartsWith("demresults");
+            bool isDemocrat = messageEvent.Message.StartsWith("demelection") || messageEvent.Message.StartsWith("demresults");
             Calendar electionCalendar = new ElectionModel().GetCalendar(useCache);
 
             Election currentElection;

@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 using TrumpBot.Extensions;
+using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -23,13 +24,13 @@ namespace TrumpBot.Modules.Commands
             new Regex(@"(https?)://(-\.)?([^\s/?\.#]+\.?)+(/[^\s]*)?", RegexOptions.Compiled | RegexOptions.Multiline)
         };
 
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null,
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null,
             bool useCache = true)
         {
             var config = JsonConvert.DeserializeObject<ChannelUriConfig>(File.ReadAllText("Config\\uri.json"));
             List<string> enabledChannels = config.EnabledChannels;
 
-            if (!enabledChannels.Contains(channel)) return null;
+            if (!enabledChannels.Contains(messageEvent.Channel)) return null;
 
             Uri matchedUri = new Uri(arguments[0].Value);
 

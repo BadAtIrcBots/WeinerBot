@@ -8,6 +8,7 @@ using Meebey.SmartIrc4net;
 using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
+using TrumpBot.Extensions;
 using TrumpBot.Models;
 using TrumpBot.Modules.Commands;
 using TrumpBot.Services;
@@ -91,6 +92,8 @@ namespace TrumpBot.Modules
             string message = eventArgs.Data.Message.TrimStart(CommandPrefix);
             string nick = eventArgs.Data.Nick.Split('!')[0];
             bool cached = false;
+            var commandEventParams = eventArgs.Data.CastToIrcChannelMessageEventData();
+            commandEventParams.Message = message;
 
             CleanupThreads();
 
@@ -118,7 +121,7 @@ namespace TrumpBot.Modules
 
                 if (result == null)
                 {
-                    result = command.RunCommand(message, eventArgs.Data.Channel.ToLower(), nick, match.Groups,
+                    result = command.RunCommand(commandEventParams, match.Groups,
                         _ircBot.UseCache);
                 }
 

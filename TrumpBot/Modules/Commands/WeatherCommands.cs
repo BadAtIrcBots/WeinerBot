@@ -174,7 +174,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^weather (?!set)(.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^ws (?!set)(.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 if (arguments == null || arguments.Count == 1)
                 {
@@ -230,7 +230,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^wea set (.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^weather set (.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 if (arguments == null || arguments.Count == 1)
                 {
@@ -238,9 +238,9 @@ namespace TrumpBot.Modules.Commands
                 }
 
                 WeatherApiConfigModel weatherApiConfig = (WeatherApiConfigModel) new WeatherApiConfig().LoadConfig();
-                weatherApiConfig.UserDefaultLocale[nick] = arguments[1].Value;
+                weatherApiConfig.UserDefaultLocale[messageEvent.Nick] = arguments[1].Value;
                 new WeatherApiConfig().SaveConfig(weatherApiConfig);
-                return $"Successfully updated default user locale for {nick} to {arguments[1].Value}".SplitInParts(430)
+                return $"Successfully updated default user locale for {messageEvent.Nick} to {arguments[1].Value}".SplitInParts(430)
                     .ToList();
             }
         }
@@ -255,10 +255,10 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^weather$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^ws$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
-            public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 WeatherApiConfigModel weatherApiConfig = (WeatherApiConfigModel) new WeatherApiConfig().LoadConfig();
-                if (!weatherApiConfig.UserDefaultLocale.ContainsKey(nick))
+                if (!weatherApiConfig.UserDefaultLocale.ContainsKey(messageEvent.Nick))
                 {
                     return "User has no default locale set, use 'set' command to set a locale.".SplitInParts(430).ToList();
                 }
@@ -271,7 +271,7 @@ namespace TrumpBot.Modules.Commands
                 {
                     forecastWeather =
                         ApixuWeatherApi.Weather.ForecastWeather
-                            .GetWeatherForecastAsync(weatherApiConfig.UserDefaultLocale[nick], weatherApiConfig.ApiKey,
+                            .GetWeatherForecastAsync(weatherApiConfig.UserDefaultLocale[messageEvent.Nick], weatherApiConfig.ApiKey,
                                 days: 1)
                             .Result;
                 }

@@ -151,10 +151,12 @@
     <Compile Include="Configs\RedditStickyConfig.cs" />
     <Compile Include="Configs\TwitterStreamConfig.cs" />
     <Compile Include="Configs\WeatherApiConfig.cs" />
+    <Compile Include="Extensions\IrcMessageDataExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\AlabamaElectionConfigModel.cs" />
     <Compile Include="Models\BanConfigModel.cs" />
+    <Compile Include="Models\ChannelMessageEventDataModel.cs" />
     <Compile Include="Models\CoinMarketSymbolCacheModel.cs" />
     <Compile Include="Models\CommandConfigModel.cs" />
     <Compile Include="Models\CuckHuntConfigModel.cs" />

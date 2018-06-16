@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
+using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -12,7 +13,7 @@ namespace TrumpBot.Modules.Commands
         {
             new Regex("^block main$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             Thread.Sleep(5000);
             return new List<string>{"💤 Slept for 5 seconds"};
@@ -26,7 +27,7 @@ namespace TrumpBot.Modules.Commands
         {
             new Regex("^block thread$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
-        public List<string> RunCommand(string message, string channel, string nick, GroupCollection arguments = null, bool useCache = true)
+        public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             Thread.Sleep(5000);
             return new List<string>{"💤 Slept for 5 seconds"};
