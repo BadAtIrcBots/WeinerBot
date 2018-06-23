@@ -23,6 +23,7 @@ namespace TrumpBot.Modules
         private List<Cuck> _cucks = new List<Cuck>();
         private DateTimeOffset? _lastDeportedCuck = null;
         private RavenClient _ravenClient = Raven.GetRavenClient();
+        public string LastAdminWhoSpawnedCuck = string.Empty;
 
         public char CommandPrefix;
 
@@ -309,6 +310,16 @@ namespace TrumpBot.Modules
                         {
                             _client.SendMessage(SendType.Message, channel,
                                 $"{nick} got rid of the cuck in {(int)timeElapsed.TotalSeconds}.{timeElapsed.Milliseconds} seconds! They have gotten rid of {cuckStat.GetEmOutCount} cucks within {cuckStat.Channel}");
+                        }
+                    }
+
+                    if (_config.PunishAdmins)
+                    {
+                        if (LastAdminWhoSpawnedCuck == nick)
+                        {
+                            _client.SendMessage(SendType.Message, channel, $"{nick} is cheating scum, 10 points will be removed from all scores.");
+                            SetScore(nick, channel, cuckStat.GetEmOutCount - 10, cuckStat.KilledCount - 10, cuckStat.HelicopterCount - 10);
+                            LastAdminWhoSpawnedCuck = string.Empty;
                         }
                     }
 

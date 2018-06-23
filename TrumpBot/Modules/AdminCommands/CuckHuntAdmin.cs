@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using log4net;
 using Meebey.SmartIrc4net;
+using TrumpBot.Extensions;
 using TrumpBot.Models;
 using TrumpBot.Models.Config;
 
@@ -33,6 +34,7 @@ namespace TrumpBot.Modules.AdminCommands
                     if (!ircBot.CuckHunt.IsCuckPresent(channel))
                     {
                         ircBot.CuckHunt.CreateCuck(channel, manuallyCreated: true);
+                        ircBot.CuckHunt.LastAdminWhoSpawnedCuck = eventArgs.Data.Nick.GetNick();
                         client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Spawned cuck in {channel}");
                         return;
                     }

@@ -13,6 +13,7 @@ namespace TrumpBot.Models.Config
             public List<string> IgnoreList { get; set; } = new List<string>();
             public List<string> CuckPresentExempt { get; set; } = new List<string>();
             public bool AssumeMaleGender { get; set; } = false;
+            public bool PunishAdmins { get; set; } = true;
 
             public class CuckStat
             {
