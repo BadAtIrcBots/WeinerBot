@@ -9,7 +9,7 @@ namespace TrumpBot.Configs
     {
         public static void SaveConfig(object newConfig, string location)
         {
-            File.WriteAllText(location, JsonConvert.SerializeObject(newConfig));
+            File.WriteAllText(location, JsonConvert.SerializeObject(newConfig, Formatting.Indented));
         }
 
         public static T LoadConfig<T>(string location)
