@@ -145,7 +145,7 @@ namespace TrumpBot.Modules.AdminCommands
             {
                 client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Currently ignored nicks: {string.Join(", ", ircBot.CuckHunt.GetIgnoreList())}");
             }
-            else if (operation == "rehash")
+            else if (operation == "rehash" || operation == "reload")
             {
                 ircBot.CuckHunt.ReloadConfig();
                 client.SendMessage(SendType.Message, eventArgs.Data.Channel, "Successfully rehashed the cuckhunt configuration");
