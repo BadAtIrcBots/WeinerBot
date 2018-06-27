@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
+using Humanizer;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
 using TrumpBot.Extensions;
@@ -155,9 +156,9 @@ namespace TrumpBot.Modules.Commands
             if (tweet.IsRetweet)
             {
                 return
-                    $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC) - {tweet.Url}";            }
+                    $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {DateTime.Now.Humanize(false, tweet.CreatedAt)}) - {tweet.Url}";            }
             return
-                $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC) - {tweet.Url}";
+                $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {tweet.CreatedAt.Humanize(false, DateTime.Now)}) - {tweet.Url}";
         }
     }
 }
