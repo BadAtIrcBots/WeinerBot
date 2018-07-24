@@ -14,6 +14,7 @@ namespace TrumpBot.Models.Config
             public List<string> CuckPresentExempt { get; set; } = new List<string>();
             public bool AssumeMaleGender { get; set; } = false;
             public bool PunishAdmins { get; set; } = true;
+            public bool NoSpawnOnNoActivity { get; set; } = false;
 
             public class CuckStat
             {

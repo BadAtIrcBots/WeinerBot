@@ -7,7 +7,6 @@ using Meebey.SmartIrc4net;
 using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using TrumpBot.Services;
 
@@ -24,6 +23,7 @@ namespace TrumpBot.Modules
         private DateTimeOffset? _lastDeportedCuck = null;
         private RavenClient _ravenClient = Raven.GetRavenClient();
         public string LastAdminWhoSpawnedCuck = string.Empty;
+        public Dictionary<string, ActivityTime> LastActivity = new Dictionary<string, ActivityTime>();
 
         public char CommandPrefix;
 
@@ -97,6 +97,24 @@ namespace TrumpBot.Modules
             }
             if (IsCuckHuntActive(channel)) // Cucks can be spawned one-time for the channel, ignore reproducing them if hunt is not currently running there
             {
+                if (LastActivity.ContainsKey(channel))
+                {
+                    if (LastActivity[channel].LastCuckSpawn > LastActivity[channel].LastMessage && _config.NoSpawnOnNoActivity)
+                    {
+                        _log.Debug($"Skipping scheduled cuck spawn in {channel} as it is inactive.");
+                        return;
+                    }
+
+                    LastActivity[channel].LastCuckSpawn = DateTime.Now;
+                }
+                else
+                {
+                    LastActivity.Add(channel, new ActivityTime
+                    {
+                        LastCuckSpawn = DateTime.Now,
+                        LastMessage = DateTime.MinValue
+                    });
+                }
                 CreateCuck(channel);
             }
 
@@ -159,6 +177,7 @@ namespace TrumpBot.Modules
             string nick = eventArgs.Data.From.Split('!')[0];
             string channel = eventArgs.Data.Channel;
 
+            
             if (eventArgs.Data.Message[0] == CommandPrefix && !_config.IgnoreList.Contains(nick))
             {
                 string message = eventArgs.Data.Message.TrimStart(CommandPrefix);
@@ -332,8 +351,21 @@ namespace TrumpBot.Modules
                             CreateThread(channel);
                         }
                     }
-
-
+                    
+                    // Early return is necessary so cuckhunt commands don't count as "channel activity"
+                    return;
+                }
+                if (LastActivity.ContainsKey(channel))
+                {
+                    LastActivity[channel].LastMessage = DateTime.Now;
+                }
+                else
+                {
+                    LastActivity.Add(channel, new ActivityTime
+                    {
+                        LastCuckSpawn = DateTime.MinValue,
+                        LastMessage = DateTime.Now
+                    });
                 }
             }
         }
@@ -456,6 +488,12 @@ namespace TrumpBot.Modules
             public string Channel { get; set; }
             public DateTime Appeared { get; set; }
             public bool ManuallyCreated { get; set; }
+        }
+
+        public class ActivityTime
+        {
+            public DateTime LastMessage { get; set; }
+            public DateTime LastCuckSpawn { get; set; }
         }
     }
 }

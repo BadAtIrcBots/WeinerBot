@@ -1738,5 +1738,6 @@
       "GetEmOutCount": 109
     }
   ],
-  "Random": [ 30, 60 ]
+  "Random": [ 30, 60 ],
+  "NoSpawnOnNoActivity": true
 }
