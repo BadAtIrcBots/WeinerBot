@@ -111,6 +111,6 @@ namespace TrumpBot.Modules.Commands
         public List<string> TwitterEnabledChannels { get; set; } = new List<string>();
 
         public string UserAgent { get; set; } =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.9) Gecko/20100101 Goanna/3.4 Firefox/52.9 PaleMoon/27.6.1";
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0";
     }
 }
