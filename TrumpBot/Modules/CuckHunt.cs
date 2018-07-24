@@ -102,6 +102,7 @@ namespace TrumpBot.Modules
                     if (LastActivity[channel].LastCuckSpawn > LastActivity[channel].LastMessage && _config.NoSpawnOnNoActivity)
                     {
                         _log.Debug($"Skipping scheduled cuck spawn in {channel} as it is inactive.");
+                        CreateThread(channel);
                         return;
                     }
 
