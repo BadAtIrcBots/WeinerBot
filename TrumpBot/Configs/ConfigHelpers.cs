@@ -31,6 +31,7 @@ namespace TrumpBot.Configs
             public static string RandomKickConfig { get; } = "Config\\random_kick.json";
             public static string AlabamaElectionConfig { get; } = "Config\\al_election.json";
             public static string TetherConfig { get; } = "Config\\tether_config.json";
+            public static string AlphaVantageApiConfig { get; } = "Config\\alphavantage_api.json";
         }
     }
 }

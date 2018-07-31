@@ -199,10 +199,12 @@
     <Compile Include="Configs\ConfigHelpers.cs" />
     <Compile Include="Extensions\IrcMessageDataExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\AlphaVantageApiModels.cs" />
     <Compile Include="Models\ChannelMessageEventDataModel.cs" />
     <Compile Include="Models\CoinMarketSymbolCacheModel.cs" />
     <Compile Include="Models\Config\AdminConfigModel.cs" />
     <Compile Include="Models\Config\AlabamaElectionConfigModel.cs" />
+    <Compile Include="Models\Config\AlphaVantageApiConfigModel.cs" />
     <Compile Include="Models\Config\BanConfigModel.cs" />
     <Compile Include="Models\Config\CommandConfigModel.cs" />
     <Compile Include="Models\Config\CuckHuntConfigModel.cs" />
@@ -269,6 +271,7 @@
     <Compile Include="Modules\AdminCommands\NickServLogout.cs" />
     <Compile Include="Modules\AdminCommands\PartChannel.cs" />
     <Compile Include="Modules\AdminCommands\ToggleCache.cs" />
+    <Compile Include="Modules\Commands\StockQuoteCommands.cs" />
     <Compile Include="Modules\Commands\TwitterCommand.cs" />
     <Compile Include="Modules\Commands\WeatherCommands.cs" />
     <Compile Include="Modules\CuckHunt.cs" />
@@ -282,6 +285,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Modules\RedditSticky.cs" />
+    <Compile Include="Services\AlphaVantageApi.cs" />
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\Colours.cs" />
     <Compile Include="Services\Http.cs" />
@@ -297,6 +301,9 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Config\admin_config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\alphavantage_api.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\al_election.json">

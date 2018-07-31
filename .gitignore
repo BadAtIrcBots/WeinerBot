@@ -215,3 +215,4 @@ ModelManifest.xml
 TrumpBot/Config/config.json
 TrumpBot/Config/twitter_stream.json
 TrumpBot/Config/weather_api.json
+TrumpBot/Config/alphavantage_api.json
