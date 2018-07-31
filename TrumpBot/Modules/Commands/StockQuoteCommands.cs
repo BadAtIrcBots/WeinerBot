@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Humanizer;
 using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
 {
     public class StockQuoteCommands
     {
-        internal static string FormatTicker(AlphaVantageApiModels.DailyTimeSeriesModel.DayModel ticker, string symbol, string date)
+        internal static string FormatTicker(IexApiModels.IexQuoteApiModel ticker)
         {
-            return $"{symbol.ToUpper()} ({date}) - Open: {ticker.Open} - High: {ticker.High} - Low: {ticker.Low} - Close: {ticker.Close} - Volume: {ticker.Volume}";
+            var latestUpdate =
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ticker.LatestUpdateEpoch);
+            return
+                $"{ticker.Symbol} - Latest: {ticker.LatestPrice:N} - Open: {ticker.Open:N} - High: {ticker.High:N} - Low: {ticker.Low:N} - Change: {ticker.Change:N} ({ticker.ChangePercent:P}) - Previous Close: {ticker.Close} - Volume: {ticker.LatestVolume:N0} - Market Cap: {ticker.MarketCap:N0} - PE Ratio: {ticker.PeRatio} - YTD Change: {ticker.YtdChange:P}";
+            //$"Latest Update: {latestUpdate.Humanize(false, TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")))}";
         }
 
         internal class GetLatestDailyQuoteBySymbol : ICommand
@@ -31,13 +36,12 @@ namespace TrumpBot.Modules.Commands
 
                 string symbolName = arguments[1].Value;
 
-                var ticker = Services.AlphaVantageApi.GetTimeSeriesDaily(symbolName);
-                if (ticker.MetaData == null)
+                var ticker = Services.IexApi.GetIexQuote(symbolName);
+                if (ticker.Symbol == null)
                 {
-                    return new List<string>{"Ticker doesn't exist or couldn't parse the JSON"};
+                    return new List<string>{"Symbol name either doesn't exist or coudln't parse JSON"};
                 }
-                var latest = ticker.TimeSeries.Keys.OrderByDescending(DateTime.Parse).First();
-                return new List<string>{FormatTicker(ticker.TimeSeries[latest], symbolName, latest)};
+                return new List<string>{FormatTicker(ticker)};
             }
         }
     }

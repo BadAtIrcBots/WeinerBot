@@ -220,6 +220,7 @@
     <Compile Include="Models\FiveThirtyEightPolls.cs" />
     <Compile Include="Models\FranceElectionApiModel.cs" />
     <Compile Include="Models\GdaxTickerApiModel.cs" />
+    <Compile Include="Models\IexApiModels.cs" />
     <Compile Include="Models\PoliticoResultsModel.cs" />
     <Compile Include="Modules\AdminCommands\CommandAdmin.cs" />
     <Compile Include="Modules\AdminCommands\ConfigAdmin.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\Colours.cs" />
     <Compile Include="Services\Http.cs" />
+    <Compile Include="Services\IexApi.cs" />
     <Compile Include="Services\Log.cs" />
     <Compile Include="Services\NickServ.cs" />
     <Compile Include="Services\Raven.cs" />
