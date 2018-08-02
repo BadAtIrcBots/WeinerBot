@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Humanizer;
+using Meebey.SmartIrc4net;
 using TrumpBot.Models;
+using TrumpBot.Services;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -11,10 +13,41 @@ namespace TrumpBot.Modules.Commands
     {
         internal static string FormatTicker(IexApiModels.IexQuoteApiModel ticker)
         {
+            var b = IrcConstants.IrcBold;
+            var n = IrcConstants.IrcNormal;
+            var c = IrcConstants.IrcColor;
+            var colours = new Colours();
+            var changeColour = colours.Green;
+            if (ticker.Change < 0)
+            {
+                changeColour = colours.LightRed;
+            }
+
+            var ytdChangeColour = colours.Green;
+            if (ticker.YtdChange < 0)
+            {
+                ytdChangeColour = colours.LightRed;
+            }
+
+            var peRatioColour = colours.Green;
+            if (ticker.PeRatio < 0)
+            {
+                peRatioColour = colours.LightRed;
+            }
             var latestUpdate =
                 new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ticker.LatestUpdateEpoch);
             return
-                $"{ticker.Symbol} - Latest: {ticker.LatestPrice:N} - Open: {ticker.Open:N} - High: {ticker.High:N} - Low: {ticker.Low:N} - Change: {ticker.Change:N} ({ticker.ChangePercent:P}) - Previous Close: {ticker.Close} - Volume: {ticker.LatestVolume:N0} - Market Cap: {ticker.MarketCap:N0} - PE Ratio: {ticker.PeRatio} - YTD Change: {ticker.YtdChange:P}";
+                $"{b}{ticker.Symbol}{n} - " +
+                $"{b}Latest{n}: {ticker.LatestPrice:N} - " +
+                $"{b}Open{n}: {ticker.Open:N} - " +
+                $"{b}High{n}: {ticker.High:N} - " +
+                $"{b}Low{n}: {ticker.Low:N} - " +
+                $"{b}Change{n}: {c}{changeColour}{ticker.Change:N}{n} ({c}{changeColour}{ticker.ChangePercent:P}{n}) - " +
+                $"{b}Previous Close{n}: {ticker.Close} - " +
+                $"{b}Volume{n}: {ticker.LatestVolume:N0} - " +
+                $"{b}Market Cap{n}: ${ticker.MarketCap:N0} - " +
+                $"{b}PE Ratio{n}: {c}{peRatioColour}{ticker.PeRatio}{n} - " +
+                $"{b}YTD Change{n}: {c}{ytdChangeColour}{ticker.YtdChange:P}{n}";
             //$"Latest Update: {latestUpdate.Humanize(false, TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")))}";
         }
 
