@@ -37,7 +37,7 @@ namespace TrumpBot.Modules.Commands
             var latestUpdate =
                 new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ticker.LatestUpdateEpoch);
             return
-                $"{b}{ticker.Symbol}{n} - " +
+                $"{b}{ticker.Symbol}{n} ({ticker.CompanyName}) - " +
                 $"{b}Latest{n}: {ticker.LatestPrice:N} - " +
                 $"{b}Open{n}: {ticker.Open:N} - " +
                 $"{b}High{n}: {ticker.High:N} - " +
