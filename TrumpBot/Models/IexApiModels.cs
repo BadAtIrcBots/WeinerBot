@@ -39,11 +39,11 @@ namespace TrumpBot.Models
             [JsonProperty("latestVolume")]
             public long LatestVolume { get; set; }
             [JsonProperty("iexRealtimePrice")]
-            public double IexRealtimePrice { get; set; }
+            public double? IexRealtimePrice { get; set; }
             [JsonProperty("iexRealtimeSize")]
-            public double IexRealtimeSize { get; set; }
+            public double? IexRealtimeSize { get; set; }
             [JsonProperty("iexLastUpdated")]
-            public long IexLastUpdatedEpoch { get; set; }
+            public long? IexLastUpdatedEpoch { get; set; }
             [JsonProperty("delayedPrice")]
             public double DelayedPrice { get; set; }
             [JsonProperty("delayedPriceTime")]
@@ -63,19 +63,19 @@ namespace TrumpBot.Models
             [JsonProperty("changePercent")]
             public double ChangePercent { get; set; }
             [JsonProperty("iexMarketPercent")]
-            public double IexMarketPercent { get; set; }
+            public double? IexMarketPercent { get; set; }
             [JsonProperty("iexVolume")]
-            public long IexVolume { get; set; }
+            public long? IexVolume { get; set; }
             [JsonProperty("avgTotalVolume")]
             public long AvgTotalVolume { get; set; }
             [JsonProperty("iexBidPrice")]
-            public double IexBidPrice { get; set; }
+            public double? IexBidPrice { get; set; }
             [JsonProperty("iexBidSize")]
-            public double IexBidSize { get; set; }
+            public double? IexBidSize { get; set; }
             [JsonProperty("iexAskPrice")]
-            public double IexAskPrice { get; set; }
+            public double? IexAskPrice { get; set; }
             [JsonProperty("iexAskSize")]
-            public double IexAskSize { get; set; }
+            public double? IexAskSize { get; set; }
             [JsonProperty("marketCap")]
             public double MarketCap { get; set; }
             [JsonProperty("peRatio")]
