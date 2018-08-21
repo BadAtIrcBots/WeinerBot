@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using Humanizer;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models;
 using TrumpBot.Services;
@@ -68,11 +66,25 @@ namespace TrumpBot.Modules.Commands
                 }
 
                 string symbolName = arguments[1].Value;
+                IexApiModels.IexQuoteApiModel ticker;
 
-                var ticker = Services.IexApi.GetIexQuote(symbolName);
+                try
+                {
+                    ticker = Services.IexApi.GetIexQuote(symbolName);
+                }
+                catch (Http.HttpException e)
+                {
+                    if (e.Message.Contains("NotFound"))
+                    {
+                        return new List<string> {"Symbol does not exist"};
+                    }
+
+                    throw;
+                }
+                
                 if (ticker.Symbol == null)
                 {
-                    return new List<string>{"Symbol name either doesn't exist or coudln't parse JSON"};
+                    return new List<string>{"JSON is all fucked up."};
                 }
                 return new List<string>{FormatTicker(ticker)};
             }
