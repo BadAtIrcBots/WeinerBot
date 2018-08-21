@@ -79,7 +79,7 @@ namespace TrumpBot.Models
             [JsonProperty("marketCap")]
             public double MarketCap { get; set; }
             [JsonProperty("peRatio")]
-            public double PeRatio { get; set; }
+            public double? PeRatio { get; set; }
             [JsonProperty("week52High")]
             public double Week52High { get; set; }
             [JsonProperty("week52Low")]
