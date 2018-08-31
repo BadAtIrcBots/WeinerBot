@@ -32,8 +32,6 @@ namespace TrumpBot.Modules.Commands
             {
                 peRatioColour = colours.LightRed;
             }
-            var latestUpdate =
-                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ticker.LatestUpdateEpoch);
             return
                 $"{b}{ticker.Symbol}{n} ({ticker.CompanyName}) - " +
                 $"{b}Latest{n}: {ticker.LatestPrice:N} - " +
@@ -45,8 +43,8 @@ namespace TrumpBot.Modules.Commands
                 $"{b}Volume{n}: {ticker.LatestVolume:N0} - " +
                 $"{b}Market Cap{n}: ${ticker.MarketCap:N0} - " +
                 $"{b}PE Ratio{n}: {c}{peRatioColour}{ticker.PeRatio}{n} - " +
-                $"{b}YTD Change{n}: {c}{ytdChangeColour}{ticker.YtdChange:P}{n}";
-            //$"Latest Update: {latestUpdate.Humanize(false, TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")))}";
+                $"{b}YTD Change{n}: {c}{ytdChangeColour}{ticker.YtdChange:P}{n} - " +
+                $"{b}52 Week Low/High{n}: {ticker.Week52Low:N}/{ticker.Week52High:N}";
         }
 
         internal class GetLatestDailyQuoteBySymbol : ICommand
