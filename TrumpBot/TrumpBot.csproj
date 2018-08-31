@@ -217,11 +217,13 @@
     <Compile Include="Models\Config\TetherConfigModel.cs" />
     <Compile Include="Models\Config\TwitterStreamConfigModel.cs" />
     <Compile Include="Models\Config\WeatherApiConfigModel.cs" />
+    <Compile Include="Models\Config\YouTubeApiConfigModel.cs" />
     <Compile Include="Models\FiveThirtyEightPolls.cs" />
     <Compile Include="Models\FranceElectionApiModel.cs" />
     <Compile Include="Models\GdaxTickerApiModel.cs" />
     <Compile Include="Models\IexApiModels.cs" />
     <Compile Include="Models\PoliticoResultsModel.cs" />
+    <Compile Include="Models\YouTubeApiModels.cs" />
     <Compile Include="Modules\AdminCommands\CommandAdmin.cs" />
     <Compile Include="Modules\AdminCommands\ConfigAdmin.cs" />
     <Compile Include="Modules\AdminCommands\CrashAdminCommand.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="Modules\Commands\StockQuoteCommands.cs" />
     <Compile Include="Modules\Commands\TwitterCommand.cs" />
     <Compile Include="Modules\Commands\WeatherCommands.cs" />
+    <Compile Include="Modules\Commands\YouTubeCommand.cs" />
     <Compile Include="Modules\CuckHunt.cs" />
     <Compile Include="Modules\TetherMonitor.cs" />
     <Compile Include="Modules\TwitterStream.cs" />
@@ -358,6 +361,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\weather_api.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\youtube_api.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SmartIrc4net_log.config">
