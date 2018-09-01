@@ -60,15 +60,12 @@ namespace TrumpBot.Modules.Commands
                 }
             }
 
-            var cookieContainer = new CookieContainer();
 
-            using (HttpClient client = new HttpClient(new HttpClientHandler {CookieContainer = cookieContainer}))
+            using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
                 client.DefaultRequestHeaders.UserAgent.ParseAdd(config.UserAgent);
-
-                cookieContainer.Add(matchedUri, new Cookie("PREF", "f1=50000000&al=en-GB&f6=8&f5=30030"));
 
                 HttpResponseMessage response = client.GetAsync(matchedUri).Result;
                 if (response.IsSuccessStatusCode)
