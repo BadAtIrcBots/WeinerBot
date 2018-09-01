@@ -81,6 +81,28 @@ namespace TrumpBot.Modules.Commands
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(responseHtml);
 
+            if (matchedUri.Host.Contains("imgur"))
+            {
+                string imgurTitle = document.DocumentNode.SelectSingleNode("//meta[@property=\"og:title\"]")
+                    .GetAttributeValue("content", "og:title missing");
+                if (document.DocumentNode.SelectSingleNode("//meta[@property=\"og:type\"]").GetAttributeValue("content", "og:type missing").ToLower()
+                    .Contains("video.other"))
+                {
+                    return new List<string>
+                    {
+                        $"{imgurTitle} - {document.DocumentNode.SelectSingleNode("//meta[@name=\"twitter:player:stream\"]").GetAttributeValue("content", "twitter:player:stream missing")}"
+                    };
+                }
+                if (document.DocumentNode.SelectSingleNode("//meta[@property=\"og:type\"]").GetAttributeValue("content", "og:type missing").ToLower()
+                    .Contains("article"))
+                {
+                    return new List<string>
+                    {
+                        $"{imgurTitle} - {document.DocumentNode.SelectSingleNode("//meta[@name=\"twitter:image\"]").GetAttributeValue("content", "twitter:image missing")}"
+                    };
+                }
+            }
+
             HtmlNode title = document.DocumentNode.SelectSingleNode("//title");
             if (title == null || title.InnerText == "") return null;
 
