@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
-using Tweetinvi.Core.Events;
 
 namespace TrumpBot.Modules.AdminCommands
 {

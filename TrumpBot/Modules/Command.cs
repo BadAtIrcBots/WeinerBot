@@ -9,7 +9,6 @@ using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using TrumpBot.Modules.Commands;
 using TrumpBot.Services;
@@ -24,7 +23,7 @@ namespace TrumpBot.Modules
         private IEnumerable<ICommand> Commands;
         public char CommandPrefix = '!';
         private CommandConfigModel _config;
-        private RavenClient _ravenClient = Services.Raven.GetRavenClient();
+        private RavenClient _ravenClient = Raven.GetRavenClient();
         internal List<Thread> Threads = new List<Thread>();
 
         internal Command(IrcClient client, IrcBot bot)

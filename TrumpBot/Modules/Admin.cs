@@ -7,7 +7,6 @@ using Meebey.SmartIrc4net;
 using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using TrumpBot.Modules.AdminCommands;
 
@@ -62,21 +61,16 @@ namespace TrumpBot.Modules
                 Nick = nick
             };
             _log.Debug($"User instance right for {nick}: {user.Right} (level {(int) user.Right})");
-
-            bool matched = false;
-
+            
             foreach (IAdminCommand command in Commands)
             {
-                _log.Debug($"Processing {command.Name}");
                 foreach (Regex regex in command.Patterns)
                 {
                     Match match = regex.Match(message);
                     if (!match.Success)
                     {
-                        _log.Debug($"No match for '{regex}'");
                         continue;
                     }
-                    matched = true;
 
                     _log.Debug($"Successfully matched '{match.Value}' with {regex}");
 
@@ -102,8 +96,6 @@ namespace TrumpBot.Modules
                         _log.Debug($"No permissions defined via RequiredRights attribute for command {command.Name}. Not going to allow command to run as this could be a very dangerous mistake.");
                         break;
                     }
-
-                    IrcUser ircUser = _client.GetIrcUser(nick);
                     
                     _log.Debug($"Required right for {command.Name} is {requiredRight.Right} (level {(int) requiredRight.Right})");
 

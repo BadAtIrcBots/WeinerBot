@@ -279,7 +279,7 @@ namespace TrumpBot.Modules.Commands
                 {
                     searchRegex = new Regex(arguments[1].Value, RegexOptions.IgnoreCase);
                 }
-                catch (ArgumentException e)
+                catch (ArgumentException)
                 {
                     return new List<string>{"Regex was invalid"};
                 }

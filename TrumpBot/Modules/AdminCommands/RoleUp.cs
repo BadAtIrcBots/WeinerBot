@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using log4net;
 using Meebey.SmartIrc4net;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands

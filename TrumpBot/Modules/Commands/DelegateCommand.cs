@@ -30,7 +30,7 @@ namespace TrumpBot.Modules.Commands
             int i = 0;
             foreach (DelegateModel.NationalRace race in delegateStatistics.NationalRaces.TakeWhile(race => i != 5))
             {
-                result += $" {candidates[race.Id].LastName}: {race.TotalDelegates} ({Math.Round(((decimal)race.TotalDelegates / (decimal)delegateStatistics.RequiredDelegates) * 100, 2)}%) |";
+                result += $" {candidates[race.Id].LastName}: {race.TotalDelegates} ({Math.Round((race.TotalDelegates / (decimal)delegateStatistics.RequiredDelegates) * 100, 2)}%) |";
                 i++;
             }
 

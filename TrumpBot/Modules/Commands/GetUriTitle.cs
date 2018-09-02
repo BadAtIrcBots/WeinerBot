@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
-using TrumpBot.Extensions;
 using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
@@ -51,7 +49,7 @@ namespace TrumpBot.Modules.Commands
                 if (contentType != "text/html" ||
                     contentLength > (100 * 1024 * 1024))
                 {
-                    System.GC.Collect(); // GC for some reason doesn't flush until next request
+                    GC.Collect(); // GC for some reason doesn't flush until next request
                     if (headResponse.Content.Headers.ContentLength == null)
                     {
                         return new List<string>{$"[URL] {headResponse.Content.Headers.ContentType?.MediaType};{headResponse.Content.Headers.ContentType?.CharSet} No content length"};

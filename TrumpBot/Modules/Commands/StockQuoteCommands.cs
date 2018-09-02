@@ -68,7 +68,7 @@ namespace TrumpBot.Modules.Commands
 
                 try
                 {
-                    ticker = Services.IexApi.GetIexQuote(symbolName);
+                    ticker = IexApi.GetIexQuote(symbolName);
                 }
                 catch (Http.HttpException e)
                 {

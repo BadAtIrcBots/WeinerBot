@@ -4,7 +4,6 @@ using System.Threading;
 using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 
 namespace TrumpBot
@@ -21,7 +20,7 @@ namespace TrumpBot
                AppDomain.CurrentDomain.UnhandledException += Restart; 
             }
 
-            IrcBot ircBot = new IrcBot(settings);
+            new IrcBot(settings);
         }
 
         private static void Restart(object sender, UnhandledExceptionEventArgs args)

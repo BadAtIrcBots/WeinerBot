@@ -65,7 +65,7 @@ namespace TrumpBot.Modules.Commands
                 result = chart.Estimates.Aggregate(result, (current, candidateEstimate) => current + $" {candidateEstimate.Choice}: {candidateEstimate.Value}% |");
                 if ((int)(DateTime.UtcNow - chart.LastUpdated).TotalHours > 72)
                 {
-                    result += $" Last Updated: {chart.LastUpdated.ToString("yyyy-MM-dd")}";
+                    result += $" Last Updated: {chart.LastUpdated:yyyy-MM-dd}";
                 }
                 else
                 {
@@ -82,7 +82,7 @@ namespace TrumpBot.Modules.Commands
                 }
                 if (chart.ElectionDate.HasValue)
                 {
-                    result += $" - Primary/Caucus Date: {chart.ElectionDate.Value.ToString("yyyy-MM-dd")}";
+                    result += $" - Primary/Caucus Date: {chart.ElectionDate.Value:yyyy-MM-dd}";
                 }
                 return new List<string>{result};
             }
@@ -125,7 +125,7 @@ namespace TrumpBot.Modules.Commands
                 result = chart.Estimates.Aggregate(result, (current, candidateEstimate) => current + $" {candidateEstimate.Choice}: {candidateEstimate.Value}% |");
                 if ((int)(DateTime.UtcNow - chart.LastUpdated).TotalHours > 72)
                 {
-                    result += $" Last Updated: {chart.LastUpdated.ToString("yyyy-MM-dd")}";
+                    result += $" Last Updated: {chart.LastUpdated:yyyy-MM-dd}";
                 }
                 else
                 {
@@ -143,7 +143,7 @@ namespace TrumpBot.Modules.Commands
 
                 if (chart.ElectionDate.HasValue)
                 {
-                    result += $" - Primary/Caucus Date: {chart.ElectionDate.Value.ToString("yyyy-MM-dd")}";
+                    result += $" - Primary/Caucus Date: {chart.ElectionDate.Value:yyyy-MM-dd}";
                 }
                 matched = true;
                 break;

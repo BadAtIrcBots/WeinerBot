@@ -1,6 +1,5 @@
 ﻿using SharpRaven;
 using TrumpBot.Configs;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 
 namespace TrumpBot.Services

@@ -4,7 +4,6 @@ using log4net;
 using Meebey.SmartIrc4net;
 using SharpRaven;
 using TrumpBot.Configs;
-using TrumpBot.Models;
 using CoinMarketCapApi.Models;
 using SharpRaven.Data;
 using TrumpBot.Models.Config;
@@ -18,7 +17,7 @@ namespace TrumpBot.Modules
         private TetherConfigModel _config;
         private Thread _thread;
         private ILog _log = LogManager.GetLogger(typeof(TetherMonitor));
-        private RavenClient _ravenClient = Services.Raven.GetRavenClient();
+        private RavenClient _ravenClient = Raven.GetRavenClient();
 
         internal TetherMonitor(IrcClient ircClient)
         {

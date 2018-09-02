@@ -61,10 +61,10 @@ namespace TrumpBot.Modules.Commands
                 result = chart.Estimates.Aggregate(result,
                     (current, candidateEstimate) =>
                         current + $" {candidateEstimate.Choice}: {candidateEstimate.Value}% |");
-                result += $" Last Updated: {chart.LastUpdated.ToString("yyyy-MM-dd")} - {currentChart.ShortUri.AbsoluteUri}";
+                result += $" Last Updated: {chart.LastUpdated:yyyy-MM-dd} - {currentChart.ShortUri.AbsoluteUri}";
                 if (chart.ElectionDate.HasValue)
                 {
-                    result += $" - Election Date: {chart.ElectionDate.Value.ToString("yyyy-MM-dd")}";
+                    result += $" - Election Date: {chart.ElectionDate.Value:yyyy-MM-dd}";
                 }
                 matched = true;
                 break;

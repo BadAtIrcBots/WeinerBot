@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Runtime.Remoting.Channels;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using log4net;
 using Meebey.SmartIrc4net;
 using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Parameters;
-using User = Tweetinvi.User;
 
 namespace TrumpBot.Modules
 {
@@ -27,7 +19,6 @@ namespace TrumpBot.Modules
     {
         private readonly IrcClient _ircClient;
         private readonly Thread _thread;
-        private readonly IrcBot _ircBot;
         private TwitterStreamConfigModel.StreamConfig _config;
         private IAuthenticatedUser _authenticatedUser;
         internal IFilteredStream FilteredStream;

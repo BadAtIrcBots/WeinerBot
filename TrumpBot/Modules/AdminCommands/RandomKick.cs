@@ -6,7 +6,6 @@ using log4net;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands

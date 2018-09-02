@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using log4net;
 using Meebey.SmartIrc4net;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using TrumpBot.Services;
 

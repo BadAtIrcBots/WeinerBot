@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using log4net;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands

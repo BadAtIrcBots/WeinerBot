@@ -23,7 +23,7 @@ namespace TrumpBot.Modules
         private Reddit _reddit;
         private Thread _thread;
         private ILog _log = LogManager.GetLogger(typeof(RedditSticky));
-        private RavenClient _ravenClient = Services.Raven.GetRavenClient();
+        private RavenClient _ravenClient = Raven.GetRavenClient();
 
         internal RedditSticky(IrcClient client)
         {

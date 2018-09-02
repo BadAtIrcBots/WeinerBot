@@ -1,5 +1,4 @@
 ﻿using TrumpBot.Configs;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using Tweetinvi;
 using Tweetinvi.Models;

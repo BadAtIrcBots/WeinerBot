@@ -10,7 +10,6 @@ using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
 using SharpRaven;
 using SharpRaven.Data;
-using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using TrumpBot.Modules;
 

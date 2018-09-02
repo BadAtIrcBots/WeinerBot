@@ -151,8 +151,6 @@ namespace TrumpBot.Modules.Commands
             }
             var b = IrcConstants.IrcBold;
             var n = IrcConstants.IrcNormal;
-            var c = IrcConstants.IrcColor;
-            var colours = new Colours();
             if (tweet.IsRetweet)
             {
                 return
