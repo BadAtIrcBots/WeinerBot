@@ -298,7 +298,6 @@
     <Compile Include="Services\Raven.cs" />
     <Compile Include="Services\Reddit.cs" />
     <Compile Include="Services\Twitter.cs" />
-    <Compile Include="VoteKick.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
