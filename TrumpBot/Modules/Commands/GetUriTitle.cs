@@ -81,8 +81,8 @@ namespace TrumpBot.Modules.Commands
 
             if (matchedUri.Host.Contains("imgur"))
             {
-                string imgurTitle = document.DocumentNode.SelectSingleNode("//meta[@property=\"og:title\"]")
-                    .GetAttributeValue("content", "og:title missing");
+                string imgurTitle = WebUtility.HtmlDecode(document.DocumentNode.SelectSingleNode("//meta[@property=\"og:title\"]")
+                    .GetAttributeValue("content", "og:title missing"));
                 if (document.DocumentNode.SelectSingleNode("//meta[@property=\"og:type\"]").GetAttributeValue("content", "og:type missing").ToLower()
                     .Contains("video.other"))
                 {
