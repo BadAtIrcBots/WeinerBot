@@ -22,8 +22,6 @@ namespace TrumpBot
         private static IrcClient _ircClient = new IrcClient();
         public const char CommandPrefix = '!';
         internal bool UseCache = true;
-        private KickInProgress _kickInProgress = null; // too shit for this world
-        private bool EnableJoinProtection = false;
         private MessageInterval _messageInterval;
         private ILog _log = LogManager.GetLogger(typeof(IrcBot));
         public Admin Admin;
@@ -52,8 +50,6 @@ namespace TrumpBot
             _ircClient.OnChannelMessage += Command.ProcessMessage;
             _ircClient.OnChannelMessage += CuckHunt.ProcessMessage;
             _ircClient.OnConnected += Connected;
-            _ircClient.OnQueryNotice += OnQueryNotice;
-            _ircClient.OnJoin += OnJoin;
             _ircClient.OnDisconnected += Disconnected;
             _ircClient.AutoNickHandling = true;
             _ircClient.AutoRejoinOnKick = true;
@@ -71,62 +67,6 @@ namespace TrumpBot
             _ircClient.Listen();
         }
 
-        private void OnJoin(object sender, JoinEventArgs args)
-        {
-            if (Settings.JoinProtectedChannels.Contains(args.Channel) && EnableJoinProtection)
-            {
-                _ircClient.SendMessage(SendType.Message, "NICKSERV", $"INFO {args.Who}");
-            }
-        }
-
-        private void OnQueryNotice(object sender, IrcEventArgs args)
-        {
-            if (args.Data.From.Split('!')[0].ToLower() == "nickserv")
-            {
-                Regex notRegistered = new Regex(@"Nick (.+) isn't registered\.", RegexOptions.Compiled);
-                Regex registeredNotIdentified = new Regex(@"Last seen .*", RegexOptions.Compiled);
-                Regex registeredAndIdentified = new Regex(@"(.+) is currently online\.", RegexOptions.Compiled);
-                Regex retrieveNickForNotIdentified = new Regex(@"(.+) is .+", RegexOptions.Compiled);
-                if (_kickInProgress == null && retrieveNickForNotIdentified.IsMatch(args.Data.Message))
-                {
-                    GroupCollection collection = retrieveNickForNotIdentified.Match(args.Data.Message).Groups;
-                    string nick = collection[1].Value;
-                    _kickInProgress = new KickInProgress
-                    {
-                        Nick = nick,
-                        NickServReply = args.Data.Message + "\r\n"
-                    };
-                    return;
-                }
-
-                if (_kickInProgress == null) return;
-
-                if (notRegistered.IsMatch(_kickInProgress.NickServReply))
-                {
-                    _kickInProgress = null;
-                    return;
-                }
-
-                if (registeredAndIdentified.IsMatch(_kickInProgress.NickServReply))
-                {
-                    _kickInProgress = null;
-                    return;
-                }
-
-                if (registeredNotIdentified.IsMatch(_kickInProgress.NickServReply))
-                {
-                    foreach (string channel in _ircClient.JoinedChannels.Cast<string>().Where(channel => Settings.JoinProtectedChannels.Contains(channel)))
-                    {
-                        _ircClient.RfcKick(channel, _kickInProgress.Nick, $"Please identify for your nick ({_kickInProgress.Nick}) before joining", Priority.Medium);
-                    }
-                    _kickInProgress = null;
-                    return;
-                }
-
-                _kickInProgress.NickServReply += $"{args.Data.Message}\r\n";
-            }
-        }
-
         private void Connected(object sender, EventArgs eventArgs)
         {
             if (Settings.NickservPassword != null)
@@ -137,6 +77,11 @@ namespace TrumpBot
                 {
                     Thread.Sleep(25);
                     i++;
+                }
+
+                if (i >= 20)
+                {
+                    _log.Debug("Reached timeout waiting for usermode +r to be set");
                 }
             }
             foreach (string channel in Settings.AutoJoinChannels)
@@ -202,21 +147,8 @@ namespace TrumpBot
                             _ircClient.RfcNick(Settings.Nick);
                         }
                         break;
-                    case "togglejoinprotection":
-                        if (Settings.Admins.Contains(nick))
-                        {
-                            EnableJoinProtection = !EnableJoinProtection;
-                            _ircClient.SendMessage(SendType.Message, channel, $"EnableJoinProtection is now {EnableJoinProtection}");
-                        }
-                        break;
                 }
             }
         }
-    }
-
-    internal class KickInProgress
-    {
-        public string Nick { get; set; }
-        public string NickServReply { get; set; }
     }
 }
