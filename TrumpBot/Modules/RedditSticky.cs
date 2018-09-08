@@ -15,7 +15,7 @@ using TrumpBot.Services;
 
 namespace TrumpBot.Modules
 {
-    internal class RedditSticky
+    internal class RedditSticky : IDisposable
     {
         private IrcClient _ircClient;
         private RedditStickyConfigModel _config;
@@ -42,6 +42,11 @@ namespace TrumpBot.Modules
             CreateThread();
         }
 
+        public virtual void Dispose()
+        {
+            Stop();
+        }
+
         internal void LoadConfig()
         {
             _config = ConfigHelpers.LoadConfig<RedditStickyConfigModel>(ConfigHelpers.ConfigPaths.RedditStickyConfig);
@@ -65,7 +70,7 @@ namespace TrumpBot.Modules
 
         internal bool IsAlive()
         {
-            return _thread.IsAlive;
+            return _thread != null && _thread.IsAlive;
         }
 
         private void CreateThread()

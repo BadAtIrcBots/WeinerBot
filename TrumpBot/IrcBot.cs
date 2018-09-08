@@ -104,14 +104,21 @@ namespace TrumpBot
         private void Disconnected(object sender, EventArgs eventArgs)
         {
             _ravenClient?.AddTrail(new Breadcrumb("Disconnected") {Message = "Disconnected from network", Level = BreadcrumbLevel.Critical});
-            if (RedditSticky != null)
+            try
             {
-                if (RedditSticky.IsAlive())
+                if (RedditSticky != null)
                 {
-                    RedditSticky.Stop();
+                    if (RedditSticky.IsAlive())
+                    {
+                        RedditSticky?.Stop();
+                    }
                 }
             }
-
+            catch (NullReferenceException e)
+            {
+                _ravenClient?.Capture(new SentryEvent(
+                    "Against all odds I still got a NullReferenceException when checking for the RedditSticky thread."));
+            }
         }
 
         private void MessageReceived(object sender, IrcEventArgs eventArgs)
