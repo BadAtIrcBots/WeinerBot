@@ -44,7 +44,7 @@ namespace TrumpBot.Modules.Commands
                 long tweetId = long.Parse(arguments[2].Value);
 
                 ITweet tweet = Tweet.GetTweet(tweetId);
-                return FormatTweet(tweet).SplitInParts(430).ToList();
+                return FormatTweet(tweet, false).SplitInParts(430).ToList();
             }
         }
 
@@ -143,20 +143,26 @@ namespace TrumpBot.Modules.Commands
             }
         }
 
-        internal static string FormatTweet(ITweet tweet)
+        internal static string FormatTweet(ITweet tweet, bool showTweetUri = true)
         {
             if (tweet == null)
             {
                 return "Tweet not found";
+            }
+
+            string tweetUriPart = string.Empty;
+            if (showTweetUri)
+            {
+                tweetUriPart = " - " + tweet.Url;
             }
             var b = IrcConstants.IrcBold;
             var n = IrcConstants.IrcNormal;
             if (tweet.IsRetweet)
             {
                 return
-                    $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {DateTime.Now.Humanize(false, tweet.CreatedAt)}) - {tweet.Url}";            }
+                    $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {DateTime.Now.Humanize(false, tweet.CreatedAt)}){tweetUriPart}";            }
             return
-                $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {tweet.CreatedAt.Humanize(false, DateTime.Now)}) - {tweet.Url}";
+                $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {tweet.CreatedAt.Humanize(false, DateTime.Now)}){tweetUriPart}";
         }
     }
 }
