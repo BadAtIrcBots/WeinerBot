@@ -258,7 +258,6 @@
     <Compile Include="Modules\Commands\RæCommand.cs" />
     <Compile Include="Modules\Commands\ScheduleCommand.cs" />
     <Compile Include="IrcBot.cs" />
-    <Compile Include="MessageInterval.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DelegateModel.cs" />
     <Compile Include="Models\ElectionModel.cs" />
@@ -330,9 +329,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\election_date.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\messages.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\polls.json">

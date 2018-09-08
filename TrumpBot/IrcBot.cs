@@ -22,7 +22,6 @@ namespace TrumpBot
         private static IrcClient _ircClient = new IrcClient();
         public const char CommandPrefix = '!';
         internal bool UseCache = true;
-        private MessageInterval _messageInterval;
         private ILog _log = LogManager.GetLogger(typeof(IrcBot));
         public Admin Admin;
         public CuckHunt CuckHunt;
@@ -30,9 +29,6 @@ namespace TrumpBot
         internal TwitterStream TwitterStream;
         private readonly RavenClient _ravenClient;
         internal TetherMonitor TetherMonitor;
-
-        internal List<MessageInterval.Message> Messages =
-            JsonConvert.DeserializeObject<List<MessageInterval.Message>>(File.ReadAllText("Config\\messages.json"));
 
         public IrcBot(IrcConfigModel.IrcSettings settings)
         {
@@ -89,7 +85,6 @@ namespace TrumpBot
                 _ircClient.RfcJoin(channel);
             }
             _ravenClient?.AddTrail(new Breadcrumb("Connected") {Message = "Connected to network successfully", Level = BreadcrumbLevel.Info});
-            _messageInterval = new MessageInterval(Messages, _ircClient);
             RedditSticky = new RedditSticky(_ircClient);
             if (TwitterStream != null && TetherMonitor != null)
             {
@@ -133,21 +128,6 @@ namespace TrumpBot
                 string cleanedMessage = message.TrimStart(CommandPrefix);
                 switch (cleanedMessage.ToLower())
                 {
-                    case "stopmessage":
-                        if (Settings.Admins.Contains(nick))
-                        {
-                            _messageInterval.StopThread(channel);
-                            _ircClient.SendMessage(SendType.Notice, nick, $"Any scheduled message intervals for {channel} will be stopped. !rehashmessasges to restart all scheduled messages for all configured channels.");
-                        }
-                        break;
-                    case "rehashmessages":
-                        if (Settings.Admins.Contains(nick))
-                        {
-                            Messages = JsonConvert.DeserializeObject<List<MessageInterval.Message>>(File.ReadAllText("Config\\messages.json"));
-                            _messageInterval.RehashMessages(Messages);
-                            _ircClient.SendMessage(SendType.Notice, nick, $"Re enabled {Messages.Count} messages");
-                        }
-                        break;
                     case "fixnick":
                         if (_ircClient.Nickname != Settings.Nick && Settings.Admins.Contains(nick))
                         {
