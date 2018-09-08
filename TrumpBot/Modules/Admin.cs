@@ -51,9 +51,7 @@ namespace TrumpBot.Modules
             //if (eventArgs.Data.Message[0] != Config.CommandPrefix) return;
 
             string message = eventArgs.Data.Message.TrimStart(Config.CommandPrefix);
-            _log.Debug($"Got message: {message}");
             string nick = eventArgs.Data.From.Split('!')[0];
-            _log.Debug($"Got nick: {nick}");
             AdminConfigModel.Right inferredRight = Config.AdminChannels.Contains(eventArgs.Data.Channel) ? AdminConfigModel.Right.Admin : AdminConfigModel.Right.Guest;
             _log.Debug($"Inferred right for {nick}: {inferredRight} (level {(int) inferredRight})");
             AdminConfigModel.User user = Config.Users.FirstOrDefault(configUser => configUser.Nick == nick) ?? new AdminConfigModel.User
