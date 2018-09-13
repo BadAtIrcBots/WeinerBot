@@ -41,6 +41,7 @@ namespace TrumpBot.Modules.Commands
 
                 headRequest.Headers.UserAgent.ParseAdd(config.UserAgent);
                 headRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
+                headRequest.Headers.Add("X-PX-AUTHORIZATION", "3:e76c2ea8a77ff1c04948d6d2df6775c4c4cdf92d1fac1686385531addd70b72f:uIOIhredLiWowZ3z8uzCCa9P1FMWQlnfxsWR3YLwS0x6iMJzL1WfWXjjYiIra+vfW1A/gbgL1Lh8Lsy8u1yJTQ==:1000:OaDoummliEwwdJgN3ZDkqVGf2KfVBR31tQxllxT2zKyvgo8H/A6RD6EZQS5yzPjN3aAo5dZn7IhcKGHsWFgI7JrFEJ6zy6GwDpMqgbnIV5aBECIZy17VtZZzDe92YlIY9KMfxfZXHDFdTqk1xDf+rY96FTIzFUuvAy0w3dZcqbc=");
 
                 HttpResponseMessage headResponse = client.SendAsync(headRequest).Result;
                 var contentLength = headResponse.Content.Headers.ContentLength ?? 0;
@@ -64,6 +65,7 @@ namespace TrumpBot.Modules.Commands
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
                 client.DefaultRequestHeaders.UserAgent.ParseAdd(config.UserAgent);
+                client.DefaultRequestHeaders.Add("X-PX-AUTHORIZATION", "3:e76c2ea8a77ff1c04948d6d2df6775c4c4cdf92d1fac1686385531addd70b72f:uIOIhredLiWowZ3z8uzCCa9P1FMWQlnfxsWR3YLwS0x6iMJzL1WfWXjjYiIra+vfW1A/gbgL1Lh8Lsy8u1yJTQ==:1000:OaDoummliEwwdJgN3ZDkqVGf2KfVBR31tQxllxT2zKyvgo8H/A6RD6EZQS5yzPjN3aAo5dZn7IhcKGHsWFgI7JrFEJ6zy6GwDpMqgbnIV5aBECIZy17VtZZzDe92YlIY9KMfxfZXHDFdTqk1xDf+rY96FTIzFUuvAy0w3dZcqbc=");
 
                 HttpResponseMessage response = client.GetAsync(matchedUri).Result;
                 if (response.IsSuccessStatusCode)
