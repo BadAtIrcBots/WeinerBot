@@ -109,7 +109,7 @@ namespace TrumpBot
                     }
                 }
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 _ravenClient?.Capture(new SentryEvent(
                     "Against all odds I still got a NullReferenceException when checking for the RedditSticky thread."));
