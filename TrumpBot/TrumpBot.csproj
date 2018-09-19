@@ -216,6 +216,7 @@
     <Compile Include="Models\Config\RedditStickyConfigModel.cs" />
     <Compile Include="Models\Config\TetherConfigModel.cs" />
     <Compile Include="Models\Config\TwitterStreamConfigModel.cs" />
+    <Compile Include="Models\Config\UrlHistoryConfigModel.cs" />
     <Compile Include="Models\Config\WeatherApiConfigModel.cs" />
     <Compile Include="Models\Config\YouTubeApiConfigModel.cs" />
     <Compile Include="Models\FiveThirtyEightPolls.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Modules\AdminCommands\ReeAdminCommand.cs" />
     <Compile Include="Modules\AdminCommands\RoleUp.cs" />
     <Compile Include="Modules\AdminCommands\TwitterStreamAdmin.cs" />
+    <Compile Include="Modules\AdminCommands\UrlMentionAdminCommands.cs" />
     <Compile Include="Modules\AdminCommands\UserManagementAdminCommands.cs" />
     <Compile Include="Modules\BanManagement.cs" />
     <Compile Include="Modules\Command.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="Modules\AdminCommands\ToggleCache.cs" />
     <Compile Include="Modules\Commands\StockQuoteCommands.cs" />
     <Compile Include="Modules\Commands\TwitterCommand.cs" />
+    <Compile Include="Modules\Commands\UrlMention.cs" />
     <Compile Include="Modules\Commands\WeatherCommands.cs" />
     <Compile Include="Modules\Commands\YouTubeCommand.cs" />
     <Compile Include="Modules\CuckHunt.cs" />
@@ -298,6 +301,7 @@
     <Compile Include="Services\Raven.cs" />
     <Compile Include="Services\Reddit.cs" />
     <Compile Include="Services\Twitter.cs" />
+    <Compile Include="Services\UrlHistory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -353,6 +357,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\uri.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\url_history.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\weather_api.json">

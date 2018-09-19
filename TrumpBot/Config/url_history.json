@@ -1,0 +1,24 @@
+{
+  "DefaultResponses": [
+    "SAD! {MentionUser} already posted this link {TimeAgo}",
+    "Wow, {Nick}, y'know this link was posted by {MentionUser} {TimeAgo}",
+    "It's amazing, {Url} is so damn popular that {MentionUser} already linked to it {TimeAgo}"
+  ],
+  "PreventNickHighlightList": ["brayden"],
+  "Mentions": [
+    {
+      "User": "brayden",
+      "Link": "https://www.google.com/",
+      "Channel": "#trump-dev",
+      "Timestamp": "2011-07-14T19:43:37Z"
+    }
+  ],
+  "ChannelConfigs": [
+    {
+      "Channel": "#trump-dev",
+      "Enabled": true,
+      "Responses": ["Womp Womp! This was already linked by {MentionUser} {TimeAgo}"],
+      "MatchMentionsFromOtherChannels": true
+    }
+  ]
+}
