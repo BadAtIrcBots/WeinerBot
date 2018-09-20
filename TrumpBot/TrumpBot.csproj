@@ -51,11 +51,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.6.8.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a">
-      <HintPath>..\packages\HtmlAgilityPack.1.6.8\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.8.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Humanizer, Version=2.3.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e">
-      <HintPath>..\packages\Humanizer.Core.2.3.3\lib\netstandard1.0\Humanizer.dll</HintPath>
+    <Reference Include="Humanizer, Version=2.5.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e">
+      <HintPath>..\packages\Humanizer.Core.2.5.1\lib\netstandard1.0\Humanizer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
@@ -79,8 +80,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Nito.AsyncEx.Context, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Nito.AsyncEx.Context.1.1.0\lib\net46\Nito.AsyncEx.Context.dll</HintPath>
@@ -91,8 +93,9 @@
     <Reference Include="Nito.Disposables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Nito.Disposables.1.0.0\lib\portable45-net45+win8+wp8+wpa81\Nito.Disposables.dll</HintPath>
     </Reference>
-    <Reference Include="SharpRaven, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpRaven.2.2.0\lib\net45\SharpRaven.dll</HintPath>
+    <Reference Include="SharpRaven, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\SharpRaven.2.4.0\lib\net45\SharpRaven.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="StarkSoftProxy, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\smartirc4net-2015.0.5.9\lib\net40\StarkSoftProxy.dll</HintPath>
@@ -104,6 +107,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
       <Private>True</Private>
@@ -169,30 +173,39 @@
     </Reference>
     <Reference Include="Tweetinvi, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.Controllers, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Controllers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.Credentials, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Credentials.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.Factories, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Factories.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.Logic, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Logic.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Security.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.Streams, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.Streams.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Tweetinvi.WebLogic, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\TweetinviAPI.2.1.0\lib\net45\Tweetinvi.WebLogic.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

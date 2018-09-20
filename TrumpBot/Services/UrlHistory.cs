@@ -42,7 +42,7 @@ namespace TrumpBot.Services
             // It's mostly a preference to not store #blahblah stuff as it is client specific and may cause false negatives for people posting very similar URLs
             if (url.Contains("#"))
             {
-                url = url.Substring(0, url.LastIndexOf("#", StringComparison.InvariantCulture) + 1);
+                url = url.Substring(0, url.LastIndexOf("#", StringComparison.InvariantCulture));
             }
 
             var channelConfig = config.ChannelConfigs.Find(c =>
@@ -81,7 +81,7 @@ namespace TrumpBot.Services
         {
             if (url.Contains("#"))
             {
-                url = url.Substring(0, url.LastIndexOf("#", StringComparison.InvariantCulture) + 1);
+                url = url.Substring(0, url.LastIndexOf("#", StringComparison.InvariantCulture));
             }
             
             var config = GetConfig();
