@@ -186,8 +186,6 @@ namespace TrumpBot.Modules
 
         internal void ProcessMessage(object sender, IrcEventArgs eventArgs)
         {
-            _log.Debug($"Processing message: {eventArgs.Data.Message}");
-
             string message = eventArgs.Data.Message.TrimStart(CommandPrefix);
             string nick = eventArgs.Data.Nick.Split('!')[0];
             _log.Debug($"Got message '{message}' and nick '{nick}'");
