@@ -41,9 +41,9 @@ namespace TrumpBot.Modules.Commands
             }
             
             List<string> result = new List<string>();
-            foreach (var calendar in calendars.Take(3))
+            foreach (var calendar in calendars.Take(3).OrderBy(c => c.Events.First().DtEnd))
             {
-                result.Add($"{calendar.Events.First().Summary}: {calendar.Events.First().Location.Replace("\n", " ")}");
+                result.Add($"{calendar.Events.First().DtStart.Value:yyyy-MM-dd}: {calendar.Events.First().Summary}: {calendar.Events.First().Location.Replace("\n", " ")}");
             }
 
             return result;
