@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using TrumpBot.Models;
+using TrumpBot.Services;
+using Calendar = Ical.Net.Calendar;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -15,89 +14,39 @@ namespace TrumpBot.Modules.Commands
     {
         public string CommandName { get; } = "schedule";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
-            new Regex(@"^schedule$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+            new Regex(@"^schedule$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+            new Regex(@"^rallies$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+            new Regex(@"^rally$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
 
-        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null,
             bool useCache = true)
         {
-            Uri scheduleUri = new Uri("http://www.donaldjtrump.com/schedule/");
-            string scheduleHtml;
-
-                using (HttpClient client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
-                    client.DefaultRequestHeaders.UserAgent.ParseAdd(
-                        "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0");
-                    HttpResponseMessage response = client.GetAsync(scheduleUri).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        scheduleHtml = response.Content.ReadAsStringAsync().Result;
-                    }
-                    else
-                    {
-                        throw new Exception($"Bad HTTP status code, {response.StatusCode}");
-                    }
-                }
+            Uri scheduleUri = new Uri("https://www.donaldjtrump.com/rallies/");
+            string scheduleHtml = Http.Get(scheduleUri, fuzzUserAgent: true, compression: true);
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(scheduleHtml);
 
-            const string dateTimeFormat = "- dddd, MMMM d, yyyy -h:mm tt";
-
-            List<ScheduleData> events = new List<ScheduleData>();
-            try
+            List<Calendar> calendars = new List<Calendar>();
+            foreach (var scheduledEvent in document.DocumentNode.SelectNodes("//a[@class=\"add-to-calendar\"]"))
             {
-                foreach (var scheduledEvent in document.DocumentNode.SelectNodes("//div[@class=\"event_item\"]"))
-                {
-                    string date =
-                        (from node in scheduledEvent.ChildNodes where node.Name == "h6" select node).FirstOrDefault()
-                        .InnerText;
-                    string time =
-                        (from node in scheduledEvent.ChildNodes where node.Name == "h5" select node).FirstOrDefault()
-                        .InnerText;
-                    string location =
-                        (from node in scheduledEvent.ChildNodes where node.Name == "p" select node).FirstOrDefault()
-                        .InnerText;
-                    string state =
-                        (from node in scheduledEvent.ChildNodes where node.Name == "h2" select node).FirstOrDefault()
-                        .InnerText;
-                    events.Add(new ScheduleData
-                    {
-                        EventTime = DateTime.ParseExact(date + time, dateTimeFormat, null),
-                        State = state,
-                        Location = location
-                    });
-                }
+                string icalText =
+                    Http.Get(new Uri("https://www.donaldjtrump.com" + scheduledEvent.GetAttributeValue("href", "href missing from attribute")),
+                        fuzzUserAgent: true, compression: true);
+                calendars.Add(Calendar.Load(icalText));
             }
-            catch (NullReferenceException)
+            
+            List<string> result = new List<string>();
+            foreach (var calendar in calendars.Take(3))
             {
-                return new List<string>
-                {
-                    $"No events are currently scheduled, see {scheduleUri.AbsoluteUri} for more information"
-                };
+                result.Add($"{calendar.Events.First().Summary}: {calendar.Events.First().Location.Replace("\n", " ")}");
             }
 
-
-            string result = "Scheduled trump events:";
-            result = events.Aggregate(result,
-                (current, selectedEvent) =>
-                    current +
-                    $" {selectedEvent.EventTime:MMMM dd hh:mm tt} at {selectedEvent.Location}, {selectedEvent.State};");
-            result += $" See {scheduleUri.AbsoluteUri} for more information";
-
-            return new List<string> {result};
+            return result;
         }
-    }
-
-    public class ScheduleData
-    {
-        public DateTime EventTime { get; set; }
-        public string State { get; set; }
-        public string Location { get; set; }
     }
 }
