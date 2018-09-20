@@ -35,7 +35,7 @@ namespace TrumpBot.Modules.Commands
 
             string responseHtml;
 
-            using (HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient(new HttpClientHandler {AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}))
             {
                 HttpRequestMessage headRequest = new HttpRequestMessage(HttpMethod.Head, matchedUri.AbsoluteUri);
 
@@ -60,7 +60,7 @@ namespace TrumpBot.Modules.Commands
             }
 
 
-            using (HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient(new HttpClientHandler {AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}))
             {
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
