@@ -337,10 +337,10 @@ namespace TrumpBot.Modules
                     {
                         if (LastAdminWhoSpawnedCuck == nick)
                         {
-                            _client.SendMessage(SendType.Message, channel, $"{nick} is cheating scum, 10 points will be removed from all scores.");
+                            _client.SendMessage(SendType.Message, channel, $"{nick} is cheating scum, 10 points will be removed from his scores.");
                             SetScore(nick, channel, cuckStat.GetEmOutCount - 10, cuckStat.KilledCount - 10, cuckStat.HelicopterCount - 10);
-                            LastAdminWhoSpawnedCuck = string.Empty;
                         }
+                        LastAdminWhoSpawnedCuck = string.Empty;
                     }
 
                     Log.LogToFile($"{nick} removed a cuck in {timeElapsed.TotalMilliseconds} ms ({(int)timeElapsed.TotalSeconds}s) kill={kill}, helicopter={helicopter}. cuckStat.KilledCount={cuckStat.KilledCount}, cuckStat.HelicopterCount={cuckStat.HelicopterCount}, cuckStat.GetEmOutCount={cuckStat.GetEmOutCount}", "cuckhunt.log");
