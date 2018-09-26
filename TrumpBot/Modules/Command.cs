@@ -141,6 +141,7 @@ namespace TrumpBot.Modules
 
                     foreach (string line in result)
                     {
+                        if (line == null) continue;
                         _client.SendMessage(SendType.Message, eventArgs.Data.Channel, line);
                     }
                 }
