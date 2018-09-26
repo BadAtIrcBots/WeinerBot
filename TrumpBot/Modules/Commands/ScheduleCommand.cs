@@ -28,7 +28,7 @@ namespace TrumpBot.Modules.Commands
             bool useCache = true)
         {
             Uri scheduleUri = new Uri("https://www.donaldjtrump.com/rallies/");
-            string scheduleHtml = Http.Get(scheduleUri, fuzzUserAgent: true, compression: true);
+            string scheduleHtml = Http.Get(scheduleUri, fuzzUserAgent: true, compression: true, timeout: 20000);
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(scheduleHtml);
@@ -38,12 +38,12 @@ namespace TrumpBot.Modules.Commands
             {
                 string icalText =
                     Http.Get(new Uri("https://www.donaldjtrump.com" + scheduledEvent.GetAttributeValue("href", "href missing from attribute")),
-                        fuzzUserAgent: true, compression: true);
+                        fuzzUserAgent: true, compression: true, timeout: 20000);
                 calendars.Add(Calendar.Load(icalText));
             }
             
             List<string> result = new List<string>();
-            foreach (var calendar in calendars.Take(3).OrderBy(c => c.Events.First().DtEnd))
+            foreach (var calendar in calendars.Take(5).OrderBy(c => c.Events.First().DtEnd))
             {
                 string location = calendar.Events.First().Location;
                 string tz = string.Empty;
