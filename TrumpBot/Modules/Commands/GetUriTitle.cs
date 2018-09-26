@@ -118,9 +118,18 @@ namespace TrumpBot.Modules.Commands
             string description = null;
             try
             {
-                description = WebUtility.HtmlDecode(document.DocumentNode
-                        .SelectSingleNode("//meta[@name=\"description\"]").GetAttributeValue("content", "no description"))
-                    .Replace("\n", string.Empty).Replace("\r", string.Empty);
+                try
+                {
+                    description = WebUtility.HtmlDecode(document.DocumentNode
+                            .SelectSingleNode("//meta[@name=\"description\"]")
+                            .GetAttributeValue("content", "no description"))
+                        .Replace("\n", string.Empty).Replace("\r", string.Empty);
+                }
+                catch (NullReferenceException e)
+                {
+                    description = "no description";
+                }
+
                 if (description == "no description")
                 {
                     description = WebUtility.HtmlDecode(document.DocumentNode
