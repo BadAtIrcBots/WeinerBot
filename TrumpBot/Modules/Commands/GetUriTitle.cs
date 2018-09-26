@@ -6,7 +6,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using Humanizer;
 using Newtonsoft.Json;
+using SharpRaven.Data;
 using TrumpBot.Models;
 
 namespace TrumpBot.Modules.Commands
@@ -113,14 +115,38 @@ namespace TrumpBot.Modules.Commands
                 cleanTitle = cleanTitle.Replace("&quot;", "");
             }
 
+            string description = null;
+            try
+            {
+                description = WebUtility.HtmlDecode(document.DocumentNode
+                        .SelectSingleNode("//meta[@name=\"description\"]").GetAttributeValue("content", "no description"))
+                    .Replace("\n", string.Empty).Replace("\r", string.Empty);
+                if (description == "no description")
+                {
+                    description = WebUtility.HtmlDecode(document.DocumentNode
+                            .SelectSingleNode("//meta[@property=\"og:description\"]")
+                            .GetAttributeValue("content", "no description"))
+                        .Replace("\n", string.Empty).Replace("\r", string.Empty);
+                    if (description == "no description")
+                    {
+                        description = null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
+            }
+
             return new List<string>
             {
                 " " +
                 WebUtility.HtmlDecode(cleanTitle)
                     .Replace("\r", string.Empty)
                     .Replace("\n", string.Empty)
-                    .TrimStart(' ')
-            }; // Fuck you imgur for forcing me to do this shit
+                    .TrimStart(' '),
+                description.Truncate(400)
+            };
         }
     }
 
