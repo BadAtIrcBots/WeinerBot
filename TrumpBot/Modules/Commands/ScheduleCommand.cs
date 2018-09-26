@@ -67,7 +67,13 @@ namespace TrumpBot.Modules.Commands
                     tz = "Pacific Standard Time";
                     shortTz = " PT";
                 }
-
+                else if (location.Contains("MT") || location.Contains("MDT") ||
+                         location.Contains("MST") || location.ToLower().Contains("mountain time"))
+                {
+                    tz = "Mountain Standard Time";
+                    shortTz = " MT";
+                }
+                
                 if (!tz.IsNullOrEmpty())
                 {
                     relativeTime = " (" +
