@@ -116,32 +116,45 @@ namespace TrumpBot.Modules.Commands
             }
 
             string description = null;
-            try
+            bool fetchDescription = true;
+            foreach (var domain in config.DomainsToIgnoreDescriptions)
+            {
+                if (matchedUri.Host.Contains(domain))
+                {
+                    fetchDescription = false;
+                }
+            }
+
+            if (fetchDescription)
             {
                 try
                 {
-                    description = WebUtility.HtmlDecode(document.DocumentNode
-                            .SelectSingleNode("//meta[@name=\"description\"]")
-                            .GetAttributeValue("content", "no description"))
-                        .Replace("\n", string.Empty).Replace("\r", string.Empty);
-                }
-                catch (NullReferenceException e)
-                {
-                    description = "no description";
-                }
+                    try
+                    {
+                        description = WebUtility.HtmlDecode(document.DocumentNode
+                                .SelectSingleNode("//meta[@name=\"description\"]")
+                                .GetAttributeValue("content", "no description"))
+                            .Replace("\n", string.Empty).Replace("\r", string.Empty);
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        description = "no description";
+                    }
 
-                if (description == "no description")
+                    if (description == "no description")
+                    {
+                        description = WebUtility.HtmlDecode(document.DocumentNode
+                                .SelectSingleNode("//meta[@property=\"og:description\"]")
+                                .GetAttributeValue("content", "no description"))
+                            .Replace("\n", string.Empty).Replace("\r", string.Empty);
+                    }
+                }
+                catch (Exception e)
                 {
-                    description = WebUtility.HtmlDecode(document.DocumentNode
-                            .SelectSingleNode("//meta[@property=\"og:description\"]")
-                            .GetAttributeValue("content", "no description"))
-                        .Replace("\n", string.Empty).Replace("\r", string.Empty);
+                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
                 }
             }
-            catch (Exception e)
-            {
-                Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
-            }
+
 
             if (description == "no description") description = null;
 
@@ -161,6 +174,8 @@ namespace TrumpBot.Modules.Commands
     {
         public List<string> EnabledChannels { get; set; } = new List<string>();
         public List<string> TwitterEnabledChannels { get; set; } = new List<string>();
+        // Does a .Contains(str) check on domain
+        public List<string> DomainsToIgnoreDescriptions { get; set; } = new List<string>(){"reddit.com"};
 
         public string UserAgent { get; set; } =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0";
