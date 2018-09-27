@@ -136,16 +136,14 @@ namespace TrumpBot.Modules.Commands
                             .SelectSingleNode("//meta[@property=\"og:description\"]")
                             .GetAttributeValue("content", "no description"))
                         .Replace("\n", string.Empty).Replace("\r", string.Empty);
-                    if (description == "no description")
-                    {
-                        description = null;
-                    }
                 }
             }
             catch (Exception e)
             {
                 Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
             }
+
+            if (description == "no description") description = null;
 
             return new List<string>
             {
