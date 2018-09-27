@@ -160,12 +160,11 @@ namespace TrumpBot.Modules.Commands
 
             return new List<string>
             {
-                " " +
                 WebUtility.HtmlDecode(cleanTitle)
                     .Replace("\r", string.Empty)
                     .Replace("\n", string.Empty)
                     .TrimStart(' '),
-                description.Truncate(400)
+                description?.TrimStart(' ').Truncate(400)
             };
         }
     }
