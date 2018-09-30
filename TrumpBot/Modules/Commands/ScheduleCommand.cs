@@ -11,7 +11,6 @@ using Calendar = Ical.Net.Calendar;
 
 namespace TrumpBot.Modules.Commands
 {
-    [Command.CacheOutput(300)]
     public class ScheduleCommand : ICommand
     {
         public string CommandName { get; } = "schedule";
@@ -28,7 +27,12 @@ namespace TrumpBot.Modules.Commands
             bool useCache = true)
         {
             Uri scheduleUri = new Uri("https://www.donaldjtrump.com/rallies/");
-            string scheduleHtml = Http.Get(scheduleUri, fuzzUserAgent: true, compression: true, timeout: 20000);
+            string scheduleHtml = Cache.Get<string>(scheduleUri.AbsoluteUri);
+            if (scheduleHtml == null)
+            {
+                scheduleHtml = Http.Get(scheduleUri, fuzzUserAgent: true, compression: true, timeout: 20000);
+                Cache.Set(scheduleUri.AbsoluteUri, scheduleHtml, DateTimeOffset.Now.AddMinutes(15));
+            }
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(scheduleHtml);
@@ -44,11 +48,17 @@ namespace TrumpBot.Modules.Commands
             {
                 count++;
                 if (count > limit) break;
-                string icalText =
-                    Http.Get(
-                        new Uri("https://www.donaldjtrump.com" +
-                                scheduledEvent.GetAttributeValue("href", "href missing from attribute")),
-                        fuzzUserAgent: true, compression: true, timeout: 20000);
+                string icalPath = scheduledEvent.GetAttributeValue("href", "href missing from attribute");
+                string icalText = Cache.Get<string>(icalPath);
+                if (icalText == null)
+                {
+                    icalText =
+                        Http.Get(
+                            new Uri("https://www.donaldjtrump.com" + icalPath),
+                            fuzzUserAgent: true, compression: true, timeout: 20000);
+                    Cache.Set(icalPath, icalText, DateTimeOffset.Now.AddMinutes(60));
+                }
+
                 var calendar = Calendar.Load(icalText);
                 string location = calendar.Events.First().Location;
                 string tz = string.Empty;
