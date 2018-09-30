@@ -32,19 +32,24 @@ namespace TrumpBot.Modules.Commands
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(scheduleHtml);
+            List<string> result = new List<string>();
+            int limit = 5;
+            if (messageEvent.Message.StartsWith("rally"))
+            {
+                limit = 1;
+            }
 
-            List<Calendar> calendars = new List<Calendar>();
+            int count = 0;
             foreach (var scheduledEvent in document.DocumentNode.SelectNodes("//a[@class=\"add-to-calendar\"]"))
             {
+                count++;
+                if (count > limit) break;
                 string icalText =
-                    Http.Get(new Uri("https://www.donaldjtrump.com" + scheduledEvent.GetAttributeValue("href", "href missing from attribute")),
+                    Http.Get(
+                        new Uri("https://www.donaldjtrump.com" +
+                                scheduledEvent.GetAttributeValue("href", "href missing from attribute")),
                         fuzzUserAgent: true, compression: true, timeout: 20000);
-                calendars.Add(Calendar.Load(icalText));
-            }
-            
-            List<string> result = new List<string>();
-            foreach (var calendar in calendars.Take(5).OrderBy(c => c.Events.First().DtEnd))
-            {
+                var calendar = Calendar.Load(icalText);
                 string location = calendar.Events.First().Location;
                 string tz = string.Empty;
                 string shortTz = string.Empty;
@@ -77,13 +82,14 @@ namespace TrumpBot.Modules.Commands
                 if (!tz.IsNullOrEmpty())
                 {
                     relativeTime = " (" +
-                                   (calendar.Events.First().DtStart.Value -
-                                    TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,
-                                        TimeZoneInfo.FindSystemTimeZoneById(tz)))
-                                   .Humanize()
+                                   calendar.Events.First().DtStart.Value.Humanize(
+                                       dateToCompareAgainst: TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,
+                                           TimeZoneInfo.FindSystemTimeZoneById(tz)))
                                    + ")";
                 }
-                result.Add($"{calendar.Events.First().DtStart.Value:yyyy-MM-dd hh:mm tt}{shortTz}: {calendar.Events.First().Summary}: {location.Replace("\n", " ")}{relativeTime}");
+
+                result.Add(
+                    $"{calendar.Events.First().DtStart.Value:yyyy-MM-dd hh:mm tt}{shortTz}: {calendar.Events.First().Summary}: {location.Replace("\n", " ")}{relativeTime}");
             }
 
             return result;
