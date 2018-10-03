@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using CoinMarketCapApi.Models;
+using Humanizer;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
@@ -60,7 +61,7 @@ namespace TrumpBot.Modules.Commands
                     $"{b}Price:{n} ${Convert.ToDouble(ticker.PriceUsd).ToString("N" + decimalPlaces)} / {ticker.PriceBtc} BTC; {b}Volume (24h):{n} {Convert.ToDecimal(ticker.DayVolumeUsd):n0}; " +
                     $"{b}“Market Cap”:{n} ${Convert.ToDecimal(ticker.MarketCapUsd):n0}; " +
                     $"{b}Change:{n} 1h: {FormatPercentChange(Convert.ToDouble(ticker.PercentChange1Hour))}, 24h: {FormatPercentChange(Convert.ToDouble(ticker.PercentChange24Hours))}, 7d: {FormatPercentChange(Convert.ToDouble(ticker.PercentChange7Days))}; " +
-                    $"{b}Last Updated:{n} {(int) (DateTime.UtcNow - updateDate).TotalMinutes} minutes ago";
+                    $"{b}Last Updated:{n} {(DateTime.UtcNow - updateDate).Humanize()} ago";
 
                 return response.SplitInParts(430).ToList();
             }
