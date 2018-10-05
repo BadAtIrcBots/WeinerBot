@@ -6,7 +6,7 @@ namespace TrumpBot.Extensions
 {
     public static class StringExtensions
     {
-        public static IEnumerable<string> SplitInParts(this string s, int partLength)
+        public static IEnumerable<string> SplitInParts(this string s, int partLength = 430)
         {
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
