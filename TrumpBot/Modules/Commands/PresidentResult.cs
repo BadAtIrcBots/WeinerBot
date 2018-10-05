@@ -10,12 +10,14 @@ namespace TrumpBot.Modules.Commands
 {
     class PresidentResult : ICommand
     {
-        public string CommandName { get; } = "Get head on head results";
+        public string CommandName { get; } = "Get 2016 head on head results";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^president (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "Gets predicted results for hypothetical presidential races, e.g. Carson vs Sanders.";
 
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {

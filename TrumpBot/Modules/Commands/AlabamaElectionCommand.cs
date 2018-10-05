@@ -15,12 +15,16 @@ namespace TrumpBot.Modules.Commands
     [Command.CacheOutput(15)]
     internal class AlabamaElectionCommand : ICommand
     {
-        public string CommandName { get; } = "AlabamaElectionResults";
+        public string CommandName { get; } = "Alabama 2017 Senate Results";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "Fetches Alabama 2017 Senate Election Results from Politico. Spoiler: Roy Moore lost";
+
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^al$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             if (!File.Exists("Config\\al_election.json"))

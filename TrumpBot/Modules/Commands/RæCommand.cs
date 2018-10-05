@@ -9,8 +9,11 @@ namespace TrumpBot.Modules.Commands
 {
     public class RæCommand : ICommand
     {
-        public string CommandName { get; } = "Ræ Command";
+        public string CommandName { get; } = "Ræ";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "rææææææææææææææææææææææææææææææææææææææææææææææææææææææææ";
+
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^ræ$", RegexOptions.Compiled | RegexOptions.IgnoreCase),

@@ -12,12 +12,15 @@ namespace TrumpBot.Modules.Commands
     [Command.CacheOutput(15)]
     internal class GdaxTickerCommand : ICommand
     {
-        public string CommandName { get; } = "GdaxTickerCommand";
+        public string CommandName { get; } = "Get GDAX Ticker";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^gdax$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; }
+
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             GdaxTickerApiModel ticker =
@@ -31,13 +34,16 @@ namespace TrumpBot.Modules.Commands
     [Command.CacheOutput(15)]
     internal class GdaxBcashTickerCommand : ICommand
     {
-        public string CommandName { get; } = "GdaxBcashTickerCommand";
+        public string CommandName { get; } = "Get GDAX BitCoin Cash Ticker";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^gdax bch$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex("^gdax bcash$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; }
+
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             GdaxTickerApiModel ticker =

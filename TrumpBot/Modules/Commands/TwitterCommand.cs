@@ -26,8 +26,11 @@ namespace TrumpBot.Modules.Commands
         [Command.BreakAfterExecution]
         internal class GetTweetByUri : ICommand
         {
-            public string CommandName { get; } = "GetTweetByUri";
+            public string CommandName { get; } = "Get Tweet By URI";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Looks for tweet IDs in Twitter URLs and fetches the Tweet data. The response for this command is customized to leave out the Tweet URL as it is just unnecessary duplication.";
+
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/(?:status|statuses)\/(\d+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
@@ -53,8 +56,11 @@ namespace TrumpBot.Modules.Commands
         [Command.BreakAfterExecution]
         internal class GetTweetByShortUri : ICommand
         {
-            public string CommandName { get; } = "GetTweetByShortUri";
+            public string CommandName { get; } = "Get Tweet By Short URI";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Fetches t.co links and either fetches the Tweet referenced or reveals where the URL redirect is going if it is off site.";
+
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"https?:\/\/t\.co\/(\w+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
@@ -94,8 +100,11 @@ namespace TrumpBot.Modules.Commands
 
         internal class GetTweetByScreenName : ICommand
         {
-            public string CommandName { get; } = "GetTweetByScreenName";
+            public string CommandName { get; } = "Get Tweet By Screen Name";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Fetches a tweet by the screen name, with or without the @. You can provide an index as the second argument to navigate the timeline up to 200 tweets back.";
+
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^tw (\S+)$"),

@@ -9,13 +9,16 @@ namespace TrumpBot.Modules.Commands
 {
     internal class ElectionCountdownCommand : ICommand // Wow this won't get dated at all! 9:00 PM 04/10/2016
     {
-        public string CommandName { get; } = "ElectionCountdown";
+        public string CommandName { get; } = "2016 Election Countdown";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"^countdown$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex(@"^election$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; }
+
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             ElectionDateTimeConfigModel electionDateTime =

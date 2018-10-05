@@ -8,7 +8,7 @@ namespace TrumpBot.Modules.Commands
 {
     public class ElectionCommand : ICommand
     {
-        public string CommandName { get; } = "Election";
+        public string CommandName { get; } = "Get 2016 election results";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
@@ -17,6 +17,8 @@ namespace TrumpBot.Modules.Commands
             new Regex(@"^results (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex(@"^demresults (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "Get the 2016 election results, provide state as an argument or 'us' to get national results.";
 
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {

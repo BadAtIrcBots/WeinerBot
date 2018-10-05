@@ -9,11 +9,13 @@ namespace TrumpBot.Modules.Commands
     {
         internal class VeryHighPriorityCommand : ICommand
         {
-            public string CommandName { get; } = "VeryHighPriorityCommand";
+            public string CommandName { get; } = "Very High Priority Test";
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^prioritytest$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = true;
+            public string HelpDescription { get; set; } = "When you run !the prioritytest command, this should appear first";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.VeryHigh;
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
@@ -23,11 +25,13 @@ namespace TrumpBot.Modules.Commands
 
         internal class NormalPriorityCommand : ICommand
         {
-            public string CommandName { get; } = "NormalPriorityCommand";
+            public string CommandName { get; } = "Normal Priority Test";
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^prioritytest$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = true;
+            public string HelpDescription { get; set; } = "When you run !the prioritytest command, this should appear second";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
@@ -37,11 +41,13 @@ namespace TrumpBot.Modules.Commands
 
         internal class LowPriorityCommand : ICommand
         {
-            public string CommandName { get; } = "LowPriorityCommand";
+            public string CommandName { get; } = "Low Priority Test";
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^prioritytest$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = true;
+            public string HelpDescription { get; set; } = "When you run !the prioritytest command, this should appear third";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Low;
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {

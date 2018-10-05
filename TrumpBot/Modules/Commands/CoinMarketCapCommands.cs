@@ -70,13 +70,16 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(30)]
         internal class GetBitcoinCashTicker : ICommand
         {
-            public string CommandName { get; } = "GetBitcoinCashTicker";
+            public string CommandName { get; } = "Get BitCoin Cash Ticker";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex("^bcc$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex("^bch$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Gets the BitCoin Cash ticker from CoinMarketCap";
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 const string tickerName = "bitcoin-cash";
@@ -101,12 +104,15 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(30)]
         internal class GetBitcoinTicker : ICommand
         {
-            public string CommandName { get; } = "GetBitcoinTicker";
+            public string CommandName { get; } = "Get BitCoin Ticker";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex("^btc$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Gets the BitCoin ticket from CoinMarketCap";
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 const string tickerName = "bitcoin";
@@ -130,12 +136,14 @@ namespace TrumpBot.Modules.Commands
 
         internal class GetGenericTicker : ICommand
         {
-            public string CommandName { get; } = "GetGenericTicker";
+            public string CommandName { get; } = "Get Generic Ticker";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^coin (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Gets any generic coin ticker you want from CoinMarketCap, supports symbols and names.";
 
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent,
                 GroupCollection arguments = null, bool useCache = true)
@@ -186,12 +194,15 @@ namespace TrumpBot.Modules.Commands
 
         internal class GetRandomTicker : ICommand
         {
-            public string CommandName { get; } = "GetRandomTicker";
+            public string CommandName { get; } = "Get Random Ticker";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex("^coin$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Randomly selects a coin and then fetches the ticker from CoinMarketCap.";
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 List<CoinMarketSymbolCacheModel> symbolCache = Cache.Get<List<CoinMarketSymbolCacheModel>>("CoinMarketSymbolCache");
@@ -229,13 +240,16 @@ namespace TrumpBot.Modules.Commands
 
         internal class GetTetherTicker : ICommand
         {
-            public string CommandName { get; } = "GetTetherTicker";
+            public string CommandName { get; } = "Get Tether Ticker";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^usdt$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^tether$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Fetches the Tether ticker from CoinMarketCap and formats it a little differently than the normal tickers.";
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 TickerModel ticker = CoinMarketCapApi.Api.TickerApi.GetTicker("tether").Result[0];
@@ -247,12 +261,15 @@ namespace TrumpBot.Modules.Commands
 
         internal class SearchTickers : ICommand
         {
-            public string CommandName { get; } = "SearchTicker";
+            public string CommandName { get; } = "Search Tickers";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^coinsearch (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Search for a CoinMarketCap symbol or name. You can pass regex to this for some sophisticated searching.";
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 List<CoinMarketSymbolCacheModel> symbolCache = Cache.Get<List<CoinMarketSymbolCacheModel>>("CoinMarketSymbolCache");

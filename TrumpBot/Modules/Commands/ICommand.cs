@@ -9,6 +9,8 @@ namespace TrumpBot.Modules.Commands
         string CommandName { get; }
         List<Regex> Patterns { get; set; }
         Command.CommandPriority Priority { get; set; }
+        bool HideFromHelp { get; set; }
+        string HelpDescription { get; set; }
         
         List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true);
     }

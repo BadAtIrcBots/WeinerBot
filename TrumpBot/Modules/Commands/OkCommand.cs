@@ -15,6 +15,9 @@ namespace TrumpBot.Modules.Commands
         {
             new Regex("👌", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "Returns a 👌 for every usage of 👌";
+
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             int count = new Regex(Regex.Escape("👌")).Matches(messageEvent.Message).Count;

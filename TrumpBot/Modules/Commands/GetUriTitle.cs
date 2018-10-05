@@ -17,13 +17,15 @@ namespace TrumpBot.Modules.Commands
     [Command.DoNotReportException]
     internal class GetUriTitle : ICommand
     {
-        public string CommandName { get; } = "GetTitleForGivenUri";
+        public string CommandName { get; } = "Get Title For Given URI";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Low;
 
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"(https?)://(-\.)?([^\s/?\.#]+\.?)+(/[^\s]*)?", RegexOptions.Compiled | RegexOptions.Multiline)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "Matches links posted to the chat and fetches metadata such as the title and description of the page or size and content type if it is not a text/html response.";
 
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null,
             bool useCache = true)

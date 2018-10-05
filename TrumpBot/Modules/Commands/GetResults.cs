@@ -10,7 +10,7 @@ namespace TrumpBot.Modules.Commands
 {
     internal class GetResults : ICommand
     {
-        public string CommandName { get; } = "Get Poll Results";
+        public string CommandName { get; } = "Get 2016 Primary Poll Results";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
@@ -19,6 +19,8 @@ namespace TrumpBot.Modules.Commands
             new Regex(@"^dempolls$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             new Regex(@"^dempolls (\w+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; }
 
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {

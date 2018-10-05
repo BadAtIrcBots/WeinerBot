@@ -10,7 +10,7 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(600)]
         internal class Now : ICommand
         {
-            public string CommandName { get; } = "FiveThirtyEight-Now";
+            public string CommandName { get; } = "538-Now";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
@@ -19,6 +19,9 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^538$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; }
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsPolls usPolls = FiveThirtyEightPolls.GetUsPolls(useCache);
@@ -32,13 +35,16 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(600)]
         internal class Polls : ICommand
         {
-            public string CommandName { get; } = "FiveThirtyEight-Polls";
+            public string CommandName { get; } = "538-Polls";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^fivethirtyeight [p]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^538 [p]", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; }
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsPolls usPolls = FiveThirtyEightPolls.GetUsPolls(useCache);
@@ -52,13 +58,16 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(600)]
         internal class Plus : ICommand
         {
-            public string CommandName { get; } = "FiveThirtyEight-Plus";
+            public string CommandName { get; } = "538-Plus";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^fivethirtyeight [+]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^538 [+]", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; }
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsPolls usPolls = FiveThirtyEightPolls.GetUsPolls(useCache);
@@ -72,13 +81,16 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(600)]
         internal class WinProbPlus : ICommand
         {
-            public string CommandName { get; } = "FiveThirtyEight-WinProbPlus";
+            public string CommandName { get; } = "538-WinProbPlus";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^538 w [+]$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight w [+]$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; }
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsMap usMap = FiveThirtyEightPolls.GetUsMap(useCache);
@@ -92,7 +104,7 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(600)]
         internal class WinProbNow : ICommand
         {
-            public string CommandName { get; } = "FiveThirtyEight-WinProbNow";
+            public string CommandName { get; } = "538-WinProbNow";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
@@ -101,6 +113,9 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^fivethirtyeight w$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight w n$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; }
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsMap usMap = FiveThirtyEightPolls.GetUsMap(useCache);
@@ -114,13 +129,16 @@ namespace TrumpBot.Modules.Commands
         [Command.CacheOutput(600)]
         internal class WinProbPolls : ICommand
         {
-            public string CommandName { get; } = "FiveThirtyEight-WinProbPolls";
+            public string CommandName { get; } = "538-WinProbPolls";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^538 w p$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^fivethirtyeight w p$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; }
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 FiveThirtyEightPolls.UsMap usMap = FiveThirtyEightPolls.GetUsMap(useCache);

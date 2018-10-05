@@ -165,7 +165,7 @@ namespace TrumpBot.Modules.Commands
 
         internal class QueryWeather : ICommand
         {
-            public string CommandName { get; } = "Weather-QueryWeather";
+            public string CommandName { get; } = "Get Weather";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
@@ -174,6 +174,9 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^weather (?!set)(.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^ws (?!set)(.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Gets the current weather and forecast. The query can be an ICAO code, US zip code, Canadian or UK postal code or just a city/town name. Use 'ws' to get a smaller output that only includes metric units and has less information.";
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 if (arguments == null || arguments.Count == 1)
@@ -224,7 +227,7 @@ namespace TrumpBot.Modules.Commands
 
         internal class SetDefaultUserQuery : ICommand
         {
-            public string CommandName { get; } = "Weather-SetDefaultUserQuery";
+            public string CommandName { get; } = "Set Default Weather Locale";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
@@ -232,6 +235,9 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^wea set (.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^weather set (.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Set your default locale for the weather command so that you can use the command without having to provide a query.";
+
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 if (arguments == null || arguments.Count == 1)
@@ -250,7 +256,7 @@ namespace TrumpBot.Modules.Commands
 
         internal class QueryDefaultWeather : ICommand
         {
-            public string CommandName { get; } = "Weather-QueryDefaultWeather";
+            public string CommandName { get; } = "Get Weather By Default Locale";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
@@ -259,13 +265,15 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^weather$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^ws$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Get the weather where the query is provided by the default value saved for the user. Use 'ws' to get a smaller output that only includes metric units and has less information.";
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 WeatherApiConfigModel weatherApiConfig =
                     ConfigHelpers.LoadConfig<WeatherApiConfigModel>(ConfigHelpers.ConfigPaths.WeatherApiConfig);
                 if (!weatherApiConfig.UserDefaultLocale.ContainsKey(messageEvent.Nick))
                 {
-                    return "User has no default locale set, use 'set' command to set a locale.".SplitInParts(430).ToList();
+                    return $"User has no default locale set, use '{messageEvent.MessageWithPrefix[0]}{arguments[0].Value} set <locale>' command to set a locale.".SplitInParts(430).ToList();
                 }
 
                 ForecastWeatherModel.ForecastWeather forecastWeather;

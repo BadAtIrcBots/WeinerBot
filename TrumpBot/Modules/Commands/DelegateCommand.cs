@@ -9,12 +9,14 @@ namespace TrumpBot.Modules.Commands
     [Command.CacheOutput(600)]
     public class DelegateCommand : ICommand
     {
-        public string CommandName { get; } = "delegate";
+        public string CommandName { get; } = "Get delegates";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("@^delegates$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "Fetches the 2016 GOP Primary delegate stats.";
 
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {

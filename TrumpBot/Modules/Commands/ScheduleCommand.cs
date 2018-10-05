@@ -13,8 +13,10 @@ namespace TrumpBot.Modules.Commands
 {
     public class ScheduleCommand : ICommand
     {
-        public string CommandName { get; } = "schedule";
+        public string CommandName { get; } = "Get DJT Rally Schedule";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; } = "Fetches the DonaldJTrump.com rally schedule, if you run schedule or rallies, it is limited to 5, if you run rally it'll only return the next rally.";
 
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {

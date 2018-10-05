@@ -47,6 +47,7 @@ namespace TrumpBot
             _ircClient.OnChannelMessage += CuckHunt.ProcessMessage;
             _ircClient.OnConnected += Connected;
             _ircClient.OnDisconnected += Disconnected;
+            _ircClient.OnQueryMessage += Command.PrivateMessage;
             _ircClient.AutoNickHandling = true;
             _ircClient.AutoRejoinOnKick = true;
             _ircClient.AutoReconnect = true;

@@ -13,12 +13,15 @@ namespace TrumpBot.Modules.Commands
     [Command.DoNotReportException]
     internal class UrlMention : ICommand
     {
-        public string CommandName { get; } = "UrlMentionHandler";
+        public string CommandName { get; } = "URL Mention Handler";
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex(@"(https?)://(-\.)?([^\s/?\.#]+\.?)+(/[^\s]*)?", RegexOptions.Compiled | RegexOptions.Multiline)
         };
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.High;
+        public bool HideFromHelp { get; set; } = true;
+        public string HelpDescription { get; set; } = "Matches URLs and stores them in a database so that users can later be berated for reusing links.";
+
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             Uri matchedUri = new Uri(arguments[0].Value);

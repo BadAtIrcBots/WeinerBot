@@ -10,12 +10,15 @@ namespace TrumpBot.Modules.Commands
     [Command.CacheOutput(600)]
     public class FranceElectionCommand : ICommand
     {
-        public string CommandName { get; } = "France election results";
+        public string CommandName { get; } = "Get France Election Results";
         public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
         public List<Regex> Patterns { get; set; } = new List<Regex>
         {
             new Regex("^fr$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
+        public bool HideFromHelp { get; set; } = false;
+        public string HelpDescription { get; set; }
+
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             List<FranceElectionApiModel.Election> electionData = new FranceElectionApiModel().GetElectionData(useCache);

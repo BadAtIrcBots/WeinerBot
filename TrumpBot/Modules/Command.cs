@@ -255,6 +255,91 @@ namespace TrumpBot.Modules
             }
         }
 
+        internal void PrivateMessage(object sender, IrcEventArgs eventArgs)
+        {
+            try
+            {
+                string message = eventArgs.Data.Message;
+                string nick = eventArgs.Data.From.GetNick();
+                if (message.ToLower() == "help")
+                {
+                    _client.SendMessage(SendType.Message, nick,
+                        $"This is the command help for this IRC bot. Commands which require a prefix will need to be prefaced with {_config.Prefix}, which is configurable in config.json. The following commands are available:");
+                    string commandListOutput = string.Empty;
+                    foreach (var command in Commands)
+                    {
+                        if (!command.HideFromHelp)
+                        {
+                            commandListOutput += command.CommandName + "; ";
+                        }
+                    }
+
+                    commandListOutput = commandListOutput.TrimEnd(' ').TrimEnd(';');
+                    foreach (var line in commandListOutput.SplitInParts().ToList())
+                    {
+                        _client.SendMessage(SendType.Message, nick, line);
+                    }
+
+                    _client.SendMessage(SendType.Message, nick,
+                        "Type 'help <name>' to get more info, e.g. 'help Get Stock Quote'");
+                    return;
+                }
+
+                Regex regex = new Regex("help (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                if (regex.IsMatch(message))
+                {
+                    var commandName = regex.Match(message).Groups[1].Value;
+                    foreach (var command in Commands)
+                    {
+                        if (!string.Equals(command.CommandName, commandName,
+                            StringComparison.CurrentCultureIgnoreCase)) continue;
+
+                        string patternOutput = string.Empty;
+                        foreach (var pattern in command.Patterns)
+                        {
+                            patternOutput += $"'{pattern}'; ";
+                        }
+
+                        patternOutput =
+                            patternOutput.TrimEnd(' ').TrimEnd(';'); // Dodgy way to clean up the ends of these
+
+                        foreach (var output in
+                            $"{command.CommandName}: {command.HelpDescription} (Regex patterns: {patternOutput})"
+                                .SplitInParts().ToList())
+                        {
+                            _client.SendMessage(SendType.Message, nick, output);
+                        }
+
+                        return;
+                    }
+
+                    _client.SendMessage(SendType.Message, nick,
+                        "Could not find the requested command, please note that the command name must exactly match (though it is not case sensitive).");
+                    return;
+                }
+
+                if (message.ToLower() == "source")
+                {
+                    _client.SendMessage(SendType.Message, nick,
+                        "This bot is open source and the code can be found hosted online at https://github.com/BadAtIrcBots/TrumpBot");
+                    return;
+                }
+
+                _client.SendMessage(SendType.Message, nick,
+                    "You can't run regular commands in PMs with this bot. No prefixes are required in PMs and the available commands are 'help' and 'source'.");
+            }
+            catch (Exception e)
+            {
+                _log.Debug("PM Interface Stacktrace");
+                _log.Debug(e.StackTrace);
+                e.Data.Add("RequestorNick", eventArgs.Data.From.GetNick());
+                e.Data.Add("Message", eventArgs.Data.Message);
+                e.Data.Add("NetworkUri", _ircBot.Settings.ConnectionUri);
+                _ravenClient?.Capture(new SentryEvent(e));
+            }
+
+        }
+
         [AttributeUsage(AttributeTargets.All)]
         internal class NoPrefix : Attribute
         {
