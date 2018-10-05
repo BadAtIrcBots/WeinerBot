@@ -88,7 +88,7 @@ namespace TrumpBot.Modules.Commands
                     return $"URL: {fullUri.AbsoluteUri}".SplitInParts(430).ToList();
                 }
 
-                GroupCollection groups = new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/status\/(\d+)")
+                GroupCollection groups = new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/(?:status|statuses)\/(\d+)")
                     .Match(fullUri.AbsoluteUri).Groups;
 
                 long tweetId = long.Parse(groups[2].Value);
