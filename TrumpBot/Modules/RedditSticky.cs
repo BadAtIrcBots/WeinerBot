@@ -112,7 +112,7 @@ namespace TrumpBot.Modules
                 }
                 catch (Exception e)
                 {
-                    _log.Debug($"Got some other excpetion when attepmting to hit the Reddit API: {e.Message}\r\nStacktrace follows");
+                    _log.Debug($"Got some other exception when attempting to hit the Reddit API: {e.Message}\r\nStacktrace follows");
                     _log.Debug(e);
                     _ravenClient?.Capture(new SentryEvent(e));
                     continue;
