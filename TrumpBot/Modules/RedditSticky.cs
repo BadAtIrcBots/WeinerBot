@@ -83,12 +83,12 @@ namespace TrumpBot.Modules
 
         private List<string> LoadStoredThings()
         {
-            return JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(_config.ThingConfigLocation));
+            return ConfigHelpers.LoadConfig<List<string>>(ConfigHelpers.ConfigPaths.RedditThingsCache);
         }
 
         private void SaveStoredThnigs(List<string> things)
         {
-            File.WriteAllText(_config.ThingConfigLocation, JsonConvert.SerializeObject(things));
+            ConfigHelpers.SaveConfig(things, ConfigHelpers.ConfigPaths.RedditThingsCache);
         }
 
         private void CheckSubreddit()

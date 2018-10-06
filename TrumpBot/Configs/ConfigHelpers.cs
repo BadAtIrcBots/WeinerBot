@@ -33,6 +33,7 @@ namespace TrumpBot.Configs
             public static string YouTubeApiConfig { get; } = "Config\\youtube_api.json";
             public static string UrlHistoryConfig { get; } = "Config\\url_history.json";
             public static string ChannelUriConfig { get; } = "Config\\uri.json";
+            public static string RedditThingsCache { get; } = "Config\\things.json";
         }
     }
 }
