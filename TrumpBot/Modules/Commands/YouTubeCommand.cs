@@ -18,7 +18,8 @@ namespace TrumpBot.Modules.Commands
             public string CommandName { get; } = "Get YouTube Title By URI";
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
-                new Regex(@"(?:youtube.*?(?:v=|\/v\/)|youtu\.be\/|yooouuutuuube.*?id=)([-_a-zA-Z0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline)
+                new Regex(@"(?:youtube.*?(?:v=|\/v\/)|youtu\.be\/|yooouuutuuube.*?id=)([-_a-zA-Z0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline),
+                new Regex(@"https?:\/\/hooktube\.com\/watch\?v=([-_a-zA-Z0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline)
             };
             public bool HideFromHelp { get; set; } = false;
             public string HelpDescription { get; set; } = "Fetches YouTube video metdata by looking for the video ID in teh URL.";
