@@ -9,8 +9,10 @@ using System.Text.RegularExpressions;
 using Humanizer;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
+using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 using TrumpBot.Services;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
@@ -38,9 +40,7 @@ namespace TrumpBot.Modules.Commands
             
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
-                List<string> enabledChannels = JsonConvert
-                    .DeserializeObject<ChannelUriConfig>(File.ReadAllText("Config\\uri.json")).TwitterEnabledChannels;
-
+                var enabledChannels = ConfigHelpers.LoadConfig<ChannelUriConfigModel>(ConfigHelpers.ConfigPaths.ChannelUriConfig).TwitterEnabledChannels;
                 if (!enabledChannels.Contains(messageEvent.Channel)) return null;
 
                 string twitterHandle = arguments[1].Value;
@@ -67,6 +67,9 @@ namespace TrumpBot.Modules.Commands
             };
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
+                var enabledChannels = ConfigHelpers.LoadConfig<ChannelUriConfigModel>(ConfigHelpers.ConfigPaths.ChannelUriConfig).TwitterEnabledChannels;
+                if (!enabledChannels.Contains(messageEvent.Channel)) return null;
+                
                 Uri shortUri = new Uri(arguments[0].Value);
                 Uri fullUri;
 

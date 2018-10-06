@@ -26,6 +26,8 @@ namespace TrumpBot.Modules.Commands
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
+                var enabledChannels = ConfigHelpers.LoadConfig<ChannelUriConfigModel>(ConfigHelpers.ConfigPaths.ChannelUriConfig).YouTubeEnabledChannels;
+                if (!enabledChannels.Contains(messageEvent.Channel)) return null;
                 string videoId = arguments[1].Value;
                 YouTubeApiConfigModel config =
                     ConfigHelpers.LoadConfig<YouTubeApiConfigModel>(ConfigHelpers.ConfigPaths.YouTubeApiConfig);

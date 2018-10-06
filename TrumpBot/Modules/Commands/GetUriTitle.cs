@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Humanizer;
-using Newtonsoft.Json;
 using SharpRaven.Data;
+using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.Commands
 {
@@ -30,7 +30,7 @@ namespace TrumpBot.Modules.Commands
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null,
             bool useCache = true)
         {
-            var config = JsonConvert.DeserializeObject<ChannelUriConfig>(File.ReadAllText("Config\\uri.json"));
+            var config = ConfigHelpers.LoadConfig<ChannelUriConfigModel>(ConfigHelpers.ConfigPaths.ChannelUriConfig);
             List<string> enabledChannels = config.EnabledChannels;
 
             if (!enabledChannels.Contains(messageEvent.Channel)) return null;
@@ -169,16 +169,5 @@ namespace TrumpBot.Modules.Commands
                 description?.TrimStart(' ').Truncate(400)
             };
         }
-    }
-
-    internal class ChannelUriConfig
-    {
-        public List<string> EnabledChannels { get; set; } = new List<string>();
-        public List<string> TwitterEnabledChannels { get; set; } = new List<string>();
-        // Does a .Contains(str) check on domain
-        public List<string> DomainsToIgnoreDescriptions { get; set; } = new List<string>(){"reddit.com"};
-
-        public string UserAgent { get; set; } =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0";
     }
 }

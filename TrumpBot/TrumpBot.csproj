@@ -232,6 +232,7 @@
     <Compile Include="Models\Config\AlabamaElectionConfigModel.cs" />
     <Compile Include="Models\Config\AlphaVantageApiConfigModel.cs" />
     <Compile Include="Models\Config\BanConfigModel.cs" />
+    <Compile Include="Models\Config\ChannelUriConfigModel.cs" />
     <Compile Include="Models\Config\CommandConfigModel.cs" />
     <Compile Include="Models\Config\CuckHuntConfigModel.cs" />
     <Compile Include="Models\Config\DebateModel.cs" />
