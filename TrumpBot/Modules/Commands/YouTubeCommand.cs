@@ -22,7 +22,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"https?:\/\/hooktube\.com\/watch\?v=([-_a-zA-Z0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline)
             };
             public bool HideFromHelp { get; set; } = false;
-            public string HelpDescription { get; set; } = "Fetches YouTube video metdata by looking for the video ID in teh URL.";
+            public string HelpDescription { get; set; } = "Fetches YouTube video metdata by looking for the video ID in the URL.";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
