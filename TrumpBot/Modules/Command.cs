@@ -54,7 +54,7 @@ namespace TrumpBot.Modules
 
         internal List<string> GetCachedMessage(string key)
         {
-            return Cache.Get(key) as List<string>;
+            return Cache.Get<List<string>>(key);
         }
 
         internal void CacheMessage(string key, List<string> message, int secondsUntilExpiration)

@@ -12,13 +12,6 @@ namespace TrumpBot.Services
             cache.Set(key, cacheObject, expiration);
         }
 
-        public static object Get(string key)
-        {
-            ObjectCache cache = MemoryCache.Default;
-
-            return cache[key];
-        }
-
         public static T Get<T>(string key)
         {
             ObjectCache cache = MemoryCache.Default;
