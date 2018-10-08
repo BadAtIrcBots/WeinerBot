@@ -34,6 +34,7 @@ namespace TrumpBot.Configs
             public static string UrlHistoryConfig { get; } = "Config\\url_history.json";
             public static string ChannelUriConfig { get; } = "Config\\uri.json";
             public static string RedditThingsCache { get; } = "Config\\things.json";
+            public static string RcpConfig { get; } = "Config\\rcp_polls.json";
         }
     }
 }

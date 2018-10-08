@@ -240,6 +240,7 @@
     <Compile Include="Models\Config\IrcConfigModel.cs" />
     <Compile Include="Models\Config\NickFloodControlConfigModel.cs" />
     <Compile Include="Models\Config\RandomKickConfigModel.cs" />
+    <Compile Include="Models\Config\RcpConfigModel.cs" />
     <Compile Include="Models\Config\RedditStickyConfigModel.cs" />
     <Compile Include="Models\Config\TetherConfigModel.cs" />
     <Compile Include="Models\Config\TwitterStreamConfigModel.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Models\GdaxTickerApiModel.cs" />
     <Compile Include="Models\IexApiModels.cs" />
     <Compile Include="Models\PoliticoResultsModel.cs" />
+    <Compile Include="Models\RcpModels.cs" />
     <Compile Include="Models\YouTubeApiModels.cs" />
     <Compile Include="Modules\AdminCommands\CommandAdmin.cs" />
     <Compile Include="Modules\AdminCommands\ConfigAdmin.cs" />
@@ -283,6 +285,7 @@
     <Compile Include="Modules\Commands\OkCommand.cs" />
     <Compile Include="Modules\Commands\PresidentResult.cs" />
     <Compile Include="Modules\Commands\PriorityTestCommands.cs" />
+    <Compile Include="Modules\Commands\RcpCommand.cs" />
     <Compile Include="Modules\Commands\ReeCommand.cs" />
     <Compile Include="Modules\Commands\RæCommand.cs" />
     <Compile Include="Modules\Commands\ScheduleCommand.cs" />
@@ -368,6 +371,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\random_kick.json" />
+    <Content Include="Config\rcp_polls.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Config\reddit_sticky.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

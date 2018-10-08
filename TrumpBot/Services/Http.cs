@@ -29,7 +29,8 @@ namespace TrumpBot.Services
                 {
                     return response.Content.ReadAsStringAsync().Result;
                 }
-                throw new HttpException($"Bad HTTP response code: {response.StatusCode}");
+
+                throw new HttpException($"Bad HTTP response code: {response.StatusCode}", response.StatusCode);
             }
         }
 
@@ -57,13 +58,18 @@ namespace TrumpBot.Services
                 {
                     return response.Content.ReadAsStringAsync().Result;
                 }
-                throw new HttpException($"Bad HTTP response code: {response.StatusCode}");
+                throw new HttpException($"Bad HTTP response code: {response.StatusCode}", response.StatusCode);
             }
         }
 
         internal class HttpException : Exception
         {
-            public HttpException(string message) : base(message) { }
+            public HttpStatusCode Code;
+
+            public HttpException(string message, HttpStatusCode code) : base(message)
+            {
+                Code = code;
+            }
         }
     }
 }
