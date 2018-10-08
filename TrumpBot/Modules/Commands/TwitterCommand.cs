@@ -35,7 +35,8 @@ namespace TrumpBot.Modules.Commands
 
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
-                new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/(?:status|statuses)\/(\d+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
+                new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/(?:status|statuses)\/(\d+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase),
+                new Regex(@"https?:\/\/mobile\.twitter\.com\/(?:\#!\/)?(\w+)\/(?:status|statuses)\/(\d+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase)
             };
             
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
