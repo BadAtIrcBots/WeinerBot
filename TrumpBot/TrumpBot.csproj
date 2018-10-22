@@ -248,6 +248,7 @@
     <Compile Include="Models\Config\WeatherApiConfigModel.cs" />
     <Compile Include="Models\Config\YouTubeApiConfigModel.cs" />
     <Compile Include="Models\FiveThirtyEightPolls.cs" />
+    <Compile Include="Models\FoxMidtermsModels.cs" />
     <Compile Include="Models\FranceElectionApiModel.cs" />
     <Compile Include="Models\GdaxTickerApiModel.cs" />
     <Compile Include="Models\IexApiModels.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Modules\Commands\ElectionCommand.cs" />
     <Compile Include="Modules\Commands\ElectionCountdownCommand.cs" />
     <Compile Include="Modules\Commands\FiveThirtyEightCommands.cs" />
+    <Compile Include="Modules\Commands\FoxMidtermCommands.cs" />
     <Compile Include="Modules\Commands\FranceElectionCommand.cs" />
     <Compile Include="Modules\Commands\GdaxTickerCommand.cs" />
     <Compile Include="Modules\Commands\GetResults.cs" />
@@ -324,6 +326,7 @@
     <Compile Include="Services\AlphaVantageApi.cs" />
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\Colours.cs" />
+    <Compile Include="Services\FoxMidterms.cs" />
     <Compile Include="Services\Http.cs" />
     <Compile Include="Services\IexApi.cs" />
     <Compile Include="Services\Log.cs" />
