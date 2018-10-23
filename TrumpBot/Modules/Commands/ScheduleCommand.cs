@@ -40,7 +40,7 @@ namespace TrumpBot.Modules.Commands
             document.LoadHtml(scheduleHtml);
             List<string> result = new List<string>();
             int limit = 5;
-            if (messageEvent.Message.StartsWith("rally"))
+            if (messageEvent.Message.ToLower().StartsWith("rally"))
             {
                 limit = 1;
             }
