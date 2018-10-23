@@ -138,7 +138,7 @@ namespace TrumpBot.Modules.Commands
                                 .GetAttributeValue("content", "no description"))
                             .Replace("\n", string.Empty).Replace("\r", string.Empty);
                     }
-                    catch (NullReferenceException e)
+                    catch (NullReferenceException)
                     {
                         description = "no description";
                     }
