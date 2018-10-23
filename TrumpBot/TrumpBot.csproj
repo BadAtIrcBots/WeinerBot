@@ -310,6 +310,7 @@
     <Compile Include="Modules\Commands\StockQuoteCommands.cs" />
     <Compile Include="Modules\Commands\TwitterCommand.cs" />
     <Compile Include="Modules\Commands\UrlMention.cs" />
+    <Compile Include="Modules\Commands\UserSpamCommand.cs" />
     <Compile Include="Modules\Commands\WeatherCommands.cs" />
     <Compile Include="Modules\Commands\YouTubeCommand.cs" />
     <Compile Include="Modules\CuckHunt.cs" />
