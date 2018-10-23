@@ -183,7 +183,7 @@ namespace TrumpBot.Modules
             {
                 string message = eventArgs.Data.Message.TrimStart(CommandPrefix);
 
-                if (message.StartsWith("cucks"))
+                if (message.ToLower().StartsWith("cucks")) // Not ToLowering before this because case does matter for looking up user stats
                 {
                     List<string> args = message.Split(' ').ToList();
                     if (args.Count > 1)
@@ -241,6 +241,8 @@ namespace TrumpBot.Modules
                     }
 
                 }
+
+                message = message.ToLower(); // Case doesn't matter at this point
                 if (message.StartsWith("deport") || message.StartsWith("getout") || message.StartsWith("helicopter"))
                 {
                     bool kill = message.StartsWith("deport");
