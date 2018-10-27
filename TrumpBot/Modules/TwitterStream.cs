@@ -25,6 +25,8 @@ namespace TrumpBot.Modules
         private ILog _log = LogManager.GetLogger(typeof(TwitterStream));
         private string _breadcrumbName = "TwitterStream Thread";
         private RavenClient _ravenClient = Services.Raven.GetRavenClient();
+        public long LastTrumpTweetId = 0;
+        public long TrumpTwitterId = 25073877;
 
         internal TwitterStream(IrcClient client)
         {
@@ -115,6 +117,11 @@ namespace TrumpBot.Modules
                     Level = BreadcrumbLevel.Info,
                     Data = data
                 });
+
+                if (tweet.CreatedBy.Id == TrumpTwitterId)
+                {
+                    LastTrumpTweetId = tweet.Id;
+                }
 
                 if (stream.IgnoreRetweets && tweet.IsRetweet)
                 {

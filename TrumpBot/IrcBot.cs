@@ -86,7 +86,7 @@ namespace TrumpBot
                 _ircClient.RfcJoin(channel);
             }
             _ravenClient?.AddTrail(new Breadcrumb("Connected") {Message = "Connected to network successfully", Level = BreadcrumbLevel.Info});
-            RedditSticky = new RedditSticky(_ircClient);
+            RedditSticky = new RedditSticky(_ircClient, this);
             if (TwitterStream != null && TetherMonitor != null)
             {
                 return;

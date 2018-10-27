@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using log4net;
 using Meebey.SmartIrc4net;
-using Newtonsoft.Json;
 using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
@@ -24,8 +23,12 @@ namespace TrumpBot.Modules
         private Thread _thread;
         private ILog _log = LogManager.GetLogger(typeof(RedditSticky));
         private RavenClient _ravenClient = Raven.GetRavenClient();
+        private IrcBot _ircBot;
 
-        internal RedditSticky(IrcClient client)
+        private Regex _twitterRegex = new Regex(@"https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/(?:status|statuses)\/(\d+)",
+            RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+        internal RedditSticky(IrcClient client, IrcBot ircBot)
         {
             _ircClient = client;
             LoadConfig();
@@ -125,6 +128,21 @@ namespace TrumpBot.Modules
                         if (!_checkedThings.Contains(child.Thread.Name))
                         {
                             _log.Debug($"Found sticky to broadcast to channels, ID is: {child.Thread.Name}");
+                            var match = _twitterRegex.Match(child.Thread.Url.AbsoluteUri);
+                            if (match.Success)
+                            {
+                                _log.Debug("Looks like this is a Twitter URL");
+                                var tweetIdStr = match.Groups[2].Value;
+                                long tweetId = 0;
+                                if (long.TryParse(tweetIdStr, out tweetId))
+                                {
+                                    if (tweetId == _ircBot.TwitterStream.LastTrumpTweetId)
+                                    {
+                                        _log.Debug("Tweet is a repost of the most recent Trump tweet, ignoring.");
+                                        continue;
+                                    }
+                                }
+                            }
                             foreach (string channel in _config.Channels)
                             {
                                 if (_ircClient.JoinedChannels.Contains(channel))
