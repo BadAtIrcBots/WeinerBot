@@ -282,6 +282,7 @@
     <Compile Include="Modules\Commands\FranceElectionCommand.cs" />
     <Compile Include="Modules\Commands\GdaxTickerCommand.cs" />
     <Compile Include="Modules\Commands\GetResults.cs" />
+    <Compile Include="Modules\Commands\GetTtrpmCommand.cs" />
     <Compile Include="Modules\Commands\GetUriTitle.cs" />
     <Compile Include="Modules\Commands\ICommand.cs" />
     <Compile Include="Modules\Commands\OkCommand.cs" />

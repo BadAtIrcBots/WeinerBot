@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using log4net;
@@ -27,12 +29,15 @@ namespace TrumpBot.Modules
         private RavenClient _ravenClient = Services.Raven.GetRavenClient();
         public long LastTrumpTweetId = 0;
         public long TrumpTwitterId = 25073877;
+        private DateTime _lastTrumpTweetReply = DateTime.MinValue;
+        private List<int> _ttrpmCounts = Enumerable.Repeat(0, 60).ToList(); // Initialises the List<int> with zeroes
 
         internal TwitterStream(IrcClient client)
         {
             _ircClient = client;
             
             LoadConfig();
+            SaveTtrpmToCache(); // Initialise the cache, it'll just be a load of zeroes if the TTRPM feature is turned off
 
             _authenticatedUser = Services.Twitter.GetTwitterUser();
             
@@ -58,6 +63,11 @@ namespace TrumpBot.Modules
             _config = ConfigHelpers.LoadConfig<TwitterStreamConfigModel.StreamConfig>(ConfigHelpers.ConfigPaths
                 .TwitterStreamConfig);
             _log.Debug("TwitterStream has loaded its config");
+        }
+
+        private void SaveTtrpmToCache()
+        {
+            Services.Cache.Set("TTRPM", _ttrpmCounts, DateTime.Now.AddMonths(3)); // We don't really want this cache item to expire
         }
 
         private void TweetThread()
@@ -95,6 +105,21 @@ namespace TrumpBot.Modules
             {
                 ITweet tweet = args.Tweet;
                 _log.Debug($"Found tweet from {tweet.CreatedBy.ScreenName}");
+                if (tweet.InReplyToUserId != null)
+                {
+                    if (tweet.InReplyToUserId == TrumpTwitterId && _config.EnableTtrpm)
+                    {
+                        var currentTime = DateTime.Now;
+                        if (_lastTrumpTweetReply.Minute != currentTime.Minute)
+                        {
+                            _ttrpmCounts[currentTime.Minute] = 0; // Zero out the current count for this minute since a minute has elapsed
+                        }
+
+                        _lastTrumpTweetReply = currentTime;
+                        _ttrpmCounts[currentTime.Minute]++;
+                        SaveTtrpmToCache();
+                    }
+                }
 
                 TwitterStreamConfigModel.Stream stream =
                     _config.Streams.Find(s => s.TwitterUserId == tweet.CreatedBy.Id);

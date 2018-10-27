@@ -12,6 +12,7 @@ namespace TrumpBot.Models.Config
             public string AccessTokenSecret { get; set; }
             public bool Enabled { get; set; } = true;
             public List<Stream> Streams { get; set; }
+            public bool EnableTtrpm { get; set; } = true;
         }
 
         public class Stream
