@@ -9,5 +9,6 @@ namespace TrumpBot.Models.Config
         public int CheckInterval { get; set; }
         public string ThingConfigLocation { get; set; } = "Config\\things.json";
         public bool Enabled { get; set; }
+        public bool IgnoreTrumpTweetReposts { get; set; } = true;
     }
 }
