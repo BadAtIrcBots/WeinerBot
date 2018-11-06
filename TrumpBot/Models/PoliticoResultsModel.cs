@@ -33,7 +33,7 @@ namespace TrumpBot.Models
         public class PartyTotalModel
         {
             [JsonProperty("total")]
-            public int Total { get; set; }
+            public int? Total { get; set; }
             [JsonProperty("flips")] // It's null for 'other'
             public int? Flips { get; set; }
         }
@@ -47,12 +47,7 @@ namespace TrumpBot.Models
             [JsonProperty("other")]
             public PartyTotalModel Other { get; set; }
             [JsonProperty("undecided")]
-            public int Undecided { get; set; }
-            // No idea what the below values will look like
-            [JsonProperty("projected")]
-            public string Projected { get; set; }
-            [JsonProperty("call")]
-            public string Call { get; set; }
+            public int? Undecided { get; set; }
         }
 
         public class ResultsRootModel
