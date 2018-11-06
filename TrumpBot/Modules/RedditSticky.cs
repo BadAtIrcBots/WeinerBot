@@ -31,6 +31,7 @@ namespace TrumpBot.Modules
         internal RedditSticky(IrcClient client, IrcBot ircBot)
         {
             _ircClient = client;
+            _ircBot = ircBot;
             LoadConfig();
             _checkedThings = LoadStoredThings();
             _reddit = new Reddit();
@@ -132,16 +133,23 @@ namespace TrumpBot.Modules
                             if (match.Success)
                             {
                                 _log.Debug("Looks like this is a Twitter URL");
-                                var tweetIdStr = match.Groups[2].Value;
                                 long tweetId = 0;
-                                if (long.TryParse(tweetIdStr, out tweetId))
+                                try
                                 {
-                                    if (tweetId == _ircBot.TwitterStream.LastTrumpTweetId && _config.IgnoreTrumpTweetReposts)
-                                    {
-                                        _log.Debug("Tweet is a repost of the most recent Trump tweet, ignoring.");
-                                        continue;
-                                    }
+                                    tweetId = long.Parse(match.Groups[2].Value);
                                 }
+                                catch (FormatException e)
+                                {
+                                    _log.Debug(e);
+                                    _ravenClient?.Capture(new SentryEvent(e));
+                                    continue;
+                                }
+                                if (tweetId == _ircBot.TwitterStream?.LastTrumpTweetId && _config.IgnoreTrumpTweetReposts)
+                                {
+                                    _log.Debug("Tweet is a repost of the most recent Trump tweet, ignoring.");
+                                    continue;
+                                }
+
                             }
                             foreach (string channel in _config.Channels)
                             {
