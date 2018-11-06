@@ -27,4 +27,40 @@ namespace TrumpBot.Models
         [JsonProperty("winner")]
         public bool Winner { get; set; }
     }
+
+    public class PoliticoMidtermsModels
+    {
+        public class PartyTotalModel
+        {
+            [JsonProperty("total")]
+            public int Total { get; set; }
+            [JsonProperty("flips")] // It's null for 'other'
+            public int? Flips { get; set; }
+        }
+
+        public class RaceModel
+        {
+            [JsonProperty("dem")]
+            public PartyTotalModel Democrats { get; set; }
+            [JsonProperty("gop")]
+            public PartyTotalModel Republicans { get; set; }
+            [JsonProperty("other")]
+            public PartyTotalModel Other { get; set; }
+            [JsonProperty("undecided")]
+            public int Undecided { get; set; }
+            // No idea what the below values will look like
+            [JsonProperty("projected")]
+            public string Projected { get; set; }
+            [JsonProperty("call")]
+            public string Call { get; set; }
+        }
+
+        public class ResultsRootModel
+        {
+            [JsonProperty("house")]
+            public RaceModel House { get; set; }
+            [JsonProperty("senate")]
+            public RaceModel Senate { get; set; }
+        }
+    }
 }

@@ -278,7 +278,7 @@
     <Compile Include="Modules\Commands\ElectionCommand.cs" />
     <Compile Include="Modules\Commands\ElectionCountdownCommand.cs" />
     <Compile Include="Modules\Commands\FiveThirtyEightCommands.cs" />
-    <Compile Include="Modules\Commands\FoxMidtermCommands.cs" />
+    <Compile Include="Modules\Commands\MidtermCommands.cs" />
     <Compile Include="Modules\Commands\FranceElectionCommand.cs" />
     <Compile Include="Modules\Commands\GdaxTickerCommand.cs" />
     <Compile Include="Modules\Commands\GetResults.cs" />
@@ -333,6 +333,7 @@
     <Compile Include="Services\IexApi.cs" />
     <Compile Include="Services\Log.cs" />
     <Compile Include="Services\NickServ.cs" />
+    <Compile Include="Services\Politico.cs" />
     <Compile Include="Services\Raven.cs" />
     <Compile Include="Services\Reddit.cs" />
     <Compile Include="Services\Twitter.cs" />
