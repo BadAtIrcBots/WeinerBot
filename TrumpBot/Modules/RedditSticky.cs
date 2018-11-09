@@ -147,6 +147,8 @@ namespace TrumpBot.Modules
                                 if (tweetId == _ircBot.TwitterStream?.LastTrumpTweetId && _config.IgnoreTrumpTweetReposts)
                                 {
                                     _log.Debug("Tweet is a repost of the most recent Trump tweet, ignoring.");
+                                    _checkedThings.Add(child.Thread.Name);
+                                    SaveStoredThnigs(_checkedThings);
                                     continue;
                                 }
 
