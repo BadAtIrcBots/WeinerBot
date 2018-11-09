@@ -75,6 +75,9 @@ namespace TrumpBot.Models
 
                 [JsonProperty("title")]
                 public string Title { get; set; }
+                
+                [JsonProperty("is_video")]
+                public bool IsVideo { get; set; }
             }
 
             public class SubredditChildren

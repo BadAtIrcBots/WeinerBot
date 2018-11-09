@@ -158,8 +158,17 @@ namespace TrumpBot.Modules
                                     string message = $"{WebUtility.HtmlDecode(child.Thread.Title)} ({child.Thread.Domain}) by {child.Thread.Author}";
                                     if (child.Thread.AuthorFlairText != null)
                                         message += $" ({child.Thread.AuthorFlairText})";
-                                    message +=
-                                        $", link: {WebUtility.UrlDecode(child.Thread.Url.AbsoluteUri).Replace("&amp;", "&")}";
+                                    if (child.Thread.IsVideo)
+                                    {
+                                        message +=
+                                            $", link: https://old.reddit.com{child.Thread.Permalink}";
+                                    }
+                                    else
+                                    {
+                                        message +=
+                                            $", link: {WebUtility.UrlDecode(child.Thread.Url.AbsoluteUri).Replace("&amp;", "&")}";
+                                    }
+
                                     _ircClient.SendMessage(SendType.Message, channel, message);
                                 }
                             }
