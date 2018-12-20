@@ -278,6 +278,7 @@
     <Compile Include="Modules\Commands\ElectionCommand.cs" />
     <Compile Include="Modules\Commands\ElectionCountdownCommand.cs" />
     <Compile Include="Modules\Commands\FiveThirtyEightCommands.cs" />
+    <Compile Include="Modules\Commands\MetarCommand.cs" />
     <Compile Include="Modules\Commands\MidtermCommands.cs" />
     <Compile Include="Modules\Commands\FranceElectionCommand.cs" />
     <Compile Include="Modules\Commands\GdaxTickerCommand.cs" />
