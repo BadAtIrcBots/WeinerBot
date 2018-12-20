@@ -175,7 +175,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^ws (?!set)(.*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
             public bool HideFromHelp { get; set; } = false;
-            public string HelpDescription { get; set; } = "Gets the current weather and forecast. The query can be an ICAO code, US zip code, Canadian or UK postal code or just a city/town name. Use 'ws' to get a smaller output that only includes metric units and has less information.";
+            public string HelpDescription { get; set; } = "Gets the current weather and forecast. The query can be an IATA code, US zip code, Canadian or UK postal code or just a city/town name. Use 'ws' to get a smaller output that only includes metric units and has less information.";
 
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
