@@ -88,5 +88,24 @@ namespace TrumpBot.Modules.Commands
                 return new List<string>{FormatTicker(ticker)};
             }
         }
+
+        [Command.BreakAfterExecution]
+        internal class GetTslaDailyQuote : ICommand
+        {
+            public string CommandName { get; } = "Get TSLA Quote";
+            public List<Regex> Patterns { get; set; } = new List<Regex>
+            {
+                new Regex(@"^tsla$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+            };
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.High;
+            public bool HideFromHelp { get; set; } = true;
+            public string HelpDescription { get; set; } = "Shortcut for GetLatestDailyQuoteBySymbol";
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
+            {
+                GroupCollection newCollection =
+                    new Regex(@"^stock (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase).Match("stock tsla").Groups;
+                return new GetLatestDailyQuoteBySymbol().RunCommand(messageEvent, newCollection, useCache);
+            }
+        }
     }
 }
