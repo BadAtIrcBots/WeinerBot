@@ -225,6 +225,7 @@
     <Compile Include="Configs\ConfigHelpers.cs" />
     <Compile Include="Extensions\IrcMessageDataExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\AirportModel.cs" />
     <Compile Include="Models\AlphaVantageApiModels.cs" />
     <Compile Include="Models\ChannelMessageEventDataModel.cs" />
     <Compile Include="Models\CoinMarketSymbolCacheModel.cs" />

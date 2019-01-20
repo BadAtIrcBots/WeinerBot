@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using TrumpBot.Models;
@@ -20,7 +21,30 @@ namespace TrumpBot.Modules.Commands
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
             string airportCode = arguments[1].Value;
-            Uri metarDataUri = new Uri($"https://www.aviationweather.gov/metar/data?ids={airportCode}&format=raw&hours=0&taf=off&layout=off");
+            Dictionary<string, AirportModel> airports = Cache.Get<Dictionary<string, AirportModel>>("Airports");
+            if (airports == null)
+            {
+                airports = Configs.ConfigHelpers.LoadConfig<Dictionary<string, AirportModel>>(Configs.ConfigHelpers
+                    .ConfigPaths.AirportConfig);
+            }
+            Cache.Set("Airports", airports, DateTimeOffset.Now.AddDays(1));
+            AirportModel airport;
+            try
+            {
+                airport = airports.Single(a =>
+                    string.Equals(a.Value.IATA, airportCode, StringComparison.CurrentCultureIgnoreCase) ||
+                    string.Equals(a.Value.ICAO, airportCode, StringComparison.CurrentCultureIgnoreCase)).Value;
+            }
+            catch (Exception e)
+            {
+                return new List<string>{"Airport probably doesn't exist"};
+            }
+
+            if (airport == null)
+            {
+                return new List<string>{"Airport probably doesn't exist"};
+            }
+            Uri metarDataUri = new Uri($"https://www.aviationweather.gov/metar/data?ids={airport.ICAO}&format=raw&hours=0&taf=off&layout=off");
             string pageHtml = Http.Get(metarDataUri, fuzzUserAgent: true, compression: true);
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(pageHtml);
@@ -29,7 +53,7 @@ namespace TrumpBot.Modules.Commands
             {
                 return new List<string>{"Could not find METAR data for airport"};
             }
-            return new List<string>{metarElement.InnerText};
+            return new List<string>{airport.Name + ": " + metarElement.InnerText};
         }
     }
 }
