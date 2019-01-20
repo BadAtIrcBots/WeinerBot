@@ -347,6 +347,9 @@
     <Content Include="Config\admin_config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Config\airports.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Config\alphavantage_api.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

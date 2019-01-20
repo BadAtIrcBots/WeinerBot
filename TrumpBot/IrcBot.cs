@@ -12,6 +12,7 @@ using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Models.Config;
 using TrumpBot.Modules;
+using TrumpBot.Services;
 
 namespace TrumpBot
 {
@@ -29,6 +30,8 @@ namespace TrumpBot
         internal TwitterStream TwitterStream;
         private readonly RavenClient _ravenClient;
         internal TetherMonitor TetherMonitor;
+        public DateTime LastPong = DateTime.UtcNow;
+        public Thread PongCheck;
 
         public IrcBot(IrcConfigModel.IrcSettings settings)
         {
@@ -48,6 +51,7 @@ namespace TrumpBot
             _ircClient.OnConnected += Connected;
             _ircClient.OnDisconnected += Disconnected;
             _ircClient.OnQueryMessage += Command.PrivateMessage;
+            _ircClient.OnPong += OnPong;
             _ircClient.AutoNickHandling = true;
             _ircClient.AutoRejoinOnKick = true;
             _ircClient.AutoReconnect = true;
@@ -86,6 +90,13 @@ namespace TrumpBot
                 _ircClient.RfcJoin(channel);
             }
             _ravenClient?.AddTrail(new Breadcrumb("Connected") {Message = "Connected to network successfully", Level = BreadcrumbLevel.Info});
+            LastPong = DateTime.UtcNow;
+            if (PongCheck == null || !PongCheck.IsAlive)
+            {
+                PongCheck = new Thread(() => CheckConnectionThread());
+                PongCheck.Start();
+            }
+
             RedditSticky = new RedditSticky(_ircClient, this);
             if (TwitterStream != null && TetherMonitor != null)
             {
@@ -136,6 +147,38 @@ namespace TrumpBot
                         }
                         break;
                 }
+            }
+        }
+
+        private void OnPong(object sender, PongEventArgs e)
+        {
+            Log.LogToFile($"OnPong fired: Lag = {e.Lag.TotalMilliseconds:N}ms, last pong: {LastPong.ToShortDateString()} {LastPong.ToShortTimeString()} UTC", "pong.log");
+            LastPong = DateTime.UtcNow;
+        }
+
+        private void CheckConnectionThread()
+        {
+            Log.LogToFile("CheckConnectionThread created", "pong.log");
+            while (Settings.EnablePongChecking)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, Settings.PongCheckIntervalMs / 1000));
+                Log.LogToFile("Checking last pong time", "pong.log");
+                Log.LogToFile($"IsConnected => {_ircClient.IsConnected}", "pong.log");
+                TimeSpan timeout;
+                if (!Settings.TurboPongTimeoutOnDisconnect || _ircClient.IsConnected)
+                {
+                    timeout = new TimeSpan(0, 0, Settings.PongTimeoutMs / 1000);
+                }
+                else // If smartirc4net is showing we're not connected and the feature is enabled, then speed up the timeout by 10x (reduces to 1 minute with default settings)
+                {
+                    timeout = new TimeSpan(0, 0, Settings.PongTimeoutMs / 10000);
+                }
+                if (DateTime.UtcNow - LastPong <= timeout) continue;
+                
+                Log.LogToFile($"Last pong {(DateTime.UtcNow - LastPong).TotalMilliseconds:N}ms ago, restarting.", "pong.log");
+                System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location,
+                    string.Join(" ", Environment.GetCommandLineArgs()));
+                Environment.Exit(1);
             }
         }
     }
