@@ -157,6 +157,52 @@ namespace TrumpBot.Modules.Commands
                 }
             }
 
+            DateTime? createTime = null;
+            DateTime? modifyTime = null;
+            if (config.AppendMetaDates)
+            {
+                try
+                {
+                    createTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
+                            .SelectSingleNode("//meta[@property=\"article:published_time\"]")
+                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty));
+                }
+                catch (Exception e)
+                {
+                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
+                }
+                
+                try
+                {
+                    modifyTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
+                            .SelectSingleNode("//meta[@property=\"article:modified_time\"]")
+                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty));
+                }
+                catch (Exception e)
+                {
+                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
+                }
+            }
+
+            if (createTime != null)
+            {
+                cleanTitle += $" (created {createTime.Humanize(false, DateTime.Now)}";
+                if (modifyTime != null)
+                {
+                    cleanTitle += ", ";
+                }
+                else
+                {
+                    cleanTitle += ")";
+                }
+            }
+
+            if (modifyTime != null)
+            {
+                cleanTitle += $"modified {modifyTime.Humanize(false, DateTime.Now)})";
+            }
 
             if (description == "no description") description = null;
 

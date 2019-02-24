@@ -11,5 +11,8 @@ namespace TrumpBot.Models.Config
         public List<string> DomainsToIgnoreDescriptions { get; set; } = new List<string> {"reddit.com"};
 
         public string UserAgent { get; set; } =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0";    }
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0";
+
+        public bool AppendMetaDates { get; set; } = true;
+    }
 }
