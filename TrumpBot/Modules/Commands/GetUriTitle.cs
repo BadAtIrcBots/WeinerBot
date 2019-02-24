@@ -175,6 +175,18 @@ namespace TrumpBot.Modules.Commands
                 
                 try
                 {
+                    createTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
+                            .SelectSingleNode("//meta[@name=\"article:published_time\"]")
+                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty));
+                }
+                catch (Exception e)
+                {
+                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
+                }
+                
+                try
+                {
                     modifyTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
                             .SelectSingleNode("//meta[@property=\"article:modified_time\"]")
                             .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
@@ -184,14 +196,36 @@ namespace TrumpBot.Modules.Commands
                 {
                     Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
                 }
+                
+                try
+                {
+                    modifyTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
+                            .SelectSingleNode("//meta[@name=\"article:modified_time\"]")
+                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty));
+                }
+                catch (Exception e)
+                {
+                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
+                }
             }
+
+            bool appendModifyTime = true;
 
             if (createTime != null)
             {
-                cleanTitle += $" (created {createTime.Humanize(false, DateTime.Now)}";
+                cleanTitle += $" (published {createTime.Humanize(false, DateTime.Now)}";
                 if (modifyTime != null)
                 {
-                    cleanTitle += ", ";
+                    if (modifyTime.Humanize(false, DateTime.Now) == createTime.Humanize(false, DateTime.Now))
+                    {
+                        cleanTitle += ")";
+                        appendModifyTime = false;
+                    }
+                    else
+                    {
+                        cleanTitle += ", ";
+                    }
                 }
                 else
                 {
@@ -199,21 +233,27 @@ namespace TrumpBot.Modules.Commands
                 }
             }
 
-            if (modifyTime != null)
+            if (modifyTime != null && appendModifyTime)
             {
+                
                 cleanTitle += $"modified {modifyTime.Humanize(false, DateTime.Now)})";
             }
 
             if (description == "no description") description = null;
-
-            return new List<string>
+            
+            List<string> result = new List<string>
             {
                 WebUtility.HtmlDecode(cleanTitle)
                     .Replace("\r", string.Empty)
                     .Replace("\n", string.Empty)
-                    .TrimStart(' '),
-                description?.TrimStart(' ').Truncate(400)
+                    .TrimStart(' ')
             };
+            if (description != null)
+            {
+                result.Add(WebUtility.HtmlDecode(description.TrimStart(' ').Truncate(400)));
+            }
+
+            return result;
         }
     }
 }
