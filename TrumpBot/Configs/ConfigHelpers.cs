@@ -36,6 +36,7 @@ namespace TrumpBot.Configs
             public static string RedditThingsCache { get; } = "Config\\things.json";
             public static string RcpConfig { get; } = "Config\\rcp_polls.json";
             public static string AirportConfig { get; } = "Config\\airports.json";
+            public static string IexApiConfig { get; } = "Config\\iex_api.json";
         }
     }
 }

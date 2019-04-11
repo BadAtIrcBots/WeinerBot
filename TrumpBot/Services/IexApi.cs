@@ -1,6 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
+using TrumpBot.Configs;
 using TrumpBot.Models;
+using TrumpBot.Models.Config;
 
 namespace TrumpBot.Services
 {
@@ -8,9 +10,14 @@ namespace TrumpBot.Services
     {
         public static IexApiModels.IexQuoteApiModel GetIexQuote(string symbol, bool displayPercent = true)
         {
+            var config = ConfigHelpers.LoadConfig<IexApiConfigModel>(ConfigHelpers.ConfigPaths.IexApiConfig);
+            if (string.IsNullOrEmpty(config.ApiToken))
+            {
+                throw new Exception("IEX API token is null");
+            }
             return JsonConvert.DeserializeObject<IexApiModels.IexQuoteApiModel>(
                 Http.GetJson(
-                    new Uri($"https://api.iextrading.com/1.0/stock/{symbol}/quote?displayPercent={displayPercent}")));
+                    new Uri($"https://cloud.iexapis.com/beta/stock/{symbol}/quote?displayPercent={displayPercent}&token={config.ApiToken}")));
         }
     }
 }

@@ -45,7 +45,8 @@ namespace TrumpBot.Modules.Commands
                 $"{b}Market Cap{n}: ${ticker.MarketCap:N0} - " +
                 $"{b}PE Ratio{n}: {c}{peRatioColour}{ticker.PeRatio}{n} - " +
                 $"{b}YTD Change{n}: {c}{ytdChangeColour}{ticker.YtdChange:P}{n} - " +
-                $"{b}52 Week Low/High{n}: {ticker.Week52Low:N}/{ticker.Week52High:N}";
+                $"{b}52 Week Low/High{n}: {ticker.Week52Low:N}/{ticker.Week52High:N} - " +
+                $"{b}Updated{n}: {ticker.LatestTime}";
         }
 
         internal static string FormatAfterHoursTicker(IexApiModels.IexQuoteApiModel ticker)

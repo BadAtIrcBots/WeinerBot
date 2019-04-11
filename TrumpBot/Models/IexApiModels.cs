@@ -10,10 +10,6 @@ namespace TrumpBot.Models
             public string Symbol { get; set; }
             [JsonProperty("companyName")]
             public string CompanyName { get; set; }
-            [JsonProperty("primaryExchange")]
-            public string PrimaryExchange { get; set; }
-            [JsonProperty("sector")]
-            public string Sector { get; set; }
             [JsonProperty("calculationPrice")]
             public string CalculationPrce { get; set; }
             [JsonProperty("open")]

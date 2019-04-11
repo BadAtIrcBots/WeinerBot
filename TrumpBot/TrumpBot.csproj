@@ -238,6 +238,7 @@
     <Compile Include="Models\Config\CuckHuntConfigModel.cs" />
     <Compile Include="Models\Config\DebateModel.cs" />
     <Compile Include="Models\Config\ElectionDateTimeConfigModel.cs" />
+    <Compile Include="Models\Config\IexApiConfigModel.cs" />
     <Compile Include="Models\Config\IrcConfigModel.cs" />
     <Compile Include="Models\Config\NickFloodControlConfigModel.cs" />
     <Compile Include="Models\Config\RandomKickConfigModel.cs" />
@@ -375,6 +376,10 @@
     <Content Include="Config\election_date.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Config\iex_api.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\iex_api.json.example" />
     <Content Include="Config\polls.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

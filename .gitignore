@@ -217,3 +217,4 @@ TrumpBot/Config/twitter_stream.json
 TrumpBot/Config/weather_api.json
 TrumpBot/Config/alphavantage_api.json
 TrumpBot/Config/youtube_api.json
+TrumpBot/Config/iex_api.json
