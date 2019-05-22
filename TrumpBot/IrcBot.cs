@@ -70,42 +70,61 @@ namespace TrumpBot
 
         private void Connected(object sender, EventArgs eventArgs)
         {
-            if (Settings.NickservPassword != null)
+            try
             {
-                new Services.NickServ(_ircClient, Settings).Identify();
-                int i = 0;
-                while (!_ircClient.Usermode.Contains('r') && i < 20)
+                if (Settings.NickservPassword != null)
                 {
-                    Thread.Sleep(25);
-                    i++;
+                    new Services.NickServ(_ircClient, Settings).Identify();
+                    int i = 0;
+                    while (!_ircClient.Usermode.Contains('r') && i < 20)
+                    {
+                        Thread.Sleep(25);
+                        i++;
+                    }
+
+                    if (i >= 20)
+                    {
+                        _log.Debug("Reached timeout waiting for usermode +r to be set");
+                    }
                 }
 
-                if (i >= 20)
+                foreach (string channel in Settings.AutoJoinChannels)
                 {
-                    _log.Debug("Reached timeout waiting for usermode +r to be set");
+                    _ircClient.RfcJoin(channel);
                 }
+
+                _ravenClient?.AddTrail(new Breadcrumb("Connected")
+                    {Message = "Connected to network successfully", Level = BreadcrumbLevel.Info});
+                LastPong = DateTime.UtcNow;
+                if (PongCheck == null || !PongCheck.IsAlive)
+                {
+                    PongCheck = new Thread(() => CheckConnectionThread());
+                    PongCheck.Start();
+                }
+
+                RedditSticky = new RedditSticky(_ircClient, this);
+                if (TwitterStream != null && TetherMonitor != null)
+                {
+                    return;
+                }
+
+                // Doubleups will occur if an instance of the object had already been created (old one is not disposed)
+                // If this is the first connection these should be null
+                TwitterStream = new TwitterStream(_ircClient);
+                TetherMonitor = new TetherMonitor(_ircClient);
+
             }
-            foreach (string channel in Settings.AutoJoinChannels)
+            catch (Exception e)
             {
-                _ircClient.RfcJoin(channel);
-            }
-            _ravenClient?.AddTrail(new Breadcrumb("Connected") {Message = "Connected to network successfully", Level = BreadcrumbLevel.Info});
-            LastPong = DateTime.UtcNow;
-            if (PongCheck == null || !PongCheck.IsAlive)
-            {
-                PongCheck = new Thread(() => CheckConnectionThread());
-                PongCheck.Start();
+                _log.Error(e);
+                if (e.InnerException != null)
+                {
+                    _log.Error(e.InnerException);
+                }
+
+                throw;
             }
 
-            RedditSticky = new RedditSticky(_ircClient, this);
-            if (TwitterStream != null && TetherMonitor != null)
-            {
-                return;
-            }
-            // Doubleups will occur if an instance of the object had already been created (old one is not disposed)
-            // If this is the first connection these should be null
-            TwitterStream = new TwitterStream(_ircClient);
-            TetherMonitor = new TetherMonitor(_ircClient);
         }
 
         private void Disconnected(object sender, EventArgs eventArgs)

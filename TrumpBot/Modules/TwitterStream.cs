@@ -37,6 +37,12 @@ namespace TrumpBot.Modules
             _ircClient = client;
             
             LoadConfig();
+            if (!_config.Enabled)
+            {
+                // Fuck you and the fucking pile of piss your shitty application came out of. Fuck your shitty API for suddenly not working and causing annoying to trace errors
+                // Come over here and suck my cock @Jack you piece of shit.
+                return;
+            }
             SaveTtrpmToCache(); // Initialise the cache, it'll just be a load of zeroes if the TTRPM feature is turned off
 
             _authenticatedUser = Services.Twitter.GetTwitterUser();
