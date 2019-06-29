@@ -277,6 +277,7 @@
     <Compile Include="Modules\AdminCommands\ConfigAdmin.cs" />
     <Compile Include="Modules\AdminCommands\CrashAdminCommand.cs" />
     <Compile Include="Modules\AdminCommands\CuckHuntAdmin.cs" />
+    <Compile Include="Modules\AdminCommands\GeezAdminCommand.cs" />
     <Compile Include="Modules\AdminCommands\RandomKick.cs" />
     <Compile Include="Modules\AdminCommands\RedditStickyAdmin.cs" />
     <Compile Include="Modules\AdminCommands\ReeAdminCommand.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Modules\Commands\ElectionCommand.cs" />
     <Compile Include="Modules\Commands\ElectionCountdownCommand.cs" />
     <Compile Include="Modules\Commands\FiveThirtyEightCommands.cs" />
+    <Compile Include="Modules\Commands\GeezCommand.cs" />
     <Compile Include="Modules\Commands\MetarCommand.cs" />
     <Compile Include="Modules\Commands\MidtermCommands.cs" />
     <Compile Include="Modules\Commands\FranceElectionCommand.cs" />
@@ -390,6 +392,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\election_date.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\geez.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\iex_api.json">
