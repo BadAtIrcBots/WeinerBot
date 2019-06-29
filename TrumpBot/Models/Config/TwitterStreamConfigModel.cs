@@ -13,6 +13,7 @@ namespace TrumpBot.Models.Config
             public bool Enabled { get; set; } = true;
             public List<Stream> Streams { get; set; }
             public bool EnableTtrpm { get; set; } = true;
+            public bool StreamEnabled { get; set; } = false;
         }
 
         public class Stream

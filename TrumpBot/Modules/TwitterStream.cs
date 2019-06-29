@@ -86,7 +86,7 @@ namespace TrumpBot.Modules
 
             _log.Debug("Tweet thread started!");
 
-            if (!_config.Enabled)
+            if (!_config.StreamEnabled)
             {
                 return;
             }
