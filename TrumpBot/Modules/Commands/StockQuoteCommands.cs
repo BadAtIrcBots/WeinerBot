@@ -96,7 +96,7 @@ namespace TrumpBot.Modules.Commands
                 new Regex(@"^stock (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
             public bool HideFromHelp { get; set; } = false;
-            public string HelpDescription { get; set; } = "Get a stock quote for a given symbol. This uses the IEX v1 API which currently does not support international symbols, pre-market or after hours trading. This will be available with the eventual release of IEX API v2, see https://github.com/iexg/IEX-API/issues/403";
+            public string HelpDescription { get; set; } = "Get a stock quote for a given symbol. This uses the IEX Cloud API which supports extended trading hours and international exchanges.";
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
