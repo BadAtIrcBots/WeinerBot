@@ -291,6 +291,7 @@
     <Compile Include="Modules\Commands\BitcoinForkMonitorCommand.cs" />
     <Compile Include="Modules\Commands\BlockCommand.cs" />
     <Compile Include="Modules\Commands\CoinMarketCapCommands.cs" />
+    <Compile Include="Modules\Commands\CoronaCommands.cs" />
     <Compile Include="Modules\Commands\CurrentYearCommands.cs" />
     <Compile Include="Modules\Commands\DebateCommand.cs" />
     <Compile Include="Modules\Commands\DelegateCommand.cs" />
@@ -400,7 +401,6 @@
     <Content Include="Config\iex_api.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Config\iex_api.json.example" />
     <Content Include="Config\polls.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
