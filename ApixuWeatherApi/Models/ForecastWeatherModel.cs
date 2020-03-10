@@ -44,8 +44,8 @@ namespace ApixuWeatherApi.Models
             public double AvgVisibilityMiles { get; set; }
             [JsonProperty("avghumidity")]
             public double AvgHumidity { get; set; }
-            [JsonProperty("condition")]
-            public CurrentWeatherModel.Condition Condition { get; set; }
+            //[JsonProperty("condition")]
+            //public CurrentWeatherModel.Condition Condition { get; set; }
         }
 
         public class Astro
@@ -72,8 +72,8 @@ namespace ApixuWeatherApi.Models
             public double TempFahrenheit { get; set; }
             [JsonProperty("is_day")]
             public bool IsDay { get; set; }
-            [JsonProperty("condition")]
-            public CurrentWeatherModel.Condition Condition { get; set; }
+            //[JsonProperty("condition")]
+            //public CurrentWeatherModel.Condition Condition { get; set; }
             [JsonProperty("wind_mph")]
             public double WindMph { get; set; }
             [JsonProperty("wind_kph")]

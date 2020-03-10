@@ -13,7 +13,7 @@ namespace ApixuWeatherApi.Weather
             try
             {
                 json =
-                    await Helpers.Http.GetJson(new Uri($"http://api.apixu.com/v1/current.json?key={apiKey}&q={query}"));
+                    await Helpers.Http.GetJson(new Uri($"http://api.weatherstack.com/forecast?access_key={apiKey}&query={query}"));
             }
             catch (Helpers.Http.BadRequestException)
             {

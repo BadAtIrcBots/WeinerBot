@@ -15,9 +15,25 @@ namespace TrumpBot.Modules.Commands
 {
     internal class WeatherCommands
     {
+        internal static class ConversionHelpers
+        {
+            internal static double CelsiusToFahrenheit(float celsius)
+            {
+                return Math.Round((celsius * 9) / 5 + 32, 0);
+            }
+
+            internal static double KilometresToMiles(double kilometres)
+            {
+                return Math.Round(kilometres * 0.621371192, 2);
+            }
+
+            internal static double MmToInch(double millimetres)
+            {
+                return Math.Round(millimetres * 0.0393701, 2);
+            }
+        }
         internal static class FormatResponse
         {
-
             internal static string FormatTemperatureCelsius(double temperature)
             {
                 var colours = new Colours();
@@ -103,30 +119,30 @@ namespace TrumpBot.Modules.Commands
             internal static string FormatWeatherResponse(CurrentWeatherModel.CurrentCondition currentWeather, CurrentWeatherModel.Location location, bool shortWeather = false)
             {
                 var b = IrcConstants.IrcBold;
-                var n = IrcConstants.IrcNormal; // Gets a bit repetative
+                var n = IrcConstants.IrcNormal; // Gets a bit repetitive (also I'm illiterate)
 
                 if (shortWeather)
                 {
                     return
                         $"{b}{location.Name}, {location.Country}{n}: " +
-                        $"{b}Temp:{n} {FormatTemperatureCelsius(currentWeather.TemperatureCelsius)}°C " +
-                        $"(feels like {FormatTemperatureCelsius(currentWeather.FeelsLikeCelsius)}°C); " +
-                        $"{b}Cond:{n} {currentWeather.Condition.Text}; " +
-                        $"{b}Precip:{n} {currentWeather.PrecipitationMillimetres} mm; " +
+                        $"{b}Temp:{n} {FormatTemperatureCelsius(currentWeather.Temperature)}°C " +
+                        $"(feels like {FormatTemperatureCelsius(currentWeather.FeelsLike)}°C); " +
+                        $"{b}Cond:{n} {currentWeather.WeatherDescriptions[0]}; " +
+                        $"{b}Precip:{n} {currentWeather.Precipitation} mm; " +
                         $"{b}Humidity:{n} {currentWeather.Humidity}%; " +
-                        $"at {currentWeather.LastUpdated.ToShortTimeString()} local time";
+                        $"at {currentWeather.ObservationTime} UTC";
                 }
                 return
                     $"Weather at {b}{location.Name}, {location.Region}, {location.Country}{n}: " +
-                    $"{b}Temp:{n} {FormatTemperatureCelsius(currentWeather.TemperatureCelsius)}°C / {FormatTemperatureFahrenheit(currentWeather.TemperatureFahrenheit)}°F " +
-                    $"(feels like {FormatTemperatureCelsius(currentWeather.FeelsLikeCelsius)}°C / {FormatTemperatureFahrenheit(currentWeather.FeelsLikeFahrenheit)}°F); " +
-                    $"{b}Condition:{n} {currentWeather.Condition.Text}; " +
-                    $"{b}Wind:{n} {currentWeather.WindKph} Kph / {currentWeather.WindMph} Mph; " +
-                    $"{b}Precipitation:{n} {currentWeather.PrecipitationMillimetres} mm / {currentWeather.PrecipitationInches} in; " +
+                    $"{b}Temp:{n} {FormatTemperatureCelsius(currentWeather.Temperature)}°C / {FormatTemperatureFahrenheit(ConversionHelpers.CelsiusToFahrenheit(currentWeather.Temperature))}°F " +
+                    $"(feels like {FormatTemperatureCelsius(currentWeather.FeelsLike)}°C / {FormatTemperatureFahrenheit(ConversionHelpers.CelsiusToFahrenheit(currentWeather.FeelsLike))}°F); " +
+                    $"{b}Condition:{n} {currentWeather.WeatherDescriptions[0]}; " +
+                    $"{b}Wind:{n} {currentWeather.WindSpeed} Kph / {ConversionHelpers.KilometresToMiles(currentWeather.WindSpeed)} Mph {currentWeather.WindDirection}; " +
+                    $"{b}Precipitation:{n} {currentWeather.Precipitation} mm / {ConversionHelpers.MmToInch(currentWeather.Precipitation)} in; " +
                     $"{b}Humidity:{n} {currentWeather.Humidity}%; " +
-                    $"{b}Pressure:{n} {currentWeather.PressureMillibars} mbars / {currentWeather.PressureInches} in; " +
-                    $"{b}Visibility:{n} {currentWeather.VisibilityKilometres} km / {currentWeather.VisibilityMiles} mi; " +
-                    $"Observed at {currentWeather.LastUpdated.ToShortTimeString()} local time";
+                    $"{b}Pressure:{n} {currentWeather.Pressure} mbars; " +
+                    $"{b}Visibility:{n} {currentWeather.Visibility} km / {ConversionHelpers.KilometresToMiles( currentWeather.Visibility)} mi; " +
+                    $"Observed at {currentWeather.ObservationTime} UTC";
             }
 
             internal static List<string> FormatForecastResponse(ForecastWeatherModel.Forecast forecast, CurrentWeatherModel.Location location, bool shortWeather = false)
@@ -143,7 +159,7 @@ namespace TrumpBot.Modules.Commands
                         response.Add($"Forecast for {day.Date.ToShortDateString()}: {b}Avg:{n} {FormatTemperatureCelsius(day.Day.AvgTempCelsius)}°C; " +
                                      $"{b}Min:{n} {FormatTemperatureCelsius(day.Day.MinTempCelsius)}°C; " +
                                      $"{b}Max:{n} {FormatTemperatureCelsius(day.Day.MaxTempCelsius)}°C; " +
-                                     $"{b}Cond:{n} {day.Day.Condition.Text}; " +
+                                     //$"{b}Cond:{n} {day.Day.Condition.Text}; " +
                                      $"{b}Precip:{n} {day.Day.TotalPrecipMm} mm; " +
                                      $"{b}Avg Humidity:{n} {day.Day.AvgHumidity}%; " +
                                      $"{b}Astro:{n} Sunrise at {c}{colours.Blue}{day.Astro.Sunrise}{n}, sunset at {c}{colours.Orange}{day.Astro.Sunset}{n}");
@@ -152,7 +168,7 @@ namespace TrumpBot.Modules.Commands
                     response.Add($"Forecast for {day.Date.ToShortDateString()}: {b}Avg:{n} {FormatTemperatureCelsius(day.Day.AvgTempCelsius)}°C / {FormatTemperatureFahrenheit(day.Day.AvgTempFahrenheit)}°F; " +
                                  $"{b}Min:{n} {FormatTemperatureCelsius(day.Day.MinTempCelsius)}°C / {FormatTemperatureFahrenheit(day.Day.MinTempFahrenheit)}°F; " +
                                  $"{b}Max:{n} {FormatTemperatureCelsius(day.Day.MaxTempCelsius)}°C / {FormatTemperatureFahrenheit(day.Day.MaxTempFahrenheit)}°F; " +
-                                 $"{b}Condition:{n} {day.Day.Condition.Text}; " +
+                                 //$"{b}Condition:{n} {day.Day.Condition.Text}; " +
                                  $"{b}Wind (Max):{n} {day.Day.MaxWindKph} Kph / {day.Day.MaxWindMph} Mph; " +
                                  $"{b}Precipitation:{n} {day.Day.TotalPrecipMm} mm / {day.Day.TotalPrecipIn} in; " +
                                  $"{b}Avg Visibility:{n} {day.Day.AvgVisibilityKm} km / {day.Day.AvgVisibilityMiles} mi; " +
@@ -196,14 +212,13 @@ namespace TrumpBot.Modules.Commands
                 WeatherApiConfigModel weatherApiConfig =
                     ConfigHelpers.LoadConfig<WeatherApiConfigModel>(ConfigHelpers.ConfigPaths.WeatherApiConfig);
 
-                ForecastWeatherModel.ForecastWeather forecastWeather;
+                CurrentWeatherModel.CurrentWeather currentWeather;
 
                 try
                 {
-                    forecastWeather =
-                        ApixuWeatherApi.Weather.ForecastWeather
-                            .GetWeatherForecastAsync(query, weatherApiConfig.ApiKey,
-                                days: 1)
+                    currentWeather =
+                        ApixuWeatherApi.Weather.CurrentWeather
+                            .GetCurrentWeatherAsync(query, weatherApiConfig.ApiKey)
                             .Result;
                 }
                 catch (Exception e)
@@ -217,9 +232,9 @@ namespace TrumpBot.Modules.Commands
 
 
 
-                return FormatResponse.FormatWeatherResponse(forecastWeather.Current, forecastWeather.Location, shortWeather: shortQuery)
+                return FormatResponse.FormatWeatherResponse(currentWeather.Current, currentWeather.Location, shortWeather: shortQuery)
                     .SplitInParts(430)
-                    .Concat(FormatResponse.FormatForecastResponse(forecastWeather.Forecast, forecastWeather.Location, shortWeather: shortQuery))
+                    //.Concat(FormatResponse.FormatForecastResponse(forecastWeather.Forecast, forecastWeather.Location, shortWeather: shortQuery))
                     .ToList();
 
             }
@@ -275,17 +290,16 @@ namespace TrumpBot.Modules.Commands
                 {
                     return $"User has no default locale set, use '{messageEvent.MessageWithPrefix[0]}{arguments[0].Value} set <locale>' command to set a locale.".SplitInParts(430).ToList();
                 }
-
-                ForecastWeatherModel.ForecastWeather forecastWeather;
+                
+                CurrentWeatherModel.CurrentWeather currentWeather;
 
                 bool shortQuery = arguments[0].Value == "ws";
 
                 try
                 {
-                    forecastWeather =
-                        ApixuWeatherApi.Weather.ForecastWeather
-                            .GetWeatherForecastAsync(weatherApiConfig.UserDefaultLocale[messageEvent.Nick], weatherApiConfig.ApiKey,
-                                days: 1)
+                    currentWeather =
+                        ApixuWeatherApi.Weather.CurrentWeather
+                            .GetCurrentWeatherAsync(weatherApiConfig.UserDefaultLocale[messageEvent.Nick], weatherApiConfig.ApiKey)
                             .Result;
                 }
                 catch (Exception e)
@@ -297,9 +311,9 @@ namespace TrumpBot.Modules.Commands
                     throw;
                 }
 
-                return FormatResponse.FormatWeatherResponse(forecastWeather.Current, forecastWeather.Location, shortWeather: shortQuery)
+                return FormatResponse.FormatWeatherResponse(currentWeather.Current, currentWeather.Location, shortWeather: shortQuery)
                     .SplitInParts(430)
-                    .Concat(FormatResponse.FormatForecastResponse(forecastWeather.Forecast, forecastWeather.Location, shortWeather: shortQuery))
+                    //.Concat(FormatResponse.FormatForecastResponse(forecastWeather.Forecast, forecastWeather.Location, shortWeather: shortQuery))
                     .ToList();
 
 
