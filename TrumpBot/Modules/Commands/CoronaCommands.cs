@@ -17,7 +17,7 @@ namespace TrumpBot.Modules.Commands
             public string CommandName { get; } = "Get Coronavirus World Stats";
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
-                new Regex(@"^corona")
+                new Regex(@"^corona\S+$")
             };
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public bool HideFromHelp { get; set; } = false;
