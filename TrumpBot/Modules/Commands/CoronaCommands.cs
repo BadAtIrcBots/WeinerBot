@@ -17,7 +17,8 @@ namespace TrumpBot.Modules.Commands
             public string CommandName { get; } = "Get Coronavirus World Stats";
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
-                new Regex(@"^corona\S+$")
+                new Regex(@"^corona\S+$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                new Regex(@"^virus\S+$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public bool HideFromHelp { get; set; } = false;
@@ -25,7 +26,7 @@ namespace TrumpBot.Modules.Commands
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 Uri pageUri = new Uri("https://www.worldometers.info/coronavirus/");
-                string pageHtml = Http.Get(pageUri, fuzzUserAgent: true, compression: true);
+                string pageHtml = Http.Get(pageUri, fuzzUserAgent: true, compression: true, timeout: 20000);
                 HtmlDocument document = new HtmlDocument();
                 document.LoadHtml(pageHtml);
                 var nodes = document.DocumentNode.SelectNodes("//div[@class=\"maincounter-number\"]");
@@ -54,9 +55,8 @@ namespace TrumpBot.Modules.Commands
                 }
 
                 var lastUpdatedNode = document.DocumentNode.SelectSingleNode("//div[contains(text(), \"Last updated\")]");
-                DateTime lastUpdated = DateTime.MinValue;
                 var lastUpdatedSuccess = DateTime.TryParseExact(lastUpdatedNode.InnerText.Replace("Last updated: ", ""),
-                    "MMMM dd, yyyy, HH:mm GMT", null, DateTimeStyles.AssumeLocal, out lastUpdated);
+                    "MMMM dd, yyyy, HH:mm GMT", null, DateTimeStyles.AssumeLocal, out var lastUpdated);
                 if (!lastUpdatedSuccess)
                 {
                     return new List<string>{$"Cases: {cases}; Deaths: {deaths}; Recovered: {recovered}"};
