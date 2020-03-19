@@ -106,7 +106,7 @@ namespace TrumpBot.Modules.Commands
                 if (rowHref == null)
                 {
                     // For some reason there are spaces around the country
-                    var rowTd = document.DocumentNode.SelectSingleNode($"//td[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')=' {country} ']");
+                    var rowTd = document.DocumentNode.SelectSingleNode($"//td[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='{country}']");
                     if (rowTd == null)
                     {
                         return new List<string>{"Can't find country in the table"};
