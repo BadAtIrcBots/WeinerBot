@@ -7,7 +7,7 @@ using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands
 {
-    [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
+    [Admin.RequiredRight(AdminConfigModel.Right.SuperAdmin)]
     [Admin.IgnoreException]
     internal class CrashAdminCommand : IAdminCommand
     {

@@ -8,7 +8,8 @@ namespace TrumpBot.Models.Config
         {
             Guest = 1,
             Moderator = 100,
-            Admin = 1000
+            Admin = 1000,
+            SuperAdmin = 2000
         }
 
         public class Config : BaseModel
