@@ -27,13 +27,45 @@ namespace TrumpBot.Modules.Commands
             {
                 GroupCollection newCollection =
                     new Regex(@"^coron\S+ (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase).Match("corona total").Groups;
-                return new GetCoronaCountryStats().RunCommand(messageEvent, newCollection, useCache);
+                return new GetCoronaRegionStats().RunCommand(messageEvent, newCollection, useCache);
             }
         }
 
-        internal class GetCoronaCountryStats : ICommand
+        internal class GetCoronaMultipleRegionStats : ICommand
         {
-            public string CommandName { get; } = "Get Coronavirus Country Stats";
+            public string CommandName { get; } = "Get Coronavirus Multiple Region Stats";
+            public List<Regex> Patterns { get; set; } = new List<Regex>
+            {
+                new Regex(@"^coron\S+ (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                new Regex(@"^viru\S+ (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+            };
+
+            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
+            public bool HideFromHelp { get; set; } = false;
+            public string HelpDescription { get; set; } = "Get Coronavirus stats for multiple regions, comma separated";
+            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
+            {
+                if (!arguments[1].Value.Contains(","))
+                {
+                    return null;
+                }
+                string[] regions = arguments[1].Value.ToLower().Split(',');
+                var result = new List<string>();
+
+                foreach (var region in regions)
+                {
+                    GroupCollection newCollection =
+                        new Regex(@"^coron\S+ (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase).Match($"corona {region.TrimStart(' ').TrimEnd(' ')}").Groups;
+                    result.Add(new GetCoronaRegionStats().RunCommand(messageEvent, newCollection, useCache)[0]);
+                }
+
+                return result;
+            }
+        }
+
+        internal class GetCoronaRegionStats : ICommand
+        {
+            public string CommandName { get; } = "Get Coronavirus Region Stats";
             public List<Regex> Patterns { get; set; } = new List<Regex>
             {
                 new Regex(@"^coron\S+ (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
@@ -41,9 +73,13 @@ namespace TrumpBot.Modules.Commands
             };
             public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
             public bool HideFromHelp { get; set; } = false;
-            public string HelpDescription { get; set; } = "Get Coronavirus stats by country";
+            public string HelpDescription { get; set; } = "Get Coronavirus stats by region";
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
+                if (arguments[1].Value.Contains(","))
+                {
+                    return null;
+                }
                 string country = arguments[1].Value.ToLower();
                 string pageHtml = Cache.Get<string>("Corona");
                 bool cached = true;
@@ -70,7 +106,7 @@ namespace TrumpBot.Modules.Commands
                 string deaths = columns[4]?.InnerText?.Trim();
                 var deathChange = columns[5]?.InnerText?.Trim() + $" ({columns[6]?.InnerText?.Trim()}%)";
                 string recovered = columns[7]?.InnerText?.Trim();
-                string serious = columns[8]?.InnerText?.Trim();
+                string tests = columns[8]?.InnerText?.Trim();
                 if (cases == null || cases.Trim() == string.Empty)
                 {
                     cases = "None/Unknown";
@@ -83,27 +119,28 @@ namespace TrumpBot.Modules.Commands
                 {
                     recovered = "None/Unknown";
                 }
-                if (serious == null || serious.Trim() == string.Empty)
-                {
-                    serious = "None/Unknown";
-                }
-                if (caseChange == null || caseChange.Trim() == string.Empty)
+                if (caseChange.Trim() == string.Empty)
                 {
                     caseChange = "None/Unknown";
                 }
 
-                if (deathChange == null || deathChange.Trim() == string.Empty)
+                if (deathChange.Trim() == string.Empty)
                 {
                     deathChange = "None/Unknown";
+                }
+
+                if (tests == null || tests.Trim() == string.Empty)
+                {
+                    tests = "None/Unknown";
                 }
                 
                 var lastUpdatedNode = document.DocumentNode.SelectSingleNode("//p[contains(text(), \"updated:\")]//i");
                 if (lastUpdatedNode == null)
                 {
-                    return new List<string>{$"{countryFromTable}: Cases: {cases} (+{caseChange}), Serious: {serious}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Cached: {cached}"};
+                    return new List<string>{$"{countryFromTable}: Cases: {cases} (+{caseChange}), Tests: {tests}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Cached: {cached}"};
                 }
                 
-                return new List<string>{$"{countryFromTable}: Cases: {cases} (+{caseChange}), Serious: {serious}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Last Updated: {lastUpdatedNode.InnerText}, Cached: {cached}"};
+                return new List<string>{$"{countryFromTable}: Cases: {cases} (+{caseChange}), Tests: {tests}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Last Updated: {lastUpdatedNode.InnerText}, Cached: {cached}"};
             }
         }
     }
