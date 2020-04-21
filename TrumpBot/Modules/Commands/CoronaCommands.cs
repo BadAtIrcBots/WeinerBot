@@ -86,7 +86,7 @@ namespace TrumpBot.Modules.Commands
                 if (pageHtml == null)
                 {
                     cached = false;
-                    Uri pageUri = new Uri("https://ncov2019.live/");
+                    Uri pageUri = new Uri("https://ncov2019.live/data");
                     pageHtml = Http.Get(pageUri, fuzzUserAgent: true, compression: true, timeout: 20000);
                     Cache.Set("Corona", pageHtml, DateTimeOffset.Now.AddMinutes(1));
                 }
@@ -103,10 +103,11 @@ namespace TrumpBot.Modules.Commands
 
                 string cases = columns[1]?.InnerText?.Trim();
                 var caseChange = columns[2]?.InnerText?.Trim() + $" ({columns[3]?.InnerText?.Trim()}%)";
-                string deaths = columns[4]?.InnerText?.Trim();
-                var deathChange = columns[5]?.InnerText?.Trim() + $" ({columns[6]?.InnerText?.Trim()}%)";
-                string recovered = columns[7]?.InnerText?.Trim();
-                string tests = columns[8]?.InnerText?.Trim();
+                string critical = columns[4]?.InnerText?.Trim();
+                string deaths = columns[5]?.InnerText?.Trim();
+                var deathChange = columns[6]?.InnerText?.Trim() + $" ({columns[7]?.InnerText?.Trim()}%)";
+                string recovered = columns[8]?.InnerText?.Trim();
+                string active = columns[9]?.InnerText?.Trim();
                 if (cases == null || cases.Trim() == string.Empty)
                 {
                     cases = "None/Unknown";
@@ -129,18 +130,20 @@ namespace TrumpBot.Modules.Commands
                     deathChange = "None/Unknown";
                 }
 
-                if (tests == null || tests.Trim() == string.Empty)
+                if (active == null || active.Trim() == string.Empty)
                 {
-                    tests = "None/Unknown";
+                    active = "None/Unknown";
+                }
+                
+                if (critical == null || critical.Trim() == string.Empty)
+                {
+                    critical = "None/Unknown";
                 }
                 
                 var lastUpdatedNode = document.DocumentNode.SelectSingleNode("//p[contains(text(), \"updated:\")]//i");
-                if (lastUpdatedNode == null)
-                {
-                    return new List<string>{$"{countryFromTable}: Cases: {cases} (+{caseChange}), Tests: {tests}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Cached: {cached}"};
-                }
-                
-                return new List<string>{$"{countryFromTable}: Cases: {cases} (+{caseChange}), Tests: {tests}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Last Updated: {lastUpdatedNode.InnerText}, Cached: {cached}"};
+                string lastUpdatedText = lastUpdatedNode?.InnerText ?? "Unknown";
+
+                return new List<string>{$"{countryFromTable}: Total Cases: {cases} (+{caseChange}), Active: {active}, Critical: {critical}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Last Updated: {lastUpdatedText}, Cached: {cached}"};
             }
         }
     }
