@@ -102,10 +102,10 @@ namespace TrumpBot.Modules.Commands
                 var columns = row.ParentNode.ChildNodes.Where(c => c.Name == "td").ToList();
 
                 string cases = columns[1]?.InnerText?.Trim();
-                var caseChange = columns[2]?.InnerText?.Trim() + $" ({columns[3]?.InnerText?.Trim()}%)";
+                var caseChange = columns[2]?.InnerText?.Trim() + $" ({columns[3]?.InnerText?.Trim()})";
                 string critical = columns[4]?.InnerText?.Trim();
                 string deaths = columns[5]?.InnerText?.Trim();
-                var deathChange = columns[6]?.InnerText?.Trim() + $" ({columns[7]?.InnerText?.Trim()}%)";
+                var deathChange = columns[6]?.InnerText?.Trim() + $" ({columns[7]?.InnerText?.Trim()})";
                 string recovered = columns[8]?.InnerText?.Trim();
                 string active = columns[9]?.InnerText?.Trim();
                 if (cases == null || cases.Trim() == string.Empty)
