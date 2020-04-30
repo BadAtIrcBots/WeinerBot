@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Humanizer;
 using Newtonsoft.Json;
+using TrumpBot.Extensions;
 using TrumpBot.Models;
 using TrumpBot.Services;
 
@@ -53,8 +54,8 @@ namespace TrumpBot.Modules.Commands
                 
                 return new List<string>
                 {
-                    $"<{item.Author}> Up: {item.ThumbsUp}, Down: {item.ThumbsDown} \"{item.Definition.Replace("\n", " ")}\", " +
-                    $"ex: \"{item.Example.Replace("\n", " ")}\", " +
+                    $"<{item.Author}> Up: {item.ThumbsUp}, Down: {item.ThumbsDown}, \"{item.Definition.ReplaceNewlines(" ")}\", " +
+                    $"ex: \"{item.Example.ReplaceNewlines()}\", " +
                     $"{item.WrittenOn.Humanize(true, DateTime.UtcNow)}, {item.Permalink}"
                 };
             }

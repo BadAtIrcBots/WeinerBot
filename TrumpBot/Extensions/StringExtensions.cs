@@ -26,5 +26,10 @@ namespace TrumpBot.Extensions
         {
             return s.Split('!')[0];
         }
+
+        public static string ReplaceNewlines(this string s, string substitution = "")
+        {
+            return s.Replace("\n", substitution).Replace("\r", substitution);
+        }
     }
 }
