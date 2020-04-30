@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using Humanizer;
@@ -12,14 +13,11 @@ namespace TrumpBot.Modules.Commands
 {
     public class UrbanDictionaryCommands
     {
-        [Command.BreakAfterExecution]
         public class GetUdTerm : ICommand
         {
             public string CommandName { get; } = "Get Urban Dictionary Term";
             public List<Regex> Patterns { get; set; } = new List<Regex>
-            {   // Abusing that it'll check the regexes in order ;)
-                new Regex(@"^urban (.+) (\d+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
-                new Regex(@"^ud (.+) (\d+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+            {
                 new Regex(@"^urban (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                 new Regex(@"^ud (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
             };
@@ -29,10 +27,25 @@ namespace TrumpBot.Modules.Commands
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 string term = arguments[1].Value.ToLower().TrimEnd();
-                int index = 1;
-                if (arguments.Count == 3)
+                int index;
+
+                string maybeIndex = term.Split(' ').Last();
+                
+                if (!int.TryParse(maybeIndex, out index))
                 {
-                    index = int.Parse(arguments[2].Value);
+                    index = 1;
+                }
+                else
+                {
+                    int count = term.Split(' ').Length;
+                    var fuckingkillme = term.Split(' ').ToList();
+                    fuckingkillme.RemoveAt(count - 1);
+                    term = string.Join(" ", fuckingkillme.ToArray());
+                }
+
+                if (index == 0)
+                {
+                    return new List<string>{"Nice try asshole"};
                 }
 
                 var definitions =
