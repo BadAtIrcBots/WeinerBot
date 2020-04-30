@@ -12,6 +12,7 @@ namespace TrumpBot.Modules.Commands
 {
     public class UrbanDictionaryCommands
     {
+        [Command.BreakAfterExecution]
         public class GetUdTerm : ICommand
         {
             public string CommandName { get; } = "Get Urban Dictionary Term";
