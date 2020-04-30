@@ -272,6 +272,7 @@
     <Compile Include="Models\IexApiModels.cs" />
     <Compile Include="Models\PoliticoResultsModel.cs" />
     <Compile Include="Models\RcpModels.cs" />
+    <Compile Include="Models\UrbanDictionaryApiModel.cs" />
     <Compile Include="Models\YouTubeApiModels.cs" />
     <Compile Include="Modules\AdminCommands\CommandAdmin.cs" />
     <Compile Include="Modules\AdminCommands\ConfigAdmin.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="Modules\AdminCommands\ToggleCache.cs" />
     <Compile Include="Modules\Commands\StockQuoteCommands.cs" />
     <Compile Include="Modules\Commands\TwitterCommand.cs" />
+    <Compile Include="Modules\Commands\UrbanDictionaryCommands.cs" />
     <Compile Include="Modules\Commands\UrlMention.cs" />
     <Compile Include="Modules\Commands\UserSpamCommand.cs" />
     <Compile Include="Modules\Commands\WeatherCommands.cs" />
