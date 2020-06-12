@@ -1,9 +1,9 @@
 ﻿{
-  "AdminChannels": [ "#trumpmoddev" ],
+  "AdminChannels": [ "#botadmin" ],
   "CommandPrefix": "@",
   "Users": [
     {
-      "Nick": "brayden",
+      "Nick": "admin",
       "Right": 1000
     }
   ]   

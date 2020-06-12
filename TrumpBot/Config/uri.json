@@ -1,4 +1,4 @@
 ﻿{
-  "EnabledChannels": ["#the_donald", "#trump", "#trump-dev"],
-  "TwitterEnabledChannels": ["#trump-dev"]
+  "EnabledChannels": ["#channel", "#channel2"],
+  "TwitterEnabledChannels": ["#channel"]
 }

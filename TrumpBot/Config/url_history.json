@@ -7,15 +7,15 @@
   "PreventNickHighlightList": ["brayden"],
   "Mentions": [
     {
-      "User": "brayden",
+      "User": "user",
       "Link": "https://www.google.com/",
-      "Channel": "#trump-dev",
+      "Channel": "#channel",
       "Timestamp": "2011-07-14T19:43:37Z"
     }
   ],
   "ChannelConfigs": [
     {
-      "Channel": "#trump-dev",
+      "Channel": "#channel",
       "Enabled": true,
       "Responses": ["Womp Womp! This was already linked by {MentionUser} {TimeAgo}"],
       "MatchMentionsFromOtherChannels": true

@@ -1,5 +1,5 @@
 ﻿{
-  "Channels": [ "#trump-dev" ],
+  "Channels": [ "#channel" ],
   "Subreddit": "the_donald",
   "CheckInterval": 30,
   "Enabled": true 

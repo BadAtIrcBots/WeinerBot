@@ -1,11 +1,11 @@
 ﻿{
-  "AutoJoinChannels": [ "#trump-dev", "#trumpmoddev" ],
+  "AutoJoinChannels": [ "#channel", "#channel2" ],
   "ConnectionUri": "irc://irc.synirc.net:6667",
   "Nick": "TrumpBot",
   "RealName": "Donald J. Trump",
   "Username": "trump",
-  "JoinProtectedChannels": [ "#trump-dev" ],
-  "Admins": [ "brayden", "SurakofVulcan" ],
+  "JoinProtectedChannels": [ "#channel2" ],
+  "Admins": [ "admin", "anotheradmin" ],
   "AutoRestart": false,
   "RavenDsn": null
 }
