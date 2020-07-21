@@ -106,8 +106,9 @@ namespace TrumpBot.Modules.Commands
                 string critical = columns[4]?.InnerText?.Trim();
                 string deaths = columns[5]?.InnerText?.Trim();
                 var deathChange = columns[6]?.InnerText?.Trim() + $" ({columns[7]?.InnerText?.Trim()})";
-                string recovered = columns[8]?.InnerText?.Trim();
+                string tests = columns[8]?.InnerText?.Trim();
                 string active = columns[9]?.InnerText?.Trim();
+                string recovered = columns[10]?.InnerText?.Trim();
                 if (cases == null || cases.Trim() == string.Empty)
                 {
                     cases = "None/Unknown";
@@ -140,10 +141,15 @@ namespace TrumpBot.Modules.Commands
                     critical = "None/Unknown";
                 }
                 
+                if (tests == null || tests.Trim() == string.Empty)
+                {
+                    tests = "None/Unknown";
+                }
+                
                 var lastUpdatedNode = document.DocumentNode.SelectSingleNode("//p[contains(text(), \"updated:\")]//i");
                 string lastUpdatedText = lastUpdatedNode?.InnerText ?? "Unknown";
 
-                return new List<string>{$"{countryFromTable}: Total Cases: {cases} (+{caseChange}), Active: {active}, Critical: {critical}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}); Last Updated: {lastUpdatedText}, Cached: {cached}"};
+                return new List<string>{$"{countryFromTable}: Total Cases: {cases} (+{caseChange}), Active: {active}, Critical: {critical}, Deaths: {deaths} (+{deathChange}), Recovered: {recovered}, Tests: {tests}); Last Updated: {lastUpdatedText}, Cached: {cached}"};
             }
         }
     }
