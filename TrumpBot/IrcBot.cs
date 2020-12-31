@@ -42,7 +42,6 @@ namespace TrumpBot
             CuckHunt = new CuckHunt(_ircClient, this);
             _ravenClient = Services.Raven.GetRavenClient();
 
-            _ircClient.OnChannelMessage += MessageReceived;
             _ircClient.OnChannelMessage += Admin.ProcessMessage;
             _ircClient.OnChannelMessage += Command.ProcessMessage;
             _ircClient.OnChannelMessage += CuckHunt.ProcessMessage;
@@ -126,28 +125,6 @@ namespace TrumpBot
         private void Disconnected(object sender, EventArgs eventArgs)
         {
             _ravenClient?.AddTrail(new Breadcrumb("Disconnected") {Message = "Disconnected from network", Level = BreadcrumbLevel.Critical});
-        }
-
-        private void MessageReceived(object sender, IrcEventArgs eventArgs)
-        {
-            string channel = eventArgs.Data.Channel;
-            string message = eventArgs.Data.Message;
-            if (message == null) return;
-            string nick = eventArgs.Data.From.Split('!')[0];
-
-            if (message[0] == CommandPrefix)
-            {
-                string cleanedMessage = message.TrimStart(CommandPrefix);
-                switch (cleanedMessage.ToLower())
-                {
-                    case "fixnick":
-                        if (_ircClient.Nickname != Settings.Nick && Settings.Admins.Contains(nick))
-                        {
-                            _ircClient.RfcNick(Settings.Nick);
-                        }
-                        break;
-                }
-            }
         }
 
         private void OnPong(object sender, PongEventArgs e)

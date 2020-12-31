@@ -15,7 +15,6 @@ namespace TrumpBot.Models.Config
             public bool AutoRestart { get; set; } = true;
             public List<string> AutoJoinChannels { get; set; }
             public List<string> JoinProtectedChannels { get; set; } = new List<string>();
-            public List<string> Admins { get; set; } = new List<string>();
             public string RavenDsn { get; set; } = null;
             public bool EnablePongChecking { get; set; } = true;
             // Timeout in ms to give up and restart the bot

@@ -5,7 +5,6 @@
   "RealName": "Donald J. Trump",
   "Username": "trump",
   "JoinProtectedChannels": [ "#channel2" ],
-  "Admins": [ "admin", "anotheradmin" ],
   "AutoRestart": false,
   "RavenDsn": null
 }
