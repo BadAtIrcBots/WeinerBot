@@ -340,7 +340,6 @@
     <Compile Include="Modules\Commands\WeatherCommands.cs" />
     <Compile Include="Modules\Commands\YouTubeCommand.cs" />
     <Compile Include="Modules\CuckHunt.cs" />
-    <Compile Include="Modules\TetherMonitor.cs" />
     <Compile Include="Modules\TwitterStream.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -416,9 +415,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\ree.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\tether_config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\things.json">

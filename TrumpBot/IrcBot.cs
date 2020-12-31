@@ -28,7 +28,6 @@ namespace TrumpBot
         public Command Command;
         internal TwitterStream TwitterStream;
         private readonly RavenClient _ravenClient;
-        internal TetherMonitor TetherMonitor;
         public DateTime LastPong = DateTime.UtcNow;
         public Thread PongCheck;
 
@@ -101,7 +100,7 @@ namespace TrumpBot
                     PongCheck.Start();
                 }
 
-                if (TwitterStream != null && TetherMonitor != null)
+                if (TwitterStream != null)
                 {
                     return;
                 }
@@ -109,7 +108,6 @@ namespace TrumpBot
                 // Doubleups will occur if an instance of the object had already been created (old one is not disposed)
                 // If this is the first connection these should be null
                 TwitterStream = new TwitterStream(_ircClient);
-                TetherMonitor = new TetherMonitor(_ircClient);
 
             }
             catch (Exception e)
