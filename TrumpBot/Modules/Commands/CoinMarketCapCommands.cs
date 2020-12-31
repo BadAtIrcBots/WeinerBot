@@ -238,27 +238,6 @@ namespace TrumpBot.Modules.Commands
             }
         }
 
-        internal class GetTetherTicker : ICommand
-        {
-            public string CommandName { get; } = "Get Tether Ticker";
-            public Command.CommandPriority Priority { get; set; } = Command.CommandPriority.Normal;
-            public List<Regex> Patterns { get; set; } = new List<Regex>
-            {
-                new Regex(@"^usdt$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
-                new Regex(@"^tether$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
-            };
-            public bool HideFromHelp { get; set; } = false;
-            public string HelpDescription { get; set; } = "Fetches the Tether ticker from CoinMarketCap and formats it a little differently than the normal tickers.";
-
-            public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
-            {
-                TickerModel ticker = CoinMarketCapApi.Api.TickerApi.GetTicker("tether").Result[0];
-                TetherConfigModel tetherConfigModel =
-                    ConfigHelpers.LoadConfig<TetherConfigModel>(ConfigHelpers.ConfigPaths.TetherConfig);
-                return $"{ticker.TickerName}: Total Supply: {Convert.ToDecimal(ticker.TotalSupply):n0} - Available Supply: {Convert.ToDecimal(ticker.AvailableSupply):n0} (-{(Convert.ToDecimal(ticker.TotalSupply) - Convert.ToDecimal(ticker.AvailableSupply)):n0}) - Last issued: ~{(DateTime.UtcNow - tetherConfigModel.LastChange).TotalHours:n2} hours ago".SplitInParts(430).ToList();
-            }
-        }
-
         internal class SearchTickers : ICommand
         {
             public string CommandName { get; } = "Search Tickers";

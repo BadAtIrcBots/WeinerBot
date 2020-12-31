@@ -27,7 +27,6 @@ namespace TrumpBot.Configs
             public static string WeatherApiConfig { get; } = "Config\\weather_api.json";
             public static string RandomKickConfig { get; } = "Config\\random_kick.json";
             public static string AlabamaElectionConfig { get; } = "Config\\al_election.json";
-            public static string TetherConfig { get; } = "Config\\tether_config.json";
             public static string AlphaVantageApiConfig { get; } = "Config\\alphavantage_api.json";
             public static string YouTubeApiConfig { get; } = "Config\\youtube_api.json";
             public static string UrlHistoryConfig { get; } = "Config\\url_history.json";
