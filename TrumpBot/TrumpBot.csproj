@@ -243,12 +243,10 @@
     <Compile Include="Extensions\IrcMessageDataExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Models\AirportModel.cs" />
-    <Compile Include="Models\AlphaVantageApiModels.cs" />
     <Compile Include="Models\ChannelMessageEventDataModel.cs" />
     <Compile Include="Models\CoinMarketSymbolCacheModel.cs" />
     <Compile Include="Models\Config\AdminConfigModel.cs" />
     <Compile Include="Models\Config\AlabamaElectionConfigModel.cs" />
-    <Compile Include="Models\Config\AlphaVantageApiConfigModel.cs" />
     <Compile Include="Models\Config\BanConfigModel.cs" />
     <Compile Include="Models\Config\ChannelUriConfigModel.cs" />
     <Compile Include="Models\Config\CommandConfigModel.cs" />
@@ -348,7 +346,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\AlphaVantageApi.cs" />
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\Colours.cs" />
     <Compile Include="Services\CryptoTickers.cs" />
@@ -371,9 +368,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\airports.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\alphavantage_api.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\al_election.json">
