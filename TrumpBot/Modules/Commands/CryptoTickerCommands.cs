@@ -24,8 +24,8 @@ namespace TrumpBot.Modules.Commands
             public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
             {
                 var tickerData = Services.CryptoTickers.GetFinexPubTicker();
-                return new List<string> {$"Finex - Last: {tickerData.LastPrice:N} - High: {tickerData.High:N} - " +
-                                         $"Low: {tickerData.Low:N} - Volume: {tickerData.Volume:N} - " +
+                return new List<string> {$"Finex - Last: ${tickerData.LastPrice:N} - High: ${tickerData.High:N} - " +
+                                         $"Low: ${tickerData.Low:N} - Volume: {tickerData.Volume:N} - " +
                                          $"Last Updated: {DateTime.UtcNow.Humanize(true, tickerData.Timestamp)}"};
             }
         }
