@@ -260,7 +260,6 @@
     <Compile Include="Models\Config\NickFloodControlConfigModel.cs" />
     <Compile Include="Models\Config\RandomKickConfigModel.cs" />
     <Compile Include="Models\Config\RcpConfigModel.cs" />
-    <Compile Include="Models\Config\RedditStickyConfigModel.cs" />
     <Compile Include="Models\Config\TetherConfigModel.cs" />
     <Compile Include="Models\Config\TwitterStreamConfigModel.cs" />
     <Compile Include="Models\Config\UrlHistoryConfigModel.cs" />
@@ -282,7 +281,6 @@
     <Compile Include="Modules\AdminCommands\CuckHuntAdmin.cs" />
     <Compile Include="Modules\AdminCommands\GeezAdminCommand.cs" />
     <Compile Include="Modules\AdminCommands\RandomKick.cs" />
-    <Compile Include="Modules\AdminCommands\RedditStickyAdmin.cs" />
     <Compile Include="Modules\AdminCommands\ReeAdminCommand.cs" />
     <Compile Include="Modules\AdminCommands\RoleUp.cs" />
     <Compile Include="Modules\AdminCommands\TwitterStreamAdmin.cs" />
@@ -351,7 +349,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Modules\RedditSticky.cs" />
     <Compile Include="Services\AlphaVantageApi.cs" />
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\Colours.cs" />
@@ -416,9 +413,6 @@
     </Content>
     <Content Include="Config\random_kick.json" />
     <Content Include="Config\rcp_polls.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\reddit_sticky.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\ree.json">

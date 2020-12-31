@@ -18,7 +18,6 @@ namespace TrumpBot
 {
     public class IrcBot
     {
-        internal RedditSticky RedditSticky;
         internal IrcConfigModel.IrcSettings Settings;
         private static IrcClient _ircClient = new IrcClient();
         public const char CommandPrefix = '!';
@@ -102,7 +101,6 @@ namespace TrumpBot
                     PongCheck.Start();
                 }
 
-                RedditSticky = new RedditSticky(_ircClient, this);
                 if (TwitterStream != null && TetherMonitor != null)
                 {
                     return;
@@ -130,21 +128,6 @@ namespace TrumpBot
         private void Disconnected(object sender, EventArgs eventArgs)
         {
             _ravenClient?.AddTrail(new Breadcrumb("Disconnected") {Message = "Disconnected from network", Level = BreadcrumbLevel.Critical});
-            try
-            {
-                if (RedditSticky != null)
-                {
-                    if (RedditSticky.IsAlive())
-                    {
-                        RedditSticky?.Stop();
-                    }
-                }
-            }
-            catch (NullReferenceException)
-            {
-                _ravenClient?.Capture(new SentryEvent(
-                    "Against all odds I still got a NullReferenceException when checking for the RedditSticky thread."));
-            }
         }
 
         private void MessageReceived(object sender, IrcEventArgs eventArgs)
