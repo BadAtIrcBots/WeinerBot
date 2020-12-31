@@ -417,9 +417,6 @@
     <Content Include="Config\ree.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Config\things.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Config\twitter_stream.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

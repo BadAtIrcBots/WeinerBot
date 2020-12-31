@@ -23,7 +23,6 @@ namespace TrumpBot.Configs
             public static string DebateConfig { get; } = "Config\\debates.json";
             public static string ElectionDateTimeConfig { get; } = "Config\\election_date.json";
             public static string IrcConfig { get; } = "Config\\config.json";
-            public static string RedditStickyConfig { get; } = "Config\\reddit_sticky.json";
             public static string TwitterStreamConfig { get; } = "Config\\twitter_stream.json";
             public static string WeatherApiConfig { get; } = "Config\\weather_api.json";
             public static string RandomKickConfig { get; } = "Config\\random_kick.json";
@@ -33,7 +32,6 @@ namespace TrumpBot.Configs
             public static string YouTubeApiConfig { get; } = "Config\\youtube_api.json";
             public static string UrlHistoryConfig { get; } = "Config\\url_history.json";
             public static string ChannelUriConfig { get; } = "Config\\uri.json";
-            public static string RedditThingsCache { get; } = "Config\\things.json";
             public static string RcpConfig { get; } = "Config\\rcp_polls.json";
             public static string AirportConfig { get; } = "Config\\airports.json";
             public static string IexApiConfig { get; } = "Config\\iex_api.json";
