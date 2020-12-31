@@ -360,7 +360,6 @@
     <Compile Include="Services\NickServ.cs" />
     <Compile Include="Services\Politico.cs" />
     <Compile Include="Services\Raven.cs" />
-    <Compile Include="Services\Reddit.cs" />
     <Compile Include="Services\Twitter.cs" />
     <Compile Include="Services\UrlHistory.cs" />
   </ItemGroup>
