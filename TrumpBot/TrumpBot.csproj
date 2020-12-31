@@ -15,6 +15,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -265,6 +266,7 @@
     <Compile Include="Models\Config\UrlHistoryConfigModel.cs" />
     <Compile Include="Models\Config\WeatherApiConfigModel.cs" />
     <Compile Include="Models\Config\YouTubeApiConfigModel.cs" />
+    <Compile Include="Models\CryptoTickerModels.cs" />
     <Compile Include="Models\FiveThirtyEightPolls.cs" />
     <Compile Include="Models\FoxMidtermsModels.cs" />
     <Compile Include="Models\FranceElectionApiModel.cs" />
@@ -293,6 +295,7 @@
     <Compile Include="Modules\Commands\BlockCommand.cs" />
     <Compile Include="Modules\Commands\CoinMarketCapCommands.cs" />
     <Compile Include="Modules\Commands\CoronaCommands.cs" />
+    <Compile Include="Modules\Commands\CryptoTickerCommands.cs" />
     <Compile Include="Modules\Commands\CurrentYearCommands.cs" />
     <Compile Include="Modules\Commands\DebateCommand.cs" />
     <Compile Include="Modules\Commands\DelegateCommand.cs" />
@@ -352,9 +355,11 @@
     <Compile Include="Services\AlphaVantageApi.cs" />
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\Colours.cs" />
+    <Compile Include="Services\CryptoTickers.cs" />
     <Compile Include="Services\FoxMidterms.cs" />
     <Compile Include="Services\Http.cs" />
     <Compile Include="Services\IexApi.cs" />
+    <Compile Include="Services\JsonConverters.cs" />
     <Compile Include="Services\Log.cs" />
     <Compile Include="Services\NickServ.cs" />
     <Compile Include="Services\Politico.cs" />
