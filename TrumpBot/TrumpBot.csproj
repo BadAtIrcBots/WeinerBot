@@ -258,7 +258,6 @@
     <Compile Include="Models\Config\NickFloodControlConfigModel.cs" />
     <Compile Include="Models\Config\RandomKickConfigModel.cs" />
     <Compile Include="Models\Config\RcpConfigModel.cs" />
-    <Compile Include="Models\Config\TetherConfigModel.cs" />
     <Compile Include="Models\Config\TwitterStreamConfigModel.cs" />
     <Compile Include="Models\Config\UrlHistoryConfigModel.cs" />
     <Compile Include="Models\Config\WeatherApiConfigModel.cs" />
