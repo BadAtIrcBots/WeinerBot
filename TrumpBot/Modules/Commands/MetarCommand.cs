@@ -35,7 +35,7 @@ namespace TrumpBot.Modules.Commands
                     string.Equals(a.Value.IATA, airportCode, StringComparison.CurrentCultureIgnoreCase) ||
                     string.Equals(a.Value.ICAO, airportCode, StringComparison.CurrentCultureIgnoreCase)).Value;
             }
-            catch (Exception e)
+            catch
             {
                 return new List<string>{"Airport probably doesn't exist"};
             }

@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Globalization;
 using Humanizer;
@@ -51,7 +52,7 @@ namespace TrumpBot.Services
             /// <param name="existingValue">The existing property value of the JSON that is being converted.</param>
             /// <param name="serializer">The calling serializer.</param>
             /// <returns>The object value.</returns>
-            public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue,
+            public override object ReadJson(JsonReader reader, Type objectType, object? existingValue,
                 JsonSerializer serializer)
             {
                 float seconds;
