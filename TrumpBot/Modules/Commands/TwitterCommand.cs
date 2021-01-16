@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,13 +7,11 @@ using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Humanizer;
 using Meebey.SmartIrc4net;
-using Newtonsoft.Json;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models;
 using TrumpBot.Models.Config;
 using TrumpBot.Services;
-using Tweetinvi;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 using HttpMethod = System.Net.Http.HttpMethod;
@@ -46,8 +43,9 @@ namespace TrumpBot.Modules.Commands
 
                 string twitterHandle = arguments[1].Value;
                 long tweetId = long.Parse(arguments[2].Value);
+                var client = Twitter.GetTwitterClient();
 
-                ITweet tweet = Tweet.GetTweet(tweetId);
+                var tweet = client.Tweets.GetTweetAsync(tweetId).Result;
                 return FormatTweet(tweet, false).SplitInParts(430).ToList();
             }
         }
@@ -97,7 +95,9 @@ namespace TrumpBot.Modules.Commands
 
                 long tweetId = long.Parse(groups[2].Value);
 
-                ITweet tweet = Tweet.GetTweet(tweetId);
+                var twitterClient = Twitter.GetTwitterClient();
+
+                var tweet = twitterClient.Tweets.GetTweetAsync(tweetId).Result;
                 return FormatTweet(tweet).SplitInParts(430).ToList();
             }
         }
@@ -139,7 +139,7 @@ namespace TrumpBot.Modules.Commands
                     screenName = screenName.TrimStart('@');
                 }
 
-                var tweets = Timeline.GetUserTimeline(screenName, maximumTweets: index); // Default is 40 tweets
+                var tweets = Twitter.GetTwitterClient().Timelines.GetUserTimelineAsync(screenName).Result; // Default is 40 tweets
 
                 if (tweets == null)
                 {
@@ -173,9 +173,9 @@ namespace TrumpBot.Modules.Commands
             if (tweet.IsRetweet)
             {
                 return
-                    $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {DateTime.Now.Humanize(false, tweet.CreatedAt)}){tweetUriPart}";            }
+                    $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt:yyyy-MM-dd} {tweet.CreatedAt:HH:mm} UTC; {tweet.CreatedAt.Humanize(DateTimeOffset.UtcNow)}){tweetUriPart}";            }
             return
-                $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt.ToShortDateString()} {tweet.CreatedAt.ToShortTimeString()} UTC; {tweet.CreatedAt.Humanize(false, DateTime.Now)}){tweetUriPart}";
+                $"<{b}@{tweet.CreatedBy.ScreenName}>{n}: {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} ({tweet.CreatedAt:yyyy-MM-dd} {tweet.CreatedAt:HH:mm} UTC; {tweet.CreatedAt.Humanize(DateTimeOffset.UtcNow)}){tweetUriPart}";
         }
     }
 }

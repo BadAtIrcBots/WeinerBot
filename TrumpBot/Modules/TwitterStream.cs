@@ -11,6 +11,7 @@ using TrumpBot.Configs;
 using TrumpBot.Models.Config;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Parameters;
@@ -23,6 +24,7 @@ namespace TrumpBot.Modules
         private readonly Thread _thread;
         private TwitterStreamConfigModel.StreamConfig _config;
         private IAuthenticatedUser _authenticatedUser;
+        private TwitterClient _twitterClient;
         internal IFilteredStream FilteredStream;
         private ILog _log = LogManager.GetLogger(typeof(TwitterStream));
         private string _breadcrumbName = "TwitterStream Thread";
@@ -45,20 +47,39 @@ namespace TrumpBot.Modules
             }
             SaveTtrpmToCache(); // Initialise the cache, it'll just be a load of zeroes if the TTRPM feature is turned off
 
-            _authenticatedUser = Services.Twitter.GetTwitterUser();
+            _twitterClient = Services.Twitter.GetTwitterClient();
             
             _ravenClient?.AddTrail(
                 new Breadcrumb(_breadcrumbName) {Message = "Authenticating to Twitter", Level = BreadcrumbLevel.Info});
-            
-            if (_authenticatedUser == null)
+            IAuthenticatedUser authedUser;
+
+            try
             {
-                var exception = ExceptionHandler.GetLastException();
+                authedUser = _twitterClient.Users.GetAuthenticatedUserAsync().Result;
+            }
+            catch (TwitterAuthException e)
+            {
                 _log.Debug(
-                    $"When attempting to authenticate with Twitter, got exception {exception.TwitterDescription}");
+                    $"When attempting to authenticate with Twitter, got exception:{Environment.NewLine}{e}");
                 _log.Debug("Self destructing the Tweet thread");
-                _ravenClient?.Capture(new SentryEvent(exception.WebException));
+                _ravenClient?.Capture(new SentryEvent(e));
                 return;
             }
+            catch (TwitterException e)
+            {
+                _log.Debug($"Got TwitterException when testing creds{Environment.NewLine}{e}");
+                _ravenClient?.Capture(new SentryEvent(e));
+                return;
+            }
+            catch (Exception e)
+            {
+                _log.Debug("Got an exception when testing creds");
+                _log.Debug(e.StackTrace);
+                _ravenClient?.Capture(new SentryEvent(e));
+                return;
+            }
+            
+            _log.Debug($"Auth'd as {authedUser.Name}");
 
             _thread = new Thread(() => TweetThread());
             _thread.Start();
@@ -91,7 +112,7 @@ namespace TrumpBot.Modules
                 return;
             }
 
-            FilteredStream = Stream.CreateFilteredStream();
+            FilteredStream = _twitterClient.Streams.CreateFilteredStream();
             FilteredStream.FilterLevel = StreamFilterLevel.None;
             FilteredStream.StallWarnings = true;
 
@@ -211,7 +232,7 @@ namespace TrumpBot.Modules
                 while (true)
                 {
                     _log.Debug("Attempting to reconnect to Twitter");
-                    FilteredStream.StartStreamMatchingAnyCondition();
+                    FilteredStream.StartMatchingAnyConditionAsync().Wait();
                 }
             };
 
@@ -223,7 +244,7 @@ namespace TrumpBot.Modules
                     new SentryEvent($"Twitter stream falling behind, queue {args.WarningMessage.PercentFull}% full"));
             };
 
-            FilteredStream.StartStreamMatchingAnyCondition();
+            FilteredStream.StartMatchingAnyConditionAsync().Wait();
         }
     }
 }

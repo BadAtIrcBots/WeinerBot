@@ -43,8 +43,9 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
-      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.9.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
+      <HintPath>..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -152,8 +153,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Reflection.TypeExtensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <HintPath>..\packages\System.Reflection.TypeExtensions.4.3.0\lib\net46\System.Reflection.TypeExtensions.dll</HintPath>
+    <Reference Include="System.Reflection.TypeExtensions, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Reflection.TypeExtensions.4.5.1\lib\net461\System.Reflection.TypeExtensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
@@ -195,44 +197,36 @@
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.dll</HintPath>
+    <Reference Include="Tweetinvi, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi.Controllers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Controllers.dll</HintPath>
+    <Reference Include="Tweetinvi.Controllers, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.Controllers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi.Core, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Core.dll</HintPath>
+    <Reference Include="Tweetinvi.Core, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi.Credentials, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Credentials.dll</HintPath>
+    <Reference Include="Tweetinvi.Credentials, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.Credentials.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi.Factories, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Factories.dll</HintPath>
+    <Reference Include="Tweetinvi.Logic, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.Logic.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi.Logic, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Logic.dll</HintPath>
+    <Reference Include="Tweetinvi.Security, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Security.dll</HintPath>
+    <Reference Include="Tweetinvi.Streams, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.Streams.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tweetinvi.Streams, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Streams.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Tweetinvi.Webhooks, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Webhooks.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Tweetinvi.WebLogic, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9">
-      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.WebLogic.dll</HintPath>
+    <Reference Include="Tweetinvi.WebLogic, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TweetinviAPI.5.0.3\lib\netstandard2.0\Tweetinvi.WebLogic.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
