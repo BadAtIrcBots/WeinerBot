@@ -248,7 +248,7 @@ namespace TrumpBot.Modules.Commands
                     .Replace("\n", string.Empty)
                     .TrimStart(' ')
             };
-            if (description != null)
+            if (description != null && description != result[0])
             {
                 result.Add(WebUtility.HtmlDecode(description.TrimStart(' ').Truncate(400)));
             }
