@@ -90,6 +90,10 @@ namespace TrumpBot.Modules
 
         internal void RunCommand(IrcEventArgs eventArgs, ICommand command, Match match)
         {
+            if (eventArgs.Data.Message == null)
+            {
+                return;
+            }
             string message = eventArgs.Data.Message.TrimStart(CommandPrefix);
             string nick = eventArgs.Data.Nick.Split('!')[0];
             bool cached = false;
@@ -187,6 +191,10 @@ namespace TrumpBot.Modules
 
         internal void ProcessMessage(object sender, IrcEventArgs eventArgs)
         {
+            if (eventArgs.Data.Message == null)
+            {
+                return;
+            }
             string message = eventArgs.Data.Message.TrimStart(CommandPrefix);
             string nick = eventArgs.Data.Nick.Split('!')[0];
             _log.Debug($"Got message '{message}' and nick '{nick}'");

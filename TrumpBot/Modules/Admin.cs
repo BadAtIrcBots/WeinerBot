@@ -50,6 +50,10 @@ namespace TrumpBot.Modules
             _log.Debug($"Processing message: {eventArgs.Data.Message}");
             //if (eventArgs.Data.Message[0] != Config.CommandPrefix) return;
 
+            if (eventArgs.Data.Message == null)
+            {
+                return;
+            }
             string message = eventArgs.Data.Message.TrimStart(Config.CommandPrefix);
             string nick = eventArgs.Data.From.Split('!')[0];
             AdminConfigModel.Right inferredRight = Config.AdminChannels.Contains(eventArgs.Data.Channel) ? AdminConfigModel.Right.Admin : AdminConfigModel.Right.Guest;

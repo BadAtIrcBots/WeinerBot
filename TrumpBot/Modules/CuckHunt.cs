@@ -175,6 +175,10 @@ namespace TrumpBot.Modules
 
         public void ProcessMessage(object sender, IrcEventArgs eventArgs)
         {
+            if (eventArgs.Data.Message == null)
+            {
+                return;
+            }
             string nick = eventArgs.Data.From.Split('!')[0];
             string channel = eventArgs.Data.Channel;
 
