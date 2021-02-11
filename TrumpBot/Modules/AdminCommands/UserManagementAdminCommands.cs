@@ -94,7 +94,7 @@ namespace TrumpBot.Modules.AdminCommands
                 }
 
                 var regex = new Regex(regexPattern);
-                List<string> kickList = client.GetChannel(eventArgs.Data.Channel).Users.Keys.Cast<string>().Where(user => regex.Match(user).Success).ToList();
+                List<string> kickList = client.GetChannel(channel).Users.Keys.Cast<string>().Where(user => regex.Match(user).Success).ToList();
 
                 int cooldown = 200; // Ms between kick waves
                 int waveSize = 4;
