@@ -60,7 +60,7 @@ namespace TrumpBot.Modules.Commands
                     {
                         return new List<string>{$"[URL] {response.Content.Headers.ContentType?.MediaType};{response.Content.Headers.ContentType?.CharSet} No content length"};
                     }
-                    return new List<string>{$"[URL] {response.Content.Headers.ContentType?.MediaType};{response.Content.Headers.ContentType?.CharSet} {response.Content.Headers.ContentLength.Value.Kilobytes()} KB"};
+                    return new List<string>{$"[URL] {response.Content.Headers.ContentType?.MediaType};{response.Content.Headers.ContentType?.CharSet} {contentLength / 1024} KB"};
                 }
                 
                 if (response.IsSuccessStatusCode)
