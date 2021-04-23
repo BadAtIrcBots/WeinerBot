@@ -62,14 +62,6 @@ namespace TrumpBot.Modules
             Cache.Set(key, message, DateTimeOffset.UtcNow.AddSeconds(secondsUntilExpiration));
         }
 
-        internal void StopAllThreads()
-        {
-            foreach (Thread thread in Threads)
-            {
-                thread.Abort();
-            }
-        }
-
         internal void CleanupThreads()
         {
             // Thread cleanup

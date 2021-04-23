@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using log4net;
 using Meebey.SmartIrc4net;
+using Newtonsoft.Json;
 using SharpRaven;
 using SharpRaven.Data;
 using TrumpBot.Configs;
@@ -86,10 +87,15 @@ namespace TrumpBot.Modules
                 .CuckHuntConfig);
         }
 
-        public void CuckThreadCallback(string channel, int sleepTime)
+        public void CuckThreadCallback(string channel, int sleepTime, CancellationToken cancellationToken)
         {
             _log.Debug($"{channel} cuck thread sleeping for {sleepTime / 1000} seconds");
             Thread.Sleep(sleepTime);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                _log.Debug("CuckThread woke up to find it has now been cancelled. Sad :(");
+                return;
+            }
             if (IsCuckPresent(channel)) // Only possible if someone is fucking with the admin tools now
             {
                 _log.Debug($"Cuck already present in {channel}, skipping");
@@ -101,7 +107,8 @@ namespace TrumpBot.Modules
                 {
                     if (LastActivity[channel].LastCuckSpawn > LastActivity[channel].LastMessage && _config.NoSpawnOnNoActivity)
                     {
-                        _log.Debug($"Skipping scheduled cuck spawn in {channel} as it is inactive.");
+                        _log.Debug($"Skipping scheduled cuck spawn in {channel} as it is inactive. LastActivity data follows");
+                        _log.Debug(JsonConvert.SerializeObject(LastActivity, Formatting.Indented));
                         CreateThread(channel);
                         return;
                     }
@@ -202,10 +209,9 @@ namespace TrumpBot.Modules
                         }
                         else
                         {
-                            _client.SendMessage(SendType.Message, channel,
-    $"{stat.GetEmOutCount} cucks removed, {stat.KilledCount} cucks deported and {stat.HelicopterCount} taken for a helicopter ride by {stat.Nick}");
+                            _client.SendMessage(SendType.Message, channel, 
+                                $"{stat.GetEmOutCount} cucks removed, {stat.KilledCount} cucks deported and {stat.HelicopterCount} taken for a helicopter ride by {stat.Nick}");
                         }
-
                     }
                     else
                     {
@@ -360,20 +366,22 @@ namespace TrumpBot.Modules
                     }
                     
                     // Early return is necessary so cuckhunt commands don't count as "channel activity"
+                    // tfw I fucked it up and the activity feature never worked
                     return;
                 }
-                if (LastActivity.ContainsKey(channel))
+            }
+            
+            if (LastActivity.ContainsKey(channel))
+            {
+                LastActivity[channel].LastMessage = DateTime.Now;
+            }
+            else
+            {
+                LastActivity.Add(channel, new ActivityTime
                 {
-                    LastActivity[channel].LastMessage = DateTime.Now;
-                }
-                else
-                {
-                    LastActivity.Add(channel, new ActivityTime
-                    {
-                        LastCuckSpawn = DateTime.MinValue,
-                        LastMessage = DateTime.Now
-                    });
-                }
+                    LastCuckSpawn = DateTime.MinValue,
+                    LastMessage = DateTime.Now
+                });
             }
         }
 
@@ -399,8 +407,9 @@ namespace TrumpBot.Modules
         public void CreateThread(string channel)
         {
             int sleepTime = _getRandom();
-            Thread newThread = new Thread(() => CuckThreadCallback(channel, sleepTime));
-            _threads.Add(new CuckThread { Channel = channel, Thread = newThread });
+            CancellationTokenSource cts = new CancellationTokenSource();
+            Thread newThread = new Thread(() => CuckThreadCallback(channel, sleepTime, cts.Token));
+            _threads.Add(new CuckThread { Channel = channel, Thread = newThread, Cts = cts});
             newThread.Start();
         }
 
@@ -416,7 +425,7 @@ namespace TrumpBot.Modules
             if (cuckThread == null) return;
             if (!cuckThread.Thread.IsAlive) return;
             
-            cuckThread.Thread.Abort();
+            cuckThread.Cts.Cancel();
             _threads.Remove(cuckThread);
         }
 
@@ -488,6 +497,7 @@ namespace TrumpBot.Modules
         {
             public string Channel { get; set; }
             public Thread Thread { get; set; }
+            public CancellationTokenSource Cts { get; set; }
         }
 
         public class Cuck
