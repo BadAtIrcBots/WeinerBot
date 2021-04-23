@@ -145,6 +145,7 @@ namespace TrumpBot.Modules
             catch (Exception e)
             {
                 _log.Debug("Stacktrace");
+                _log.Debug(e.Source + ": " + e.Message);
                 _log.Debug(e.StackTrace);
 
                 if (reportException && e.InnerException == null
