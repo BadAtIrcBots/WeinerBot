@@ -65,13 +65,10 @@ namespace TrumpBot.Modules.Commands
                 }
 
                 var item = definitions.List[index - 1];
-                
-                return new List<string>
-                {
-                    $"<{item.Author}> Up: {item.ThumbsUp}, Down: {item.ThumbsDown}, \"{item.Definition.ReplaceNewlines(" ")}\", " +
-                    $"ex: \"{item.Example.ReplaceNewlines()}\", " +
-                    $"{item.WrittenOn.Humanize(true, DateTime.UtcNow)}, {item.Permalink}"
-                };
+
+                return
+                    $"<{item.Author}> Up: {item.ThumbsUp}, Down: {item.ThumbsDown}, \"{item.Definition.ReplaceNewlines(" ")}\", ex: \"{item.Example.ReplaceNewlines()}\", {item.WrittenOn.Humanize(true, DateTime.UtcNow)}, {item.Permalink}"
+                        .Truncate(1290).SplitInParts().ToList();
             }
         }
     }
