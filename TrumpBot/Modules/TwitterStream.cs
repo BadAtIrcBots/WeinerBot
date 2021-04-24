@@ -28,10 +28,6 @@ namespace TrumpBot.Modules
         private ILog _log = LogManager.GetLogger(typeof(TwitterStream));
         private string _breadcrumbName = "TwitterStream Thread";
         private RavenClient _ravenClient = Services.Raven.GetRavenClient();
-        public long LastTrumpTweetId = 0;
-        public long TrumpTwitterId = 25073877;
-        private DateTime _lastTrumpTweetReply = DateTime.MinValue;
-        private List<int> _ttrpmCounts = Enumerable.Repeat(0, 60).ToList(); // Initialises the List<int> with zeroes
 
         internal TwitterStream(IrcClient client)
         {
@@ -44,8 +40,7 @@ namespace TrumpBot.Modules
                 // Come over here and suck my cock @Jack you piece of shit.
                 return;
             }
-            SaveTtrpmToCache(); // Initialise the cache, it'll just be a load of zeroes if the TTRPM feature is turned off
-
+            
             _twitterClient = Services.Twitter.GetTwitterClient();
             
             _ravenClient?.AddTrail(
@@ -91,11 +86,6 @@ namespace TrumpBot.Modules
             _log.Debug("TwitterStream has loaded its config");
         }
 
-        private void SaveTtrpmToCache()
-        {
-            Services.Cache.Set("TTRPM", _ttrpmCounts, DateTime.Now.AddMonths(3)); // We don't really want this cache item to expire
-        }
-
         private void TweetThread()
         {
             _ravenClient?.AddTrail(new Breadcrumb(_breadcrumbName)
@@ -131,21 +121,6 @@ namespace TrumpBot.Modules
             {
                 ITweet tweet = args.Tweet;
                 _log.Debug($"Found tweet from {tweet.CreatedBy.ScreenName}");
-                if (tweet.InReplyToUserId != null)
-                {
-                    if (tweet.InReplyToUserId == TrumpTwitterId && _config.EnableTtrpm)
-                    {
-                        var currentTime = DateTime.Now;
-                        if (_lastTrumpTweetReply.Minute != currentTime.Minute)
-                        {
-                            _ttrpmCounts[currentTime.Minute] = 0; // Zero out the current count for this minute since a minute has elapsed
-                        }
-
-                        _lastTrumpTweetReply = currentTime;
-                        _ttrpmCounts[currentTime.Minute]++;
-                        SaveTtrpmToCache();
-                    }
-                }
 
                 TwitterStreamConfigModel.Stream stream =
                     _config.Streams.Find(s => s.TwitterUserId == tweet.CreatedBy.Id);
@@ -168,11 +143,6 @@ namespace TrumpBot.Modules
                     Level = BreadcrumbLevel.Info,
                     Data = data
                 });
-
-                if (tweet.CreatedBy.Id == TrumpTwitterId)
-                {
-                    LastTrumpTweetId = tweet.Id;
-                }
 
                 if (stream.IgnoreRetweets && tweet.IsRetweet)
                 {
