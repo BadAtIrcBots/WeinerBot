@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -8,6 +9,7 @@ using HtmlAgilityPack;
 using Humanizer;
 using SharpRaven.Data;
 using TrumpBot.Configs;
+using TrumpBot.Extensions;
 using TrumpBot.Models;
 using TrumpBot.Models.Config;
 
@@ -78,73 +80,51 @@ namespace TrumpBot.Modules.Commands
 
             if (matchedUri.Host.Contains("imgur"))
             {
-                string imgurTitle = WebUtility.HtmlDecode(document.DocumentNode.SelectSingleNode("//meta[@property=\"og:title\"]")
-                    .GetAttributeValue("content", "og:title missing"));
-                if (document.DocumentNode.SelectSingleNode("//meta[@property=\"og:type\"]").GetAttributeValue("content", "og:type missing").ToLower()
+                string imgurTitle = document.DocumentNode.ParseHtmlAttribute("//meta[@property=\"og:title\"]",
+                    "content", "og:title missing");
+                if (document.DocumentNode.ParseHtmlAttribute("//meta[@property=\"og:type\"]", "content", "og:type missing").ToLower()
                     .Contains("video.other"))
                 {
                     return new List<string>
                     {
-                        $"{imgurTitle} - {document.DocumentNode.SelectSingleNode("//meta[@name=\"twitter:player:stream\"]").GetAttributeValue("content", "twitter:player:stream missing")}"
+                        $"{imgurTitle} - {document.DocumentNode.ParseHtmlAttribute("//meta[@name=\"twitter:player:stream\"]", "content", "twitter:player:stream missing")}"
                     };
                 }
-                if (document.DocumentNode.SelectSingleNode("//meta[@property=\"og:type\"]").GetAttributeValue("content", "og:type missing").ToLower()
+
+                if (document.DocumentNode
+                    .ParseHtmlAttribute("//meta[@property=\"og:type\"]", "content", "og:type missing").ToLower()
                     .Contains("article"))
                 {
                     return new List<string>
                     {
-                        $"{imgurTitle} - {document.DocumentNode.SelectSingleNode("//meta[@name=\"twitter:image\"]").GetAttributeValue("content", "twitter:image missing")}"
+                        $"{imgurTitle} - {document.DocumentNode.ParseHtmlAttribute("//meta[@name=\"twitter:image\"]", "content", "twitter:image missing")}"
                     };
                 }
             }
 
-            HtmlNode title = document.DocumentNode.SelectSingleNode("//title");
-            if (title == null || title.InnerText == "") return null;
-
-            var cleanTitle = title.InnerText;
-
-            if (matchedUri.Host.Contains("twitter"))
-            {
-                cleanTitle = cleanTitle.Replace("&quot;", "");
-            }
+            var title = document.DocumentNode.ParseHtmlElement("//title");
+            if (title == null) return null;
 
             string description = null;
             bool fetchDescription = true;
-            foreach (var domain in config.DomainsToIgnoreDescriptions)
+            foreach (var domain in
+                config.DomainsToIgnoreDescriptions.Where(domain => matchedUri.Host.Contains(domain)))
             {
-                if (matchedUri.Host.Contains(domain))
-                {
-                    fetchDescription = false;
-                }
+                fetchDescription = false;
             }
 
             if (fetchDescription)
             {
-                try
-                {
-                    try
-                    {
-                        description = WebUtility.HtmlDecode(document.DocumentNode
-                                .SelectSingleNode("//meta[@name=\"description\"]")
-                                .GetAttributeValue("content", "no description"))
-                            .Replace("\n", string.Empty).Replace("\r", string.Empty);
-                    }
-                    catch (NullReferenceException)
-                    {
-                        description = "no description";
-                    }
+                description =
+                    document.DocumentNode.ParseHtmlAttribute("//meta[@name=\"description\"]", "content",
+                        "no description");
 
-                    if (description == "no description")
-                    {
-                        description = WebUtility.HtmlDecode(document.DocumentNode
-                                .SelectSingleNode("//meta[@property=\"og:description\"]")
-                                .GetAttributeValue("content", "no description"))
-                            .Replace("\n", string.Empty).Replace("\r", string.Empty);
-                    }
-                }
-                catch (Exception e)
+                var ogDescription = document.DocumentNode.ParseHtmlAttribute("//meta[@property=\"og:description\"]",
+                    "content", "no description");
+
+                if (description == "no description" || ogDescription.Length > description.Length)
                 {
-                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
+                    description = ogDescription;
                 }
             }
 
@@ -152,96 +132,57 @@ namespace TrumpBot.Modules.Commands
             DateTime? modifyTime = null;
             if (config.AppendMetaDates)
             {
-                try
-                {
-                    createTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
-                            .SelectSingleNode("//meta[@property=\"article:published_time\"]")
-                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
-                        .Replace("\r", string.Empty));
-                }
-                catch (Exception e)
-                {
-                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
-                }
-                
-                try
-                {
-                    createTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
-                            .SelectSingleNode("//meta[@name=\"article:published_time\"]")
-                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
-                        .Replace("\r", string.Empty));
-                }
-                catch (Exception e)
-                {
-                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
-                }
-                
-                try
-                {
-                    modifyTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
-                            .SelectSingleNode("//meta[@property=\"article:modified_time\"]")
-                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
-                        .Replace("\r", string.Empty));
-                }
-                catch (Exception e)
-                {
-                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
-                }
-                
-                try
-                {
-                    modifyTime = DateTime.Parse(WebUtility.HtmlDecode(document.DocumentNode
-                            .SelectSingleNode("//meta[@name=\"article:modified_time\"]")
-                            .GetAttributeValue("content", "no value")).Replace("\n", string.Empty)
-                        .Replace("\r", string.Empty));
-                }
-                catch (Exception e)
-                {
-                    Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
-                }
+                createTime =
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@property=\"article:published_time\"]",
+                        "content") ?? document.DocumentNode.ParseHtmlAttributeDateTime(
+                        "//meta[@name=\"article:published_time\"]",
+                        "content");
+
+                modifyTime =
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@property=\"article:modified_time\"]",
+                        "content") ?? document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@name=\"article:modified_time\"]",
+                        "content");
             }
 
             bool appendModifyTime = true;
 
             if (createTime != null)
             {
-                cleanTitle += $" (published {createTime.Humanize(false, DateTime.Now)}";
+                title += $" (published {createTime.Humanize(false, DateTime.Now)}";
                 if (modifyTime != null)
                 {
                     if (modifyTime.Humanize(false, DateTime.Now) == createTime.Humanize(false, DateTime.Now))
                     {
-                        cleanTitle += ")";
+                        title += ")";
                         appendModifyTime = false;
                     }
                     else
                     {
-                        cleanTitle += ", ";
+                        title += ", ";
                     }
                 }
                 else
                 {
-                    cleanTitle += ")";
+                    title += ")";
                 }
             }
 
             if (modifyTime != null && appendModifyTime)
             {
                 
-                cleanTitle += $"modified {modifyTime.Humanize(false, DateTime.Now)})";
+                title += $"modified {modifyTime.Humanize(false, DateTime.Now)})";
             }
 
             if (description == "no description") description = null;
             
             List<string> result = new List<string>
             {
-                WebUtility.HtmlDecode(cleanTitle)
-                    .Replace("\r", string.Empty)
-                    .Replace("\n", string.Empty)
-                    .TrimStart(' ')
+                title
+                .TrimStart(' ')
             };
             if (description != null && description != result[0])
             {
-                result.Add(WebUtility.HtmlDecode(description.TrimStart(' ').Truncate(400)));
+                result.Add(description.TrimStart(' ').Truncate(400));
             }
 
             return result;
