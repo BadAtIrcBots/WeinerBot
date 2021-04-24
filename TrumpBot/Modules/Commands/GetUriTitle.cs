@@ -133,15 +133,18 @@ namespace TrumpBot.Modules.Commands
             if (config.AppendMetaDates)
             {
                 createTime =
-                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@property=\"article:published_time\"]",
-                        "content") ?? document.DocumentNode.ParseHtmlAttributeDateTime(
-                        "//meta[@name=\"article:published_time\"]",
-                        "content");
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@property=\"article:published_time\"]", "content") ?? 
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@name=\"article:published_time\"]", "content") ?? 
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@name=\"article.published\"]", "content") ??
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@itemprop=\"dateCreated\"]", "content") ??
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@itemprop=\"datePublished\"]", "content") ??
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@name=\"article.created\"]", "content");
 
                 modifyTime =
-                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@property=\"article:modified_time\"]",
-                        "content") ?? document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@name=\"article:modified_time\"]",
-                        "content");
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@property=\"article:modified_time\"]", "content") ??
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@name=\"article:modified_time\"]", "content") ??
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@itemprop=\"dateModified\"]", "content") ??
+                    document.DocumentNode.ParseHtmlAttributeDateTime("//meta[@name=\"article.updated\"]", "content");
             }
 
             bool appendModifyTime = true;
