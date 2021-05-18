@@ -191,7 +191,7 @@ namespace TrumpBot.Modules
             FilteredStream.StreamStopped += (sender, args) =>
             {
                 _log.Debug("Twitter stream disconnected with following reason");
-                _log.Debug(args.DisconnectMessage.Reason);
+                _log.Debug(args.DisconnectMessage?.Reason);
                 _ravenClient?.Capture(new SentryEvent(args.Exception) {Message = "Stream stopped"});
                 if (args.DisconnectMessage != null) // If socket closed for "reasons" this will be null
                 {
