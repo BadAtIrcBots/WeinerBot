@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -153,8 +154,7 @@ namespace TrumpBot
                 if (DateTime.UtcNow - LastPong <= timeout) continue;
                 
                 Log.LogToFile($"Last pong {(DateTime.UtcNow - LastPong).TotalMilliseconds:N}ms ago, restarting.", "pong.log");
-                System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location,
-                    string.Join(" ", Environment.GetCommandLineArgs()));
+                Process.Start(Process.GetCurrentProcess().MainModule.FileName);
                 Environment.Exit(1);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using SharpRaven;
@@ -35,8 +36,7 @@ namespace TrumpBot
             RavenClient ravenClient = Services.Raven.GetRavenClient();
             ravenClient?.Capture(new SentryEvent(exception));
             Thread.Sleep(1000); // Give us time to stop it if this is just happening in a loop!
-            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location,
-                string.Join(" ", Environment.GetCommandLineArgs()));
+            Process.Start(Process.GetCurrentProcess().MainModule.FileName);
             Environment.Exit(1);
         }
     }
