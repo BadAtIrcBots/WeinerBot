@@ -7,7 +7,6 @@ using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Humanizer;
-using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models;

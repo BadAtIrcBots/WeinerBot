@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Backtrace;
 using log4net;
 using Meebey.SmartIrc4net;
-using SharpRaven;
-using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
 using TrumpBot.Models.Config;
@@ -23,7 +22,7 @@ namespace TrumpBot.Modules
         private IEnumerable<ICommand> Commands;
         public char CommandPrefix = '!';
         private CommandConfigModel _config;
-        private RavenClient _ravenClient = Raven.GetRavenClient();
+        private BacktraceClient _backtraceClient = Services.Backtrace.GetBacktraceClient();
         internal List<Thread> Threads = new List<Thread>();
 
         internal Command(IrcClient client, IrcBot bot)
@@ -147,6 +146,12 @@ namespace TrumpBot.Modules
                 _log.Debug("Stacktrace");
                 _log.Debug(e.Source + ": " + e.Message);
                 _log.Debug(e.StackTrace);
+                _backtraceClient?.Attributes.Add("RequestorNick", nick);
+                _backtraceClient?.Attributes.Add("CommandName", command.CommandName);
+                _backtraceClient?.Attributes.Add("Message", message);
+                _backtraceClient?.Attributes.Add("cacheOutputMessage", cacheOutputMessage);
+                _backtraceClient?.Attributes.Add("reportException", reportException);
+                _backtraceClient?.Send(e);
 
                 if (reportException && e.InnerException == null
                 ) // Attribute [DoNotReportException] to suppress this
@@ -157,28 +162,13 @@ namespace TrumpBot.Modules
                 if (e.InnerException != null)
                 {
                     _log.Debug(e.InnerException.StackTrace);
-                    e.InnerException.Data.Add("RequestorNick", nick);
-                    e.InnerException.Data.Add("CommandName", command.CommandName);
-                    e.InnerException.Data.Add("Message", message);
-                    e.InnerException.Data.Add("NetworkUri", _ircBot.Settings.ConnectionUri);
-                    e.InnerException.Data.Add("cacheOutputMessage", cacheOutputMessage);
-                    e.InnerException.Data.Add("reportException", reportException);
-                    _ravenClient?.Capture(new SentryEvent(e.InnerException));
+                    _backtraceClient?.Send(e.InnerException);
                     if (reportException)
                     {
                         _client.SendMessage(SendType.Message, eventArgs.Data.Channel,
                             $"Well this is embarassing: {e.InnerException.Source}: {e.InnerException.Message}");
                     }
-
-                    return;
                 }
-                e.Data.Add("RequestorNick", nick);
-                e.Data.Add("CommandName", command.CommandName);
-                e.Data.Add("Message", message);
-                e.Data.Add("NetworkUri", _ircBot.Settings.ConnectionUri);
-                e.Data.Add("cacheOutputMessage", cacheOutputMessage);
-                e.Data.Add("reportException", reportException);
-                _ravenClient?.Capture(new SentryEvent(e));
             }
         }
 
@@ -333,10 +323,13 @@ namespace TrumpBot.Modules
             {
                 _log.Debug("PM Interface Stacktrace");
                 _log.Debug(e.StackTrace);
-                e.Data.Add("RequestorNick", eventArgs.Data.From.GetNick());
-                e.Data.Add("Message", eventArgs.Data.Message);
-                e.Data.Add("NetworkUri", _ircBot.Settings.ConnectionUri);
-                _ravenClient?.Capture(new SentryEvent(e));
+                _backtraceClient?.Attributes.Add("RequestorNick", eventArgs.Data.From.GetNick());
+                _backtraceClient?.Attributes.Add("Message", eventArgs.Data.Message);
+                _backtraceClient?.Send(e);
+                if (e.InnerException != null)
+                {
+                    _backtraceClient?.Send(e.InnerException);
+                }
             }
 
         }

@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="Backtrace" Version="2.1.9" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
     <PackageReference Include="Humanizer.Core" Version="2.8.26" />
@@ -97,7 +98,6 @@
     <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.0" />
     <PackageReference Include="NitoAsyncEx.Context.StrongName" Version="1.1.0" />
     <PackageReference Include="NodaTime" Version="3.0.5" />
-    <PackageReference Include="SharpRaven" Version="2.4.0" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

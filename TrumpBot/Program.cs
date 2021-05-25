@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using SharpRaven;
-using SharpRaven.Data;
+using Backtrace;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
 
@@ -33,8 +32,8 @@ namespace TrumpBot
             exceptionLogStreamWriter.WriteLine($"[{DateTime.Now}]: {exception.Message}");
             exceptionLogStreamWriter.WriteLine($"[{DateTime.Now}]: {exception.StackTrace}");
             exceptionLogStreamWriter.Close();
-            RavenClient ravenClient = Services.Raven.GetRavenClient();
-            ravenClient?.Capture(new SentryEvent(exception));
+            BacktraceClient backtraceClient = Services.Backtrace.GetBacktraceClient();
+            backtraceClient.Send(exception);
             Thread.Sleep(1000); // Give us time to stop it if this is just happening in a loop!
             Process.Start(Process.GetCurrentProcess().MainModule.FileName);
             Environment.Exit(1);

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Backtrace;
 using log4net;
 using Meebey.SmartIrc4net;
-using SharpRaven;
-using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
 using TrumpBot.Modules.AdminCommands;
@@ -21,7 +20,7 @@ namespace TrumpBot.Modules
 
         internal AdminConfigModel.Config Config =
             ConfigHelpers.LoadConfig<AdminConfigModel.Config>(ConfigHelpers.ConfigPaths.AdminConfig);
-        internal RavenClient _ravenClient = Services.Raven.GetRavenClient();
+        internal BacktraceClient _backtraceClient = Services.Backtrace.GetBacktraceClient();
 
         public Admin(IrcClient client, IrcBot bot)
         {
@@ -119,23 +118,20 @@ namespace TrumpBot.Modules
                         {
                             throw;
                         }
+                        _backtraceClient?.Attributes.Add("RequestorNick", nick);
+                        _backtraceClient?.Attributes.Add("AdminCommandName", command.Name);
+                        _backtraceClient?.Attributes.Add("Message", message);
+                        _backtraceClient?.Attributes.Add("NetworkUri", _ircBot.Settings.ConnectionUri);
+                        _backtraceClient?.Attributes.Add("AdminRight", user.Right);
+
+                        _backtraceClient?.Send(e);
+
                         if (e.InnerException == null)
                         {
-                            e.Data.Add("RequestorNick", nick);
-                            e.Data.Add("AdminCommandName", command.Name);
-                            e.Data.Add("Message", message);
-                            e.Data.Add("NetworkUri", _ircBot.Settings.ConnectionUri);
-                            e.Data.Add("AdminRight", user.Right);
-                            _ravenClient?.Capture(new SentryEvent(e));
                             _client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Well this is dumb: {e.Source}: {e.Message}");
                             break;
                         }
-                        e.InnerException.Data.Add("RequestorNick", nick);
-                        e.InnerException.Data.Add("AdminCommandName", command.Name);
-                        e.InnerException.Data.Add("Message", message);
-                        e.InnerException.Data.Add("NetworkUri", _ircBot.Settings.ConnectionUri);
-                        e.InnerException.Data.Add("AdminRight", user.Right);
-                        _ravenClient?.Capture(new SentryEvent(e.InnerException));
+                        _backtraceClient?.Send(e.InnerException);
                         _client.SendMessage(SendType.Message, eventArgs.Data.Channel,
                             $"Well this is dumb: {e.InnerException.Source}: {e.InnerException.Message}");
                         break;

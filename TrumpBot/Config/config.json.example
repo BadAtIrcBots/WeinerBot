@@ -6,5 +6,6 @@
   "Username": "trump",
   "JoinProtectedChannels": [ "#channel2" ],
   "AutoRestart": false,
-  "RavenDsn": null
+  "BacktraceSubmitUrl": null,
+  "BacktraceToken": null
 }

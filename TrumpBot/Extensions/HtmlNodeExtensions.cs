@@ -2,7 +2,6 @@ using System;
 using System.Net;
 using HtmlAgilityPack;
 using log4net;
-using SharpRaven.Data;
 
 namespace TrumpBot.Extensions
 {
@@ -19,7 +18,6 @@ namespace TrumpBot.Extensions
             }
             catch (Exception e)
             {
-                Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
                 log.Error(e);
                 return null;
             }
@@ -36,7 +34,6 @@ namespace TrumpBot.Extensions
             }
             catch (Exception e)
             {
-                Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
                 log.Error(e);
                 return defaultValue;
             }
@@ -51,7 +48,6 @@ namespace TrumpBot.Extensions
             }
             catch (Exception e)
             {
-                Services.Raven.GetRavenClient()?.Capture(new SentryEvent(e));
                 log.Error(e);
                 return null;
             }

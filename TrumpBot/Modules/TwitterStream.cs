@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
+using Backtrace;
 using log4net;
 using Meebey.SmartIrc4net;
-using SharpRaven;
-using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
 using Tweetinvi;
@@ -27,7 +25,7 @@ namespace TrumpBot.Modules
         internal IFilteredStream FilteredStream;
         private ILog _log = LogManager.GetLogger(typeof(TwitterStream));
         private string _breadcrumbName = "TwitterStream Thread";
-        private RavenClient _ravenClient = Services.Raven.GetRavenClient();
+        private BacktraceClient _backtraceClient = Services.Backtrace.GetBacktraceClient();
 
         internal TwitterStream(IrcClient client)
         {
@@ -42,9 +40,8 @@ namespace TrumpBot.Modules
             }
             
             _twitterClient = Services.Twitter.GetTwitterClient();
-            
-            _ravenClient?.AddTrail(
-                new Breadcrumb(_breadcrumbName) {Message = "Authenticating to Twitter", Level = BreadcrumbLevel.Info});
+
+            _backtraceClient?.Send("Authenticating to Twitter");
             IAuthenticatedUser authedUser;
 
             try
@@ -53,23 +50,24 @@ namespace TrumpBot.Modules
             }
             catch (TwitterAuthException e)
             {
-                _log.Debug(
-                    $"When attempting to authenticate with Twitter, got exception:{Environment.NewLine}{e}");
-                _log.Debug("Self destructing the Tweet thread");
-                _ravenClient?.Capture(new SentryEvent(e));
+                _log.Error("When attempting to authenticate with Twitter, got exception:");
+                _log.Error(e);
+                _log.Error("Self destructing the Tweet thread");
+                _backtraceClient?.Send(e);
                 return;
             }
             catch (TwitterException e)
             {
-                _log.Debug($"Got TwitterException when testing creds{Environment.NewLine}{e}");
-                _ravenClient?.Capture(new SentryEvent(e));
+                _log.Error("Got TwitterException when testing creds");
+                _log.Error(e);
+                _backtraceClient?.Send(e);
                 return;
             }
             catch (Exception e)
             {
-                _log.Debug("Got an exception when testing creds");
-                _log.Debug(e.StackTrace);
-                _ravenClient?.Capture(new SentryEvent(e));
+                _log.Error("Got an exception when testing creds");
+                _log.Error(e);
+                _backtraceClient?.Send(e);
                 return;
             }
             
@@ -88,11 +86,7 @@ namespace TrumpBot.Modules
 
         private void TweetThread()
         {
-            _ravenClient?.AddTrail(new Breadcrumb(_breadcrumbName)
-            {
-                Message = $"{_breadcrumbName} started",
-                Level = BreadcrumbLevel.Info
-            });
+            _backtraceClient?.Send($"{_breadcrumbName} started");
 
             _log.Debug("Tweet thread started!");
 
@@ -110,12 +104,8 @@ namespace TrumpBot.Modules
                 FilteredStream.AddFollow(stream.TwitterUserId);
                 _log.Debug($"Added {stream.TwitterUserId} to tracking");
             }
-
-            _ravenClient?.AddTrail(new Breadcrumb(_breadcrumbName)
-            {
-                Message = "Added configured IDs to stream",
-                Level = BreadcrumbLevel.Info
-            });
+            
+            _backtraceClient?.Send("Added configured IDs to stream");
 
             FilteredStream.MatchingTweetReceived += (sender, args) =>
             {
@@ -137,12 +127,8 @@ namespace TrumpBot.Modules
                         {"Tweet Body", tweet.FullText},
                         {"Destination channels", string.Join(", ", stream.Channels)}
                     };
-                _ravenClient?.AddTrail(new Breadcrumb(_breadcrumbName)
-                {
-                    Message = $"Found matching Tweet, from {tweet.CreatedBy.Name}",
-                    Level = BreadcrumbLevel.Info,
-                    Data = data
-                });
+
+                _backtraceClient?.Send($"Found matching Tweet, from {tweet.CreatedBy.Name}");
 
                 if (stream.IgnoreRetweets && tweet.IsRetweet)
                 {
@@ -192,7 +178,7 @@ namespace TrumpBot.Modules
             {
                 _log.Debug("Twitter stream disconnected with following reason");
                 _log.Debug(args.DisconnectMessage?.Reason);
-                _ravenClient?.Capture(new SentryEvent(args.Exception) {Message = "Stream stopped"});
+                _backtraceClient?.Send(args.Exception);
                 if (args.DisconnectMessage != null) // If socket closed for "reasons" this will be null
                 {
                     _log.Debug(
@@ -209,8 +195,7 @@ namespace TrumpBot.Modules
             {
                 _log.Debug($"Twitter stream is falling behind. Warning from Twitter: {args.WarningMessage.Message}");
                 _log.Debug($"Twitter queue is {args.WarningMessage.PercentFull}% full");
-                _ravenClient?.Capture(
-                    new SentryEvent($"Twitter stream falling behind, queue {args.WarningMessage.PercentFull}% full"));
+                _backtraceClient?.Send($"Twitter stream falling behind, queue {args.WarningMessage.PercentFull}% full");
             };
 
             FilteredStream.StartMatchingAnyConditionAsync().Wait();

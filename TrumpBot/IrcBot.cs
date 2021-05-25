@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
+using Backtrace;
 using log4net;
 using log4net.Config;
 using Meebey.SmartIrc4net;
-using Newtonsoft.Json;
-using SharpRaven;
-using SharpRaven.Data;
 using TrumpBot.Models.Config;
 using TrumpBot.Modules;
 using TrumpBot.Services;
@@ -28,7 +22,7 @@ namespace TrumpBot
         public CuckHunt CuckHunt;
         public Command Command;
         internal TwitterStream TwitterStream;
-        private readonly RavenClient _ravenClient;
+        private readonly BacktraceClient _backtraceClient;
         public DateTime LastPong = DateTime.UtcNow;
         public Thread PongCheck;
 
@@ -41,7 +35,7 @@ namespace TrumpBot
             Admin = new Admin(_ircClient, this);
             Command = new Command(_ircClient, this);
             CuckHunt = new CuckHunt(_ircClient, this);
-            _ravenClient = Services.Raven.GetRavenClient();
+            _backtraceClient = Services.Backtrace.GetBacktraceClient();
 
             _ircClient.OnChannelMessage += Admin.ProcessMessage;
             _ircClient.OnChannelMessage += Command.ProcessMessage;
@@ -91,8 +85,7 @@ namespace TrumpBot
                     _ircClient.RfcJoin(channel);
                 }
 
-                _ravenClient?.AddTrail(new Breadcrumb("Connected")
-                    {Message = "Connected to network successfully", Level = BreadcrumbLevel.Info});
+                _backtraceClient?.Send("Connected to network successfully");
                 LastPong = DateTime.UtcNow;
                 if (PongCheck == null || !PongCheck.IsAlive)
                 {
@@ -125,7 +118,7 @@ namespace TrumpBot
 
         private void Disconnected(object sender, EventArgs eventArgs)
         {
-            _ravenClient?.AddTrail(new Breadcrumb("Disconnected") {Message = "Disconnected from network", Level = BreadcrumbLevel.Critical});
+            _backtraceClient?.Send("Disconnected from network");
         }
 
         private void OnPong(object sender, PongEventArgs e)

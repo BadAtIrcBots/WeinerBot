@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Backtrace;
 using log4net;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
-using SharpRaven;
-using SharpRaven.Data;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
 using TrumpBot.Services;
@@ -22,7 +21,7 @@ namespace TrumpBot.Modules
         private ILog _log = LogManager.GetLogger(typeof(CuckHunt));
         private List<Cuck> _cucks = new List<Cuck>();
         private DateTimeOffset? _lastDeportedCuck = null;
-        private RavenClient _ravenClient = Raven.GetRavenClient();
+        private BacktraceClient _backtraceClient = Services.Backtrace.GetBacktraceClient();
         public string LastAdminWhoSpawnedCuck = string.Empty;
         public Dictionary<string, ActivityTime> LastActivity = new Dictionary<string, ActivityTime>();
 
@@ -39,7 +38,6 @@ namespace TrumpBot.Modules
             {
                 CreateThread(channel);
             }
-            _ravenClient?.AddTrail(new Breadcrumb("CuckHunt") {Message = "CuckHunt started", Level = BreadcrumbLevel.Info});
         }
 
         ~CuckHunt()
@@ -287,10 +285,9 @@ namespace TrumpBot.Modules
                     }
                     else
                     {
-                        _ravenClient?.Capture(
-                            new SentryEvent(
-                                "currentCuck was null, user was not cuck exempt yet somehow we got this far."));
-                        throw new Exception("WTF");
+                        _backtraceClient.Attributes.Add("Nick", nick);
+                        _backtraceClient.Send("currentCuck was null, user was not cuck exempt yet somehow we got this far.");
+                        throw new Exception("currentCuck was null, user was not cuck exempt yet somehow we got this far.");
                     }
 
                     ReloadConfig();
@@ -304,7 +301,8 @@ namespace TrumpBot.Modules
                         if (_config.AssumeMaleGender)
                         {
                             _client.SendMessage(SendType.Message, channel,
-                                $"{nick} deported the cuck in {(int)timeElapsed.TotalSeconds}.{timeElapsed.Milliseconds} seconds! He has deported {cuckStat.KilledCount} cucks within {cuckStat.Channel}");                        }
+                                $"{nick} deported the cuck in {(int)timeElapsed.TotalSeconds}.{timeElapsed.Milliseconds} seconds! He has deported {cuckStat.KilledCount} cucks within {cuckStat.Channel}");
+                        }
                         else
                         {
                             _client.SendMessage(SendType.Message, channel,
