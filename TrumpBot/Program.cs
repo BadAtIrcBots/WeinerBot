@@ -33,8 +33,7 @@ namespace TrumpBot
             exceptionLogStreamWriter.WriteLine($"[{DateTime.Now}]: {exception.StackTrace}");
             exceptionLogStreamWriter.WriteLine($"[{DateTime.Now}]: Process file name: {Process.GetCurrentProcess().MainModule?.FileName}");
             exceptionLogStreamWriter.Close();
-            BacktraceClient backtraceClient = Services.Backtrace.GetBacktraceClient();
-            backtraceClient.Send(exception);
+            Services.Backtrace.GetBacktraceClient()?.Send(exception);
             Thread.Sleep(1000); // Give us time to stop it if this is just happening in a loop!
             var process = new ProcessStartInfo
             {
