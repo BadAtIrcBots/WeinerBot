@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Backtrace;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using Newtonsoft.Json;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
-using TrumpBot.Services;
 
 namespace TrumpBot.Modules
 {
@@ -18,7 +17,7 @@ namespace TrumpBot.Modules
         private IrcBot _ircBot;
         private CuckHuntConfigModel.CuckConfig _config;
         private List<CuckThread> _threads = new List<CuckThread>();
-        private ILog _log = LogManager.GetLogger(typeof(CuckHunt));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         private List<Cuck> _cucks = new List<Cuck>();
         private DateTimeOffset? _lastDeportedCuck = null;
         private BacktraceClient _backtraceClient = Services.Backtrace.GetBacktraceClient();
@@ -353,7 +352,7 @@ namespace TrumpBot.Modules
                         LastAdminWhoSpawnedCuck = string.Empty;
                     }
 
-                    Log.LogToFile($"{nick} removed a cuck in {timeElapsed.TotalMilliseconds} ms ({(int)timeElapsed.TotalSeconds}s) kill={kill}, helicopter={helicopter}. cuckStat.KilledCount={cuckStat.KilledCount}, cuckStat.HelicopterCount={cuckStat.HelicopterCount}, cuckStat.GetEmOutCount={cuckStat.GetEmOutCount}", "cuckhunt.log");
+                    _log.Info($"{nick} removed a cuck in {timeElapsed.TotalMilliseconds} ms ({(int)timeElapsed.TotalSeconds}s) kill={kill}, helicopter={helicopter}. cuckStat.KilledCount={cuckStat.KilledCount}, cuckStat.HelicopterCount={cuckStat.HelicopterCount}, cuckStat.GetEmOutCount={cuckStat.GetEmOutCount}");
 
                     if (currentCuck != null)
                     {
@@ -385,7 +384,7 @@ namespace TrumpBot.Modules
 
         public void StartHunt(string channel)
         {
-            _log.Debug($"Starting hunt in {channel}");
+            _log.Info($"Starting hunt in {channel}");
             _config.Channels.Add(channel);
             SaveConfig();
             CreateThread(channel);
@@ -393,7 +392,7 @@ namespace TrumpBot.Modules
 
         public void StopHunt(string channel)
         {
-            _log.Debug($"Stopping hunt in {channel}");
+            _log.Info($"Stopping hunt in {channel}");
             _config.Channels.Remove(channel);
             SaveConfig();
             if (IsCuckPresent(channel))

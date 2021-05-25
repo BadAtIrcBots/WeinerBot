@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using log4net;
 using Meebey.SmartIrc4net;
+using NLog;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
 
@@ -10,7 +10,7 @@ namespace TrumpBot.Modules.AdminCommands
     [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
     internal class CommandAdmin : IAdminCommand
     {
-        private ILog _log = LogManager.GetLogger(typeof(CommandAdmin));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         public string Name { get; } = "CommandAdmin";
         public List<Regex> Patterns { get; } = new List<Regex>
         {

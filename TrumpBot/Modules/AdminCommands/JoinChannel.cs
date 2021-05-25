@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models.Config;
 
@@ -9,7 +9,7 @@ namespace TrumpBot.Modules.AdminCommands
     [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
     internal class JoinChannel : IAdminCommand
     {
-        private ILog _log = LogManager.GetLogger(typeof(JoinChannel));
+        private Logger _log = LogManager.GetCurrentClassLogger();
 
         public string Name { get; } = "JoinChannel";
         public List<Regex> Patterns { get; } = new List<Regex> {new Regex(@"^join (.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)};

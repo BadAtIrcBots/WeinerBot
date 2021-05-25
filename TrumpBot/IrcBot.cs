@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using Backtrace;
-using log4net;
-using log4net.Config;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models.Config;
 using TrumpBot.Modules;
@@ -14,10 +13,9 @@ namespace TrumpBot
     public class IrcBot
     {
         internal IrcConfigModel.IrcSettings Settings;
-        private static IrcClient _ircClient = new IrcClient();
-        public const char CommandPrefix = '!';
+        private static IrcClient _ircClient = new();
         internal bool UseCache = true;
-        private ILog _log = LogManager.GetLogger(typeof(IrcBot));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         public Admin Admin;
         public CuckHunt CuckHunt;
         public Command Command;
@@ -28,7 +26,6 @@ namespace TrumpBot
 
         public IrcBot(IrcConfigModel.IrcSettings settings)
         {
-            BasicConfigurator.Configure();
             Settings = settings;
             bool ssl = settings.ConnectionUri.Scheme == "ircs";
 
@@ -66,7 +63,7 @@ namespace TrumpBot
             {
                 if (Settings.NickservPassword != null)
                 {
-                    new Services.NickServ(_ircClient, Settings).Identify();
+                    new NickServ(_ircClient, Settings).Identify();
                     int i = 0;
                     while (!_ircClient.Usermode.Contains('r') && i < 20)
                     {
@@ -76,7 +73,7 @@ namespace TrumpBot
 
                     if (i >= 20)
                     {
-                        _log.Debug("Reached timeout waiting for usermode +r to be set");
+                        _log.Error("Reached timeout waiting for usermode +r to be set");
                     }
                 }
 
@@ -123,18 +120,18 @@ namespace TrumpBot
 
         private void OnPong(object sender, PongEventArgs e)
         {
-            Log.LogToFile($"OnPong fired: Lag = {e.Lag.TotalMilliseconds:N}ms, last pong: {LastPong.ToShortDateString()} {LastPong.ToShortTimeString()} UTC", "pong.log");
+            _log.Debug($"OnPong fired: Lag = {e.Lag.TotalMilliseconds:N}ms, last pong: {LastPong.ToShortDateString()} {LastPong.ToShortTimeString()} UTC");
             LastPong = DateTime.UtcNow;
         }
 
         private void CheckConnectionThread()
         {
-            Log.LogToFile("CheckConnectionThread created", "pong.log");
+            _log.Debug("CheckConnectionThread created");
             while (Settings.EnablePongChecking)
             {
                 Thread.Sleep(new TimeSpan(0, 0, Settings.PongCheckIntervalMs / 1000));
-                Log.LogToFile("Checking last pong time", "pong.log");
-                Log.LogToFile($"IsConnected => {_ircClient.IsConnected}", "pong.log");
+                _log.Debug("Checking last pong time");
+                _log.Debug($"IsConnected => {_ircClient.IsConnected}");
                 TimeSpan timeout;
                 if (!Settings.TurboPongTimeoutOnDisconnect || _ircClient.IsConnected)
                 {
@@ -146,9 +143,14 @@ namespace TrumpBot
                 }
                 if (DateTime.UtcNow - LastPong <= timeout) continue;
                 
-                Log.LogToFile($"Last pong {(DateTime.UtcNow - LastPong).TotalMilliseconds:N}ms ago, restarting.", "pong.log");
-                Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-                Environment.Exit(1);
+                _log.Info($"Last pong {(DateTime.UtcNow - LastPong).TotalMilliseconds:N}ms ago, restarting.");
+                _log.Info($"Process.GetCurrentProcess().MainModule.FileName -> {Process.GetCurrentProcess().MainModule?.FileName}");
+                var process = new ProcessStartInfo
+                {
+                    FileName = Process.GetCurrentProcess().MainModule.FileName,
+                    UseShellExecute = true
+                };
+                Process.Start(process);
             }
         }
     }

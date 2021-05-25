@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Backtrace;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
@@ -14,7 +14,7 @@ namespace TrumpBot.Modules
     public class Admin
     {
         private IrcClient _client;
-        private ILog _log = LogManager.GetLogger(typeof(Admin));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         private IrcBot _ircBot;
         public IEnumerable<object> Commands;
 
@@ -35,7 +35,7 @@ namespace TrumpBot.Modules
             if (Commands == null) throw new Exception("null admin commands available");
             foreach (IAdminCommand command in Commands)
             {
-                _log.Info($"Found admin command: {command.Name}");
+                _log.Debug($"Found admin command: {command.Name}");
             }
         }
 

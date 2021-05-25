@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
@@ -15,7 +15,7 @@ namespace TrumpBot.Modules.AdminCommands
     [Admin.DoNotBreakAfterExecution]
     internal class RandomKick : IAdminCommand
     {
-        private ILog _log = LogManager.GetLogger(typeof(RandomKick));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         
         public string Name { get; } = "RandomKick";
 
@@ -54,7 +54,7 @@ namespace TrumpBot.Modules.AdminCommands
             {
                 string message =
                     config.MessageList[new Random(Guid.NewGuid().GetHashCode()).Next(0, config.MessageList.Count - 1)];
-                _log.Debug($"Going to kick {eventArgs.Data.From} now");
+                _log.Info($"Going to kick {eventArgs.Data.From} now");
                 client.RfcKick(eventArgs.Data.Channel, eventArgs.Data.From.GetNick(), message);
             }
         }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using log4net;
 using Meebey.SmartIrc4net;
+using NLog;
 using TrumpBot.Models.Config;
 
 namespace TrumpBot.Modules.AdminCommands
@@ -15,7 +15,7 @@ namespace TrumpBot.Modules.AdminCommands
             new Regex(@"^config (\S+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
         };
 
-        private ILog _log = LogManager.GetLogger(typeof(ConfigAdmin));
+        private Logger _log = LogManager.GetCurrentClassLogger();
 
         [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
         public void RunCommand(IrcClient client, GroupCollection values, IrcEventArgs eventArgs, IrcBot ircBot)
@@ -24,13 +24,13 @@ namespace TrumpBot.Modules.AdminCommands
 
             if (operation == "reload_cuckhunt")
             {
-                _log.Debug("Reloading cuckhnt");
+                _log.Info("Reloading cuckhunt");
                 ircBot.CuckHunt.ReloadConfig();
                 client.SendMessage(SendType.Message, eventArgs.Data.Channel, "Reloaded cuckhunt config (this will only affect messages)");
             }
             else if (operation == "reload_admin")
             {
-                _log.Debug("Reloading admin config");
+                _log.Info("Reloading admin config");
                 ircBot.Admin.ReloadAdminConfig();
                 client.SendMessage(SendType.Message, eventArgs.Data.Channel, "Reloaded admin config");
             }

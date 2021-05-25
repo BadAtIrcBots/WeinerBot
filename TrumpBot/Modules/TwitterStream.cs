@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using Backtrace;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Models.Config;
@@ -23,7 +23,7 @@ namespace TrumpBot.Modules
         private TwitterStreamConfigModel.StreamConfig _config;
         private TwitterClient _twitterClient;
         internal IFilteredStream FilteredStream;
-        private ILog _log = LogManager.GetLogger(typeof(TwitterStream));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         private string _breadcrumbName = "TwitterStream Thread";
         private BacktraceClient _backtraceClient = Services.Backtrace.GetBacktraceClient();
 
@@ -71,7 +71,7 @@ namespace TrumpBot.Modules
                 return;
             }
             
-            _log.Debug($"Auth'd as {authedUser.Name}");
+            _log.Info($"Auth'd as {authedUser.Name}");
 
             _thread = new Thread(() => TweetThread());
             _thread.Start();
@@ -81,14 +81,14 @@ namespace TrumpBot.Modules
         {
             _config = ConfigHelpers.LoadConfig<TwitterStreamConfigModel.StreamConfig>(ConfigHelpers.ConfigPaths
                 .TwitterStreamConfig);
-            _log.Debug("TwitterStream has loaded its config");
+            _log.Info("TwitterStream has loaded its config");
         }
 
         private void TweetThread()
         {
             _backtraceClient?.Send($"{_breadcrumbName} started");
 
-            _log.Debug("Tweet thread started!");
+            _log.Info("Tweet thread started!");
 
             if (!_config.StreamEnabled)
             {
@@ -102,7 +102,7 @@ namespace TrumpBot.Modules
             foreach (var stream in _config.Streams)
             {
                 FilteredStream.AddFollow(stream.TwitterUserId);
-                _log.Debug($"Added {stream.TwitterUserId} to tracking");
+                _log.Info($"Added {stream.TwitterUserId} to tracking");
             }
             
             _backtraceClient?.Send("Added configured IDs to stream");
@@ -110,7 +110,7 @@ namespace TrumpBot.Modules
             FilteredStream.MatchingTweetReceived += (sender, args) =>
             {
                 ITweet tweet = args.Tweet;
-                _log.Debug($"Found tweet from {tweet.CreatedBy.ScreenName}");
+                _log.Info($"Found tweet from {tweet.CreatedBy.ScreenName}");
 
                 TwitterStreamConfigModel.Stream stream =
                     _config.Streams.Find(s => s.TwitterUserId == tweet.CreatedBy.Id);
@@ -132,14 +132,14 @@ namespace TrumpBot.Modules
 
                 if (stream.IgnoreRetweets && tweet.IsRetweet)
                 {
-                    _log.Debug(
+                    _log.Info(
                         $"Ignoring tweet {tweet.IdStr} as IgnoreRetweets is {stream.IgnoreRetweets} and IsRetweet is {tweet.IsRetweet}");
                     return;
                 }
 
                 if (stream.IgnoreReplies && tweet.InReplyToUserId != null)
                 {
-                    _log.Debug(
+                    _log.Info(
                         $"Ignoring tweet {tweet.IdStr} as IgnoreReplies is {stream.IgnoreReplies} and InReplyToUserId is not null (it is {tweet.InReplyToUserId})");
                     return;
                 }
@@ -148,7 +148,7 @@ namespace TrumpBot.Modules
                 {
                     if (stream.RetweetsToIgnoreByUserId.Contains(tweet.RetweetedTweet.CreatedBy.Id))
                     {
-                        _log.Debug($"Ignoring tweet {tweet.IdStr} as author has been ignored");
+                        _log.Info($"Ignoring tweet {tweet.IdStr} as author has been ignored");
                         return;
                     }
                 }
@@ -157,7 +157,7 @@ namespace TrumpBot.Modules
                 {
                     if (!_ircClient.JoinedChannels.Contains(channel)) continue;
                     
-                    _log.Debug($"Sending tweet from {tweet.CreatedBy.Name} to {channel}");
+                    _log.Info($"Sending tweet from {tweet.CreatedBy.Name} to {channel}");
                     if (_ircClient.IsConnected)
                     {
                         if (tweet.IsRetweet)
@@ -170,31 +170,31 @@ namespace TrumpBot.Modules
                             $"{IrcConstants.IrcBold}{tweet.CreatedBy.Name} (@{tweet.CreatedBy.ScreenName}):{IrcConstants.IrcNormal} {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} - {tweet.Url}");
                         return;
                     }
-                    _log.Debug("Tried to send message to channel but IRC bot is not connected");
+                    _log.Error("Tried to send message to channel but IRC bot is not connected");
                 }
             };
 
             FilteredStream.StreamStopped += (sender, args) =>
             {
-                _log.Debug("Twitter stream disconnected with following reason");
-                _log.Debug(args.DisconnectMessage?.Reason);
+                _log.Error("Twitter stream disconnected with following reason");
+                _log.Error(args.DisconnectMessage?.Reason);
                 _backtraceClient?.Send(args.Exception);
                 if (args.DisconnectMessage != null) // If socket closed for "reasons" this will be null
                 {
-                    _log.Debug(
+                    _log.Error(
                         $"Twitter disconnect message was: ({args.DisconnectMessage.Code}) {args.DisconnectMessage.Reason}");
                 }
                 while (true)
                 {
-                    _log.Debug("Attempting to reconnect to Twitter");
+                    _log.Info("Attempting to reconnect to Twitter");
                     FilteredStream.StartMatchingAnyConditionAsync().Wait();
                 }
             };
 
             FilteredStream.WarningFallingBehindDetected += (sender, args) =>
             {
-                _log.Debug($"Twitter stream is falling behind. Warning from Twitter: {args.WarningMessage.Message}");
-                _log.Debug($"Twitter queue is {args.WarningMessage.PercentFull}% full");
+                _log.Info($"Twitter stream is falling behind. Warning from Twitter: {args.WarningMessage.Message}");
+                _log.Info($"Twitter queue is {args.WarningMessage.PercentFull}% full");
                 _backtraceClient?.Send($"Twitter stream falling behind, queue {args.WarningMessage.PercentFull}% full");
             };
 

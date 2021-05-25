@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Extensions;
 using TrumpBot.Models.Config;
@@ -10,7 +10,7 @@ namespace TrumpBot.Modules.AdminCommands
     [Admin.RequiredRight(AdminConfigModel.Right.Admin)]
     internal class CuckHuntAdmin : IAdminCommand
     {
-        private ILog _log = LogManager.GetLogger(typeof(CuckHuntAdmin));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         public string Name { get; } = "CuckHunt";
         public List<Regex> Patterns { get; } = new List<Regex>
         {
@@ -22,14 +22,14 @@ namespace TrumpBot.Modules.AdminCommands
         public void RunCommand(IrcClient client, GroupCollection values, IrcEventArgs eventArgs, IrcBot ircBot)
         {
             string operation = values[1].Value.ToLower();
-            _log.Debug($"Got operation: {operation}");
+            _log.Info($"Got operation: {operation}");
 
             if (operation == "spawn")
             {
                 if (values.Count > 2)
                 {
                     string channel = values[2].Value;
-                    _log.Debug($"Spawning cuck in {channel}");
+                    _log.Info($"Spawning cuck in {channel}");
                     if (!ircBot.CuckHunt.IsCuckPresent(channel))
                     {
                         ircBot.CuckHunt.CreateCuck(channel, manuallyCreated: true);
@@ -45,7 +45,7 @@ namespace TrumpBot.Modules.AdminCommands
             else if (operation == "list")
             {
                 List<CuckHunt.Cuck> cucks = ircBot.CuckHunt.GetCucks();
-                _log.Debug($"Got {cucks}");
+                _log.Info($"Got {cucks}");
                 client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"{cucks.Count} cuck(s) present");
                 foreach (CuckHunt.Cuck cuck in cucks)
                 {
@@ -57,7 +57,7 @@ namespace TrumpBot.Modules.AdminCommands
                 if (values.Count > 2)
                 {
                     string channel = values[2].Value;
-                    _log.Debug($"Destroying cuck in {channel}");
+                    _log.Info($"Destroying cuck in {channel}");
                     if (ircBot.CuckHunt.IsCuckPresent(channel))
                     {
                         ircBot.CuckHunt.RemoveCuck(channel);

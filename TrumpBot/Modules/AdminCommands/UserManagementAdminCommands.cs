@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models.Config;
 
@@ -13,7 +13,7 @@ namespace TrumpBot.Modules.AdminCommands
         [Admin.RequiredRight(AdminConfigModel.Right.Moderator)]
         internal class KickAdminCommand : IAdminCommand
         {
-            private ILog _log = LogManager.GetLogger(typeof(KickAdminCommand));
+            private Logger _log = LogManager.GetCurrentClassLogger();
             public string Name { get; } = "KickAdminCommand";
             public List<Regex> Patterns { get; } = new List<Regex>
             {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Backtrace;
-using log4net;
+using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
 using TrumpBot.Extensions;
@@ -17,7 +17,7 @@ namespace TrumpBot.Modules
     public class Command
     {
         private IrcClient _client;
-        private ILog _log = LogManager.GetLogger(typeof(Command));
+        private Logger _log = LogManager.GetCurrentClassLogger();
         private IrcBot _ircBot;
         private IEnumerable<ICommand> Commands;
         public char CommandPrefix = '!';
@@ -41,14 +41,14 @@ namespace TrumpBot.Modules
             
             foreach (ICommand command in Commands)
             {
-                _log.Info($"Found command: {command.CommandName}");
+                _log.Debug($"Found command: {command.CommandName}");
             }
         }
 
         internal void LoadConfig()
         {
             _config = ConfigHelpers.LoadConfig<CommandConfigModel>(ConfigHelpers.ConfigPaths.CommandConfig);
-            _log.Debug("Config loaded");
+            _log.Info("Config loaded");
         }
 
         internal List<string> GetCachedMessage(string key)
@@ -143,9 +143,9 @@ namespace TrumpBot.Modules
             }
             catch (Exception e)
             {
-                _log.Debug("Stacktrace");
-                _log.Debug(e.Source + ": " + e.Message);
-                _log.Debug(e.StackTrace);
+                _log.Error("Stacktrace");
+                _log.Error(e.Source + ": " + e.Message);
+                _log.Error(e.StackTrace);
                 _backtraceClient?.Attributes.Add("RequestorNick", nick);
                 _backtraceClient?.Attributes.Add("CommandName", command.CommandName);
                 _backtraceClient?.Attributes.Add("Message", message);
@@ -161,7 +161,7 @@ namespace TrumpBot.Modules
                 }
                 if (e.InnerException != null)
                 {
-                    _log.Debug(e.InnerException.StackTrace);
+                    _log.Error(e.InnerException.StackTrace);
                     _backtraceClient?.Send(e.InnerException);
                     if (reportException)
                     {
@@ -193,7 +193,7 @@ namespace TrumpBot.Modules
                 NonRfcChannelUser user = _client.GetChannelUser(eventArgs.Data.Channel, nick) as NonRfcChannelUser;
                 if (user == null)
                 {
-                    _log.Debug(
+                    _log.Info(
                         $"Got null when getting {nick} in {eventArgs.Data.Channel}, can't verify if they're non voiced, ignoring.");
                     return;
                 }
@@ -201,7 +201,7 @@ namespace TrumpBot.Modules
                 if (!user.IsVoice && !user.IsOp && !user.IsHalfop && !user.IsOwner && !user.IsChannelAdmin &&
                     !user.IsIrcOp)
                 {
-                    _log.Debug($"Ignored {nick} because IgnoreNonVoicedUsers is set to {_config.IgnoreNonVoicedUsers}");
+                    _log.Info($"Ignored {nick} because IgnoreNonVoicedUsers is set to {_config.IgnoreNonVoicedUsers}");
                     return;
                 }
             }
@@ -321,8 +321,8 @@ namespace TrumpBot.Modules
             }
             catch (Exception e)
             {
-                _log.Debug("PM Interface Stacktrace");
-                _log.Debug(e.StackTrace);
+                _log.Error("PM Interface Stacktrace");
+                _log.Error(e.StackTrace);
                 _backtraceClient?.Attributes.Add("RequestorNick", eventArgs.Data.From.GetNick());
                 _backtraceClient?.Attributes.Add("Message", eventArgs.Data.Message);
                 _backtraceClient?.Send(e);
