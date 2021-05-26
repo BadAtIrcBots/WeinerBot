@@ -41,6 +41,7 @@ namespace TrumpBot
                 UseShellExecute = true
             };
             Process.Start(process);
+            Environment.Exit(1);
         }
     }
 }

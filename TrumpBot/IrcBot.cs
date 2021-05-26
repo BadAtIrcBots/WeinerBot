@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using Backtrace;
+using log4net.Config;
 using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Models.Config;
@@ -151,6 +152,7 @@ namespace TrumpBot
                     UseShellExecute = true
                 };
                 Process.Start(process);
+                Environment.Exit(1);
             }
         }
     }
