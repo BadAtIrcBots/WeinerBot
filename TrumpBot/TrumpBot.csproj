@@ -69,9 +69,6 @@
     <Content Include="Config\youtube_api.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SmartIrc4net_log.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Config\random_kick.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
