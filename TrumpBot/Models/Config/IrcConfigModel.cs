@@ -22,6 +22,7 @@ namespace TrumpBot.Models.Config
             public bool TurboPongTimeoutOnDisconnect { get; set; } = true;
             public string BacktraceSubmitUrl { get; set; } = null;
             public string BacktraceToken { get; set; } = null;
+            public bool SmartIrc4NetLoggingEnabled { get; set; } = false;
         }
     }
 }

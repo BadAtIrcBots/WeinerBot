@@ -29,6 +29,10 @@ namespace TrumpBot
         {
             Settings = settings;
             bool ssl = settings.ConnectionUri.Scheme == "ircs";
+            if (Settings.SmartIrc4NetLoggingEnabled)
+            {
+                BasicConfigurator.Configure();
+            }
 
             Admin = new Admin(_ircClient, this);
             Command = new Command(_ircClient, this);
