@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ApixuWeatherApi.Models
+namespace TrumpBot.Models
 {
     public class ForecastWeatherModel
     {

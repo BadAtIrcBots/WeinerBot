@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApixuWeatherApi.Exceptions
+namespace TrumpBot.Exceptions
 {
     public class QueryNotFoundException : Exception
     {

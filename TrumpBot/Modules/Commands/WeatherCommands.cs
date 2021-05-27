@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ApixuWeatherApi.Exceptions;
-using ApixuWeatherApi.Models;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
+using TrumpBot.Exceptions;
 using TrumpBot.Extensions;
 using TrumpBot.Models;
 using TrumpBot.Models.Config;
@@ -217,8 +216,7 @@ namespace TrumpBot.Modules.Commands
                 try
                 {
                     currentWeather =
-                        ApixuWeatherApi.Weather.CurrentWeather
-                            .GetCurrentWeatherAsync(query, weatherApiConfig.ApiKey)
+                        Weather.GetCurrentWeatherAsync(query, weatherApiConfig.ApiKey)
                             .Result;
                 }
                 catch (Exception e)
@@ -298,9 +296,8 @@ namespace TrumpBot.Modules.Commands
                 try
                 {
                     currentWeather =
-                        ApixuWeatherApi.Weather.CurrentWeather
-                            .GetCurrentWeatherAsync(weatherApiConfig.UserDefaultLocale[messageEvent.Nick], weatherApiConfig.ApiKey)
-                            .Result;
+                        Weather.GetCurrentWeatherAsync(weatherApiConfig.UserDefaultLocale[messageEvent.Nick],
+                            weatherApiConfig.ApiKey).Result;
                 }
                 catch (Exception e)
                 {
