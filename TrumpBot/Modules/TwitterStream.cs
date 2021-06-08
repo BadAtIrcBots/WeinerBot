@@ -6,6 +6,7 @@ using Backtrace;
 using NLog;
 using Meebey.SmartIrc4net;
 using TrumpBot.Configs;
+using TrumpBot.Extensions;
 using TrumpBot.Models.Config;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
@@ -162,12 +163,25 @@ namespace TrumpBot.Modules
                     {
                         if (tweet.IsRetweet)
                         {
+                            if (tweet.CreatedBy.Name == tweet.CreatedBy.ScreenName)
+                            {
+                                _ircClient.SendMessage(SendType.Message, channel,
+                                    $"@{tweet.CreatedBy.ScreenName}:{IrcConstants.IrcNormal} RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
+                                return;
+                            }
                             _ircClient.SendMessage(SendType.Message, channel,
-                                $"{IrcConstants.IrcBold}{tweet.CreatedBy.Name} (@{tweet.CreatedBy.ScreenName}):{IrcConstants.IrcNormal} RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} - {tweet.Url}");
+                                $"{IrcConstants.IrcBold}{tweet.CreatedBy.Name} (@{tweet.CreatedBy.ScreenName}):{IrcConstants.IrcNormal} RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
+                            return;
+                        }
+
+                        if (tweet.CreatedBy.Name == tweet.CreatedBy.ScreenName)
+                        {
+                            _ircClient.SendMessage(SendType.Message, channel,
+                                $"@{tweet.CreatedBy.ScreenName}:{IrcConstants.IrcNormal} {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
                             return;
                         }
                         _ircClient.SendMessage(SendType.Message, channel,
-                            $"{IrcConstants.IrcBold}{tweet.CreatedBy.Name} (@{tweet.CreatedBy.ScreenName}):{IrcConstants.IrcNormal} {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').Replace('\n', ' ').Replace('\r', ' '))} - {tweet.Url}");
+                            $"{IrcConstants.IrcBold}{tweet.CreatedBy.Name} (@{tweet.CreatedBy.ScreenName}):{IrcConstants.IrcNormal} {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
                         return;
                     }
                     _log.Error("Tried to send message to channel but IRC bot is not connected");
