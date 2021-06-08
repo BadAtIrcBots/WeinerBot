@@ -166,7 +166,7 @@ namespace TrumpBot.Modules
                             if (tweet.CreatedBy.Name == tweet.CreatedBy.ScreenName)
                             {
                                 _ircClient.SendMessage(SendType.Message, channel,
-                                    $"@{tweet.CreatedBy.ScreenName}:{IrcConstants.IrcNormal} RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
+                                    $"{IrcConstants.IrcBold}@{tweet.CreatedBy.ScreenName}:{IrcConstants.IrcNormal} RT @{tweet.RetweetedTweet.CreatedBy.ScreenName} {WebUtility.HtmlDecode(tweet.RetweetedTweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
                                 return;
                             }
                             _ircClient.SendMessage(SendType.Message, channel,
@@ -177,7 +177,7 @@ namespace TrumpBot.Modules
                         if (tweet.CreatedBy.Name == tweet.CreatedBy.ScreenName)
                         {
                             _ircClient.SendMessage(SendType.Message, channel,
-                                $"@{tweet.CreatedBy.ScreenName}:{IrcConstants.IrcNormal} {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
+                                $"{IrcConstants.IrcBold}@{tweet.CreatedBy.ScreenName}:{IrcConstants.IrcNormal} {WebUtility.HtmlDecode(tweet.FullText.ReplaceNonPrintableCharacters(' ').ReplaceNewlines("⏎"))} - {tweet.Url}");
                             return;
                         }
                         _ircClient.SendMessage(SendType.Message, channel,
