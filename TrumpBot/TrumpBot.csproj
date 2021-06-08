@@ -84,7 +84,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApixuWeatherApi\ApixuWeatherApi.csproj" />
     <ProjectReference Include="..\CoinMarketCapApi\CoinMarketCapApi.csproj" />
   </ItemGroup>
   <ItemGroup>
