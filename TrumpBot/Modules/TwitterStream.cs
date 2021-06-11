@@ -33,7 +33,7 @@ namespace TrumpBot.Modules
             _ircClient = client;
             
             LoadConfig();
-            if (!_config.Enabled)
+            if (!_config.StreamEnabled)
             {
                 // Fuck you and the fucking pile of piss your shitty application came out of. Fuck your shitty API for suddenly not working and causing annoying to trace errors
                 // Come over here and suck my cock @Jack you piece of shit.
@@ -90,11 +90,6 @@ namespace TrumpBot.Modules
             _backtraceClient?.Send($"{_breadcrumbName} started");
 
             _log.Info("Tweet thread started!");
-
-            if (!_config.StreamEnabled)
-            {
-                return;
-            }
 
             FilteredStream = _twitterClient.Streams.CreateFilteredStream();
             FilteredStream.FilterLevel = StreamFilterLevel.None;
