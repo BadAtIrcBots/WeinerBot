@@ -193,11 +193,6 @@ namespace TrumpBot.Modules
                     _log.Error(
                         $"Twitter disconnect message was: ({args.DisconnectMessage.Code}) {args.DisconnectMessage.Reason}");
                 }
-                while (true)
-                {
-                    _log.Info("Attempting to reconnect to Twitter");
-                    FilteredStream.StartMatchingAnyConditionAsync().Wait();
-                }
             };
 
             FilteredStream.WarningFallingBehindDetected += (sender, args) =>
