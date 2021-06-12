@@ -149,6 +149,11 @@ namespace TrumpBot
                 if (DateTime.UtcNow - LastPong <= timeout) continue;
                 
                 _log.Info($"Last pong {(DateTime.UtcNow - LastPong).TotalMilliseconds:N}ms ago, restarting.");
+                if (!Settings.AutoRestart)
+                {
+                    _log.Info("Autorestart is disabled, just exiting instead");
+                    Environment.Exit(1);
+                }
                 _log.Info($"Process.GetCurrentProcess().MainModule.FileName -> {Process.GetCurrentProcess().MainModule?.FileName}");
                 var process = new ProcessStartInfo
                 {
