@@ -34,7 +34,7 @@ namespace TrumpBot.Modules.AdminCommands
 
             List<int> randomValues = new List<int> {min,max};
 
-            File.WriteAllText("Config\\ree.json", JsonConvert.SerializeObject(randomValues));
+            File.WriteAllText(Path.Join("Config", "ree.json"), JsonConvert.SerializeObject(randomValues));
             client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Modified ree config with {string.Join(", ", randomValues.ToArray())}");
         }
     }

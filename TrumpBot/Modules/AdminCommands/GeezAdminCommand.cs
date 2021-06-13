@@ -34,7 +34,7 @@ namespace TrumpBot.Modules.AdminCommands
 
             List<int> randomValues = new List<int> {min,max};
 
-            File.WriteAllText("Config\\geez.json", JsonConvert.SerializeObject(randomValues));
+            File.WriteAllText(Path.Join("Config", "geez.json"), JsonConvert.SerializeObject(randomValues));
             client.SendMessage(SendType.Message, eventArgs.Data.Channel, $"Modified geez config with {string.Join(", ", randomValues.ToArray())}");
         }
     }

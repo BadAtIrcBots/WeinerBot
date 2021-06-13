@@ -22,7 +22,7 @@ namespace TrumpBot.Modules.Commands
             List<int> randomRange;
             try
             {
-                randomRange = JsonConvert.DeserializeObject<List<int>>(File.ReadAllText("Config\\geez.json"));
+                randomRange = JsonConvert.DeserializeObject<List<int>>(File.ReadAllText(Path.Join("Config", "geez.json")));
             }
             catch (FileNotFoundException)
             {

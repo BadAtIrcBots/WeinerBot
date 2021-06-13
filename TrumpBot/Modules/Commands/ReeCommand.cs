@@ -19,7 +19,7 @@ namespace TrumpBot.Modules.Commands
 
         public List<string> RunCommand(ChannelMessageEventDataModel messageEvent, GroupCollection arguments = null, bool useCache = true)
         {
-            List<int> randomRange = JsonConvert.DeserializeObject<List<int>>(File.ReadAllText("Config\\ree.json"));
+            List<int> randomRange = JsonConvert.DeserializeObject<List<int>>(File.ReadAllText(Path.Join("Config", "ree.json")));
             if (randomRange.Count <= 1)
             {
                 randomRange = new List<int>{50,450};
