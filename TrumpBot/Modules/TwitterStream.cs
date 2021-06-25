@@ -202,7 +202,18 @@ namespace TrumpBot.Modules
                 _backtraceClient?.Send($"Twitter stream falling behind, queue {args.WarningMessage.PercentFull}% full");
             };
 
-            FilteredStream.StartMatchingAnyConditionAsync().Wait();
+            while (true)
+            {
+                try
+                {
+                    FilteredStream.StartMatchingAnyConditionAsync().Wait();
+                    Thread.Sleep(5000);
+                }
+                catch (Exception e)
+                {
+                    _log.Error(e);
+                }
+            }
         }
     }
 }
