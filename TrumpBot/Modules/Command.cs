@@ -146,15 +146,8 @@ namespace TrumpBot.Modules
                 _log.Error("Stacktrace");
                 _log.Error(e.Source + ": " + e.Message);
                 _log.Error(e.StackTrace);
-                _backtraceClient?.Attributes.Add("RequestorNick", nick);
-                _backtraceClient?.Attributes.Add("CommandName", command.CommandName);
-                _backtraceClient?.Attributes.Add("Message", message);
-                _backtraceClient?.Attributes.Add("cacheOutputMessage", cacheOutputMessage);
-                _backtraceClient?.Attributes.Add("reportException", reportException);
-                _backtraceClient?.Send(e);
 
-                if (reportException && e.InnerException == null
-                ) // Attribute [DoNotReportException] to suppress this
+                if (reportException && e.InnerException == null) // Attribute [DoNotReportException] to suppress this
                 {
                     _client.SendMessage(SendType.Message, eventArgs.Data.Channel,
                         $"Well this is embarrassing: {e.Source}: {e.Message}");
@@ -169,6 +162,18 @@ namespace TrumpBot.Modules
                             $"Well this is embarassing: {e.InnerException.Source}: {e.InnerException.Message}");
                     }
                 }
+
+                if (_backtraceClient == null) return;
+                
+                // We have to clear the dictionary as it doesn't like duplicate keys which are caused by the fact
+                // we're reusing the Backtrace client rather than getting a new one
+                _backtraceClient.Attributes.Clear();
+                _backtraceClient.Attributes.Add("RequestorNick", nick);
+                _backtraceClient.Attributes.Add("CommandName", command.CommandName);
+                _backtraceClient.Attributes.Add("Message", message);
+                _backtraceClient.Attributes.Add("cacheOutputMessage", cacheOutputMessage);
+                _backtraceClient.Attributes.Add("reportException", reportException);
+                _backtraceClient.Send(e);
             }
         }
 
@@ -323,12 +328,13 @@ namespace TrumpBot.Modules
             {
                 _log.Error("PM Interface Stacktrace");
                 _log.Error(e.StackTrace);
-                _backtraceClient?.Attributes.Add("RequestorNick", eventArgs.Data.From.GetNick());
-                _backtraceClient?.Attributes.Add("Message", eventArgs.Data.Message);
-                _backtraceClient?.Send(e);
+                if (_backtraceClient == null) return;
+                _backtraceClient.Attributes.Clear();
+                _backtraceClient.Attributes.Add("Message", eventArgs.Data.Message);
+                _backtraceClient.Send(e);
                 if (e.InnerException != null)
                 {
-                    _backtraceClient?.Send(e.InnerException);
+                    _backtraceClient.Send(e.InnerException);
                 }
             }
 
