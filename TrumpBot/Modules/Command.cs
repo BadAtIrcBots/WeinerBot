@@ -159,7 +159,7 @@ namespace TrumpBot.Modules
                     if (reportException)
                     {
                         _client.SendMessage(SendType.Message, eventArgs.Data.Channel,
-                            $"Well this is embarassing: {e.InnerException.Source}: {e.InnerException.Message}");
+                            $"Well this is embarrassing: {e.InnerException.Source}: {e.InnerException.Message}");
                     }
                 }
 
