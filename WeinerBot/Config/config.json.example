@@ -1,0 +1,11 @@
+﻿{
+  "AutoJoinChannels": [ "#channel", "#channel2" ],
+  "ConnectionUri": "irc://irc.synirc.net:6667",
+  "Nick": "WeinerBot",
+  "RealName": "Donald J. Weiner",
+  "Username": "weinerbot",
+  "JoinProtectedChannels": [ "#channel2" ],
+  "AutoRestart": false,
+  "BacktraceSubmitUrl": null,
+  "BacktraceToken": null
+}
