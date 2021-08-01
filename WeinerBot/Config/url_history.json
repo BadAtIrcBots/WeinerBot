@@ -4,7 +4,7 @@
     "Wow, {Nick}, y'know this link was posted by {MentionUser} {TimeAgo}",
     "It's amazing, {Url} is so damn popular that {MentionUser} already linked to it {TimeAgo}"
   ],
-  "PreventNickHighlightList": ["brayden"],
+  "PreventNickHighlightList": ["user"],
   "Mentions": [
     {
       "User": "user",
