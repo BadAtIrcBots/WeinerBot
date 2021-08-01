@@ -317,7 +317,7 @@ namespace WeinerBot.Modules
                 if (message.ToLower() == "source")
                 {
                     _client.SendMessage(SendType.Message, nick,
-                        "This bot is open source and the code can be found hosted online at https://github.com/BadAtIrcBots/TrumpBot");
+                        "This bot is open source and the code can be found hosted online at https://github.com/BadAtIrcBots/WeinerBot");
                     return;
                 }
 
